@@ -161,7 +161,7 @@ export const CartProvider: React.FC = ({ children }) => {
       ? JSON.parse(localStorage.getItem("cartItems") || "[]")
       : [];
     const storedCartCount = storedCartItems.reduce(
-      (total, item) => total + item.quantity,
+      (total: number, item: CartItem) => total + item.quantity,
       0
     );
 
