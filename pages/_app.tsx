@@ -10,6 +10,7 @@ import "../styles/globals.css";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
+    // @ts-ignore
     import("preline");
   }, []);
   return (
