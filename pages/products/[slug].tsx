@@ -56,7 +56,7 @@ export default function Product({ product }: ProductProps) {
       });
 
       setSelectedVariation(variation || null);
-      console.log("Selected Variation:", variation);
+      // console.log("Selected Variation:", variation);
     }
   };
 

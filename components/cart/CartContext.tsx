@@ -200,7 +200,7 @@ export const CartProvider: React.FC = ({ children }) => {
         itemSubtotal = parseFloat(item.product.node.price.replace('$', ''));
       } else if (item.product.node.type === "VARIABLE") {
         console.log("variable context", item.variation?.node.price);
-        itemSubtotal = parseFloat(item.variation?.node.price.replace("$", ""));
+        itemSubtotal = parseFloat((item.variation?.node.price?.toString() || "").replace("$", "") || "0");
       }
 
       if (itemIndex !== -1) {
