@@ -7,6 +7,10 @@ import { useAddToCart } from "../../hooks/useAddToCart";
 import { useCart } from "../../components/cart/CartContext";
 import Image from "next/image";
 
+
+interface Params {
+  slug: string;
+}
 export interface Product {
   databaseId: any;
   name: string;
@@ -189,7 +193,7 @@ export default function Product({ product }: ProductProps) {
   );
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params }: { params: Params }) {
   // console.log("params:", params);
   const GET_SINGLE_PRODUCT = gql`
     query Product($id: ID!) {
