@@ -10,6 +10,11 @@ type ProductNode = {
   slug: string;
   price: string;
   type: string;
+  image?: {
+    id: string;
+    altText: string;
+    sourceUrl: string;
+  };
 };
 
 type ProductProps = {

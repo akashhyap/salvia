@@ -15,6 +15,13 @@ export interface Product {
   shortDescription: string;
   description: string;
   __typename: string;
+  image?: {
+    id: string;
+    uri: string;
+    title: string;
+    srcSet: string;
+    sourceUrl: string;
+  };
   variations?: {
     nodes: Variation[];
   };
