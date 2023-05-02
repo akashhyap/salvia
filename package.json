@@ -10,7 +10,7 @@
     "proxy": "mkcert -install && mkcert localhost && local-ssl-proxy --source 3010 --target 3000 --cert localhost.pem --key localhost-key.pem"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.20",
+    "@apollo/client": "^3.7.10",
     "atob": "^2.1.2",
     "classnames": "^2.3.2",
     "cookie": "^0.5.0",

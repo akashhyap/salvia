@@ -31,7 +31,7 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  console.log("product single:", product);
+  // console.log("product single:", product);
 
   const [selectedVariationId, setSelectedVariationId] = useState<number | "">("");
   const [selectedVariation, setSelectedVariation] = useState<Variation | null>(null);
