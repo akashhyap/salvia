@@ -7,6 +7,9 @@ import { useAddToCart } from "../../hooks/useAddToCart";
 import { useCart } from "../../components/cart/CartContext";
 import Image from "next/image";
 
+interface ProductPath {
+  slug: string;
+}
 
 interface Params {
   slug: string;
@@ -302,7 +305,7 @@ export async function getStaticPaths() {
     query: GET_PRODUCTS_SLUGS,
   });
 
-  const paths = data.products.nodes.map((product) => ({
+  const paths = data.products.nodes.map((product: ProductPath) => ({
     params: { slug: product.slug },
   }));
 
