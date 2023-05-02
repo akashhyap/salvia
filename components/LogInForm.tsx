@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { GET_USER } from "../hooks/useAuth";
 import { useCart, CartItem } from "./cart/CartContext";
 import { useAddToCart } from "../hooks/useAddToCart";
-
+import { Variation } from "../pages/products/[slug]";
 const LOG_IN = gql`
   mutation logIn($login: String!, $password: String!) {
     loginWithCookies(input: {
@@ -31,7 +31,7 @@ export default function LogInForm() {
       if (localCartItems.length) {
         await Promise.all(
           localCartItems.map(async (item: CartItem) => {
-            await addToCart(parseInt(item.product.node.id), item.quantity);
+            await addToCart(parseInt(item.product.node.id), item.variation ? (item.variation.node as Variation) : null, item.quantity);
           })
         );
         // Clear local storage cart items after merging
@@ -41,6 +41,7 @@ export default function LogInForm() {
       // Update cart data after login
       await updateCartData();
     },
+
   });
 
 

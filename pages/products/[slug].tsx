@@ -21,9 +21,16 @@ export interface Product {
 }
 
 export interface Variation {
-  databaseId: number;
+  id: string;
+  databaseId: number; // Add this property
+  variationId: number;
   name: string;
-  regularPrice: string;
+  description: string;
+  type: string;
+  onSale: boolean;
+  price: number;
+  regularPrice: number;
+  salePrice: number;
 }
 
 interface ProductProps {

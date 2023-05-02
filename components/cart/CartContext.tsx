@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 import { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { FETCH_CART_ITEMS, MERGE_CART_MUTATION } from '../../lib/apiService';
+import { FETCH_CART_ITEMS } from '../../lib/apiService';
 import { client } from '../../lib/apolloClient';
 
 export interface CartItem {
