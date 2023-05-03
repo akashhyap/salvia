@@ -4,7 +4,7 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
- 
+
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -12,11 +12,13 @@ module.exports = {
     extend: {
       colors: {
         blue: {
-          300: "#dadff1"
-        }
-      }
+          300: "#dadff1",
+        },
+      },
     },
   },
-  plugins: [require("preline/plugin")],
-}
-
+  plugins: [
+    require("preline/plugin"),
+    require("@tailwindcss/aspect-ratio")
+  ],
+};

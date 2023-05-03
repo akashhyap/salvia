@@ -7,7 +7,7 @@ type logo = {
 
 export default function Header({siteLogo}:logo) {
   return (
-    <div className="header bg-blue-300 py-2">
+    <div className="header bg-blue-300">
       <Nav siteLogo={siteLogo}/>
     </div>
   );
