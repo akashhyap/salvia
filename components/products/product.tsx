@@ -24,7 +24,7 @@ type ProductProps = {
 };
 
 const Product: React.FC<ProductProps> = ({ product }) => {
-  console.log("product::", product);
+  // console.log("product::", product);
 
   const addToCart = useAddToCart();
   const { addItem, cartCount, setCartCount, cartItems, setCartItems } = useCart();

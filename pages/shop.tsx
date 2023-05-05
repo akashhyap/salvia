@@ -1,15 +1,10 @@
 import Head from 'next/head';
-import { useMutation } from "@apollo/client";
-
 import styles from '../styles/Home.module.css';
 import Layout from "../components/Layout";
 import { client } from '../lib/apolloClient';
 
 import Products from '../components/products';
-import { GET_SITE_LOGO, PRODUCT_QUERY, GET_OPTIONS,LOG_OUT } from '../lib/graphql';
-import { useEffect } from 'react';
-
-import { GET_USER } from '../hooks/useAuth';
+import { GET_SITE_LOGO, PRODUCT_QUERY, GET_OPTIONS } from '../lib/graphql';
 
 type Product = {
   id: string;
@@ -39,34 +34,13 @@ type HomeProps = {
   siteLogo: string;
   topInformationBar?: string
 };
-export default function Home({ products, siteLogo, topInformationBar }: HomeProps) {
-  // console.log("products",products);
-  const [logOut, { called, loading, error, data }] = useMutation(LOG_OUT, {
-    refetchQueries: [
-      { query: GET_USER }
-    ],
-    awaitRefetchQueries: true,
-  });
-  const loggedOut = Boolean(data?.logout?.status);
+export default function Shop({ products, siteLogo, topInformationBar }: HomeProps) {
 
-  useEffect(() => {
-    const logOutAndResetStore = async () => {
-      try {
-        await logOut();
-        await client.resetStore();
-      } catch (error) {
-        console.error("Error logging out and resetting store:", error);
-      }
-    };
-  
-    logOutAndResetStore();
-  }, [logOut]);
-  
   return (
     <Layout siteLogo={siteLogo} topInformationBar={topInformationBar}>
-      <main className={styles.main}>
+     <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to Salvia Extract
+          Shop
         </h1>
         <Products products={products} />
       </main>

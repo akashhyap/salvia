@@ -8,24 +8,43 @@ import useAuth from "../hooks/useAuth";
 import { useCart } from "./cart/CartContext";
 import Image from "next/image";
 
-type logo = {
+import { useQuery } from '@apollo/client';
+import { GET_MENU } from "../lib/graphql";
+
+type HeaderProps = {
   siteLogo?: string;
+  topInformationBar?: string;
+};
+
+type MenuItem = {
+  id: string;
+  label: string;
+  uri: string;
+  childItems: MenuItem[];
 };
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Nav({ siteLogo }: logo) {
+export default function Nav({ siteLogo, topInformationBar }: HeaderProps) {
   const { loggedIn } = useAuth();
   const { cartCount, updateCartData } = useCart();
-
   const [open, setOpen] = useState(false)
-
 
   useEffect(() => {
     updateCartData();
   }, [loggedIn, updateCartData]);
+
+  const { loading, error, data } = useQuery(GET_MENU, {
+    variables: { id: '16' },
+  });
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  const menuItems = data.menu.menuItems.edges.map(({ node }: any) => node);
+
 
   return (
     <>
@@ -70,11 +89,11 @@ export default function Nav({ siteLogo }: logo) {
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
-                    <Link href="/">
-                      <a className="-m-2 block p-2 font-medium text-gray-900">
-                        Home
-                      </a>
-                    </Link>
+                    {menuItems.map((item: MenuItem) => (
+                      <Link href={item.uri} key={item.id} legacyBehavior>
+                        <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">{item.label}</a>
+                      </Link>
+                    ))}
                   </div>
 
                   {!loggedIn ? (
@@ -98,21 +117,22 @@ export default function Nav({ siteLogo }: logo) {
                           <a className="-m-2 block p-2 font-medium text-gray-900">Members</a>
                         </Link>
                       </div>
-                      <div className="flow-root">
+                      {/* <div className="flow-root">
                         <Link href="/create-post">
                           <a className="-m-2 block p-2 font-medium text-gray-900">Create Post</a>
                         </Link>
-                      </div>
-                      <div className="flow-root">
+                      </div> */}
+                      {/* <div className="flow-root">
 
                         <Link href="/profile">
                           <a className="-m-2 block p-2 font-medium text-gray-900">Profile</a>
                         </Link>
-                      </div>
+                      </div> */}
                       <div className="flow-root">
-                        <Link href="/log-out">
+                        <Link href="/">
                           <a className="-m-2 block p-2 font-medium text-gray-900">Log Out</a>
-                        </Link></div>
+                        </Link>
+                      </div>
 
                     </>
                   )}
@@ -127,7 +147,7 @@ export default function Nav({ siteLogo }: logo) {
 
       <header className="relative">
         <p className="flex h-10 items-center justify-center bg-black px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          Get free delivery on orders over $100
+          {topInformationBar}
         </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -168,9 +188,13 @@ export default function Nav({ siteLogo }: logo) {
               {/* Flyout menus */}
               <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
-                  <Link href="/">
-                    <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Home</a>
-                  </Link>
+                  {menuItems.map((item: MenuItem) => (
+
+                    <Link href={item.uri} key={item.id} legacyBehavior>
+                      <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">{item.label}</a>
+                    </Link>
+
+                  ))}
                 </div>
               </Popover.Group>
 
@@ -195,15 +219,15 @@ export default function Nav({ siteLogo }: logo) {
                         <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Members</a>
                       </Link>
 
-                      <Link href="/create-post">
+                      {/* <Link href="/create-post">
                         <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Create Post</a>
                       </Link>
 
                       <Link href="/profile">
                         <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Profile</a>
-                      </Link>
+                      </Link> */}
 
-                      <Link href="/log-out">
+                      <Link href="/">
                         <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Log Out</a>
                       </Link>
 
@@ -221,14 +245,16 @@ export default function Nav({ siteLogo }: logo) {
 
                 {/* Cart */}
                 <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 flex items-center p-2">
-                    <ShoppingBagIcon
-                      className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                      aria-hidden="true"
-                    />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                    <span className="sr-only">items in cart, view bag</span>
-                  </a>
+                  <Link href="/cart" legacyBehavior passHref>
+                    <a className="group -m-2 flex items-center p-2">
+                      <ShoppingBagIcon
+                        className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        aria-hidden="true"
+                      />
+                      <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cartCount}</span>
+                      <span className="sr-only">items in cart, view bag</span>
+                    </a>
+                  </Link>
                 </div>
               </div>
             </div>

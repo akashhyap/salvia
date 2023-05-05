@@ -4,43 +4,19 @@ import Layout from "../components/Layout";
 import AuthContent from "../components/AuthContent";
 import { useEffect, useState } from "react";
 import { client } from "../lib/apolloClient";
+import { GET_SITE_LOGO, GET_OPTIONS, GET_CUSTOMER_ORDERS } from '../lib/graphql';
+
+interface Params {
+  uri: string;
+  databaseId: string;
+}
+interface PageProps {
+  siteLogo: string;
+  topInformationBar?: string
+}
 
 
-const GET_CUSTOMER_ORDERS = gql`
-  query GetCustomerOrders($customerId: Int) {
-    customer(customerId: $customerId) {
-      email
-      id
-      orders {
-        nodes {
-          id
-          orderKey
-          date
-          total
-          status
-          billing {
-            firstName
-            lastName
-            company
-            address1
-            address2
-            city
-            state
-            postcode
-            country
-            email
-            phone
-          }
-          customer {
-            id
-          }
-        }
-      }
-    }
-  }
-`;
-
-export default function MembersContent() {
+export default function MembersContent({ siteLogo, topInformationBar }: PageProps) {
   const [customerId, setCustomerId] = useState<any | null>(null);
 
   const decodeCustomerId = (encodedCustomerId: string | null) => {
@@ -80,7 +56,7 @@ export default function MembersContent() {
   console.log("customerId", customerId);
 
   return (
-    <Layout>
+    <Layout siteLogo={siteLogo} topInformationBar={topInformationBar}>
       <h1>Members</h1>
       <AuthContent>
         <p>Here is some top-secret members-only content!</p>
@@ -105,4 +81,21 @@ export default function MembersContent() {
       </AuthContent>
     </Layout>
   );
+}
+
+export async function getStaticProps({ params }: { params: Params }) {
+  const [siteLogoResponse, topInformationBarResponse] = await Promise.all([
+    client.query({ query: GET_SITE_LOGO }),
+    client.query({ query: GET_OPTIONS }),
+  ])
+  const siteLogo = siteLogoResponse?.data?.getHeader?.siteLogoUrl;
+  const topInformationBar = topInformationBarResponse?.data?.options?.topInformationBar?.informationBar;
+
+  return {
+    props: {
+      siteLogo,
+      topInformationBar,
+    },
+    revalidate: 60,
+  };
 }

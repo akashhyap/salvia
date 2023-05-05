@@ -6,11 +6,11 @@ import Layout from "../../components/Layout";
 import { useAddToCart } from "../../hooks/useAddToCart";
 import { useCart } from "../../components/cart/CartContext";
 import Image from "next/image";
+import { GET_SITE_LOGO, GET_SINGLE_PRODUCT, GET_OPTIONS } from '../../lib/graphql';
 
 interface ProductPath {
   slug: string;
 }
-
 interface Params {
   slug: string;
 }
@@ -33,7 +33,6 @@ export interface Product {
     nodes: Variation[];
   };
 }
-
 export interface Variation {
   id: string;
   databaseId: number; // Add this property
@@ -49,14 +48,14 @@ export interface Variation {
 
 interface ProductProps {
   product: Product;
+  siteLogo: string;
+  topInformationBar?: string
 }
 
-export default function Product({ product }: ProductProps) {
+export default function Product({ product, siteLogo, topInformationBar }: ProductProps) {
   // console.log("product single:", product);
-
   const [selectedVariationId, setSelectedVariationId] = useState<number | "">("");
   const [selectedVariation, setSelectedVariation] = useState<Variation | null>(null);
-
   const handleVariationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedId = parseInt(event.target.value);
 
@@ -73,11 +72,8 @@ export default function Product({ product }: ProductProps) {
       // console.log("Selected Variation:", variation);
     }
   };
-
-
   const addToCart = useAddToCart();
   const { addItem } = useCart();
-
   const handleAddToCart = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     event.preventDefault();
@@ -100,9 +96,8 @@ export default function Product({ product }: ProductProps) {
     }
   };
 
-
   return (
-    <Layout>
+    <Layout siteLogo={siteLogo} topInformationBar={topInformationBar}>
       <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-10 mt-10">
         <div>
           <figure className="relative pt-[85%] border border-slate-300 rounded-lg overflow-hidden">
@@ -197,95 +192,22 @@ export default function Product({ product }: ProductProps) {
 }
 
 export async function getStaticProps({ params }: { params: Params }) {
-  // console.log("params:", params);
-  const GET_SINGLE_PRODUCT = gql`
-    query Product($id: ID!) {
-      product(id: $id, idType: SLUG) {
-        id
-        databaseId
-        averageRating
-        slug
-        description
-        shortDescription
-        onSale
-        image {
-          id
-          uri
-          title
-          srcSet
-          sourceUrl
-        }
-        name
-        ... on SimpleProduct {
-          salePrice
-          regularPrice
-          stockStatus
-          price
-          id
-          stockQuantity
-        }
-        ... on VariableProduct {
-          salePrice
-          regularPrice
-          stockStatus
-          price
-          id
-          allPaSizes {
-            nodes {
-              name
-            }
-          }
-          allPaSizes {
-            nodes {
-              name
-            }
-          }
-          variations {
-            nodes {
-              id
-              databaseId
-              name
-              stockStatus
-              stockQuantity
-              purchasable
-              onSale
-              salePrice
-              regularPrice
-            }
-          }
-        }
-        ... on ExternalProduct {
-          price
-          id
-          externalUrl
-        }
-        ... on GroupProduct {
-          products {
-            nodes {
-              ... on SimpleProduct {
-                id
-                price
-              }
-            }
-          }
-          id
-        }
-      }
-    }
-  `;
+  // Execute all queries concurrently using Promise.all
+  const [productResponse, siteLogoResponse, topInformationBarResponse] = await Promise.all([
+    client.query({ query: GET_SINGLE_PRODUCT, variables: { id: params.slug } }),
+    client.query({ query: GET_SITE_LOGO }),
+    client.query({ query: GET_OPTIONS }),
+  ]);
 
-  const { data } = await client.query({
-    query: GET_SINGLE_PRODUCT,
-    variables: {
-      id: params.slug,
-    },
-  });
-  //   const page = response?.data?.page;
+  const product = productResponse?.data?.product;
+  const siteLogo = siteLogoResponse?.data?.getHeader?.siteLogoUrl;
+  const topInformationBar = topInformationBarResponse?.data?.options?.topInformationBar?.informationBar;
 
   return {
     props: {
-      product: data.product,
-      // siteLogoUrl: data.getHeader.siteLogoUrl,
+      product,
+      siteLogo,
+      topInformationBar,
     },
   };
 }
