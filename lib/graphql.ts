@@ -155,6 +155,18 @@ export const GET_ALL_PAGES = gql`
   }
 `;
 
+export const GET_HOME_PAGE = gql`
+   query GetHomePage {
+    page(id: "122", idType: DATABASE_ID) {
+      heroGallery {
+        heroGallery {
+          sourceUrl
+        }
+      }
+    }
+   }
+`
+
 export const GET_MENU = gql`
   query GetMenu($id: ID!) {
     menu(id: $id, idType: DATABASE_ID) {
