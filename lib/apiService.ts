@@ -14,16 +14,22 @@ export const FETCH_CART_ITEMS = gql`
                 node {
                 id
                 name
-                ... on SimpleProduct {
-                    databaseId
-                    price
-                    name   
-                }
-                ... on VariableProduct {
-                    databaseId
-                    price           
-                    name
-                }
+                  ... on SimpleProduct {
+                      databaseId
+                      price
+                      name   
+                  }
+                  ... on VariableProduct {
+                      databaseId
+                      price           
+                      name
+                  }
+                  featuredImage {
+                    node {
+                      sourceUrl
+                      title
+                    }
+                  }
                 }
             }
             quantity

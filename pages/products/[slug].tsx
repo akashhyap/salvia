@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { gql } from "@apollo/client";
 import DOMPurify from "isomorphic-dompurify";
+import {
+  getStoryblokApi,
+  StoryblokComponent,
+} from "@storyblok/react";
+
 import { client } from "../../lib/apolloClient";
 import Layout from "../../components/Layout";
 import { useAddToCart } from "../../hooks/useAddToCart";
@@ -52,7 +57,7 @@ interface ProductProps {
   topInformationBar?: string
 }
 
-export default function Product({ product, siteLogo, topInformationBar }: ProductProps) {
+export default function Product({ product }: ProductProps) {
   // console.log("product single:", product);
   const [selectedVariationId, setSelectedVariationId] = useState<number | "">("");
   const [selectedVariation, setSelectedVariation] = useState<Variation | null>(null);
@@ -97,7 +102,7 @@ export default function Product({ product, siteLogo, topInformationBar }: Produc
   };
 
   return (
-    <Layout siteLogo={siteLogo} topInformationBar={topInformationBar}>
+    <>
       <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-10 mt-10">
         <div>
           <figure className="relative pt-[85%] border border-slate-300 rounded-lg overflow-hidden">
@@ -187,27 +192,22 @@ export default function Product({ product, siteLogo, topInformationBar }: Produc
           className="product-description mb-5 [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:py-4 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>h3]:text-2xl [&>h3]:font-semibold [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
         />
       </div>
-    </Layout>
+    </>
   );
 }
 
 export async function getStaticProps({ params }: { params: Params }) {
-  // Execute all queries concurrently using Promise.all
-  const [productResponse, siteLogoResponse, topInformationBarResponse] = await Promise.all([
-    client.query({ query: GET_SINGLE_PRODUCT, variables: { id: params.slug } }),
-    client.query({ query: GET_SITE_LOGO }),
-    client.query({ query: GET_OPTIONS }),
-  ]);
-
+  const productResponse = await client.query({ query: GET_SINGLE_PRODUCT, variables: { id: params.slug } })
   const product = productResponse?.data?.product;
-  const siteLogo = siteLogoResponse?.data?.getHeader?.siteLogoUrl;
-  const topInformationBar = topInformationBarResponse?.data?.options?.topInformationBar?.informationBar;
+
+  const storyblokApi = getStoryblokApi();
+  // @ts-ignore
+  let { data: config } = await storyblokApi.get("cdn/stories/config");
 
   return {
     props: {
       product,
-      siteLogo,
-      topInformationBar,
+      config: config ? config.story : false,
     },
   };
 }

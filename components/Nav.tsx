@@ -10,27 +10,21 @@ import Image from "next/image";
 
 import { useQuery } from '@apollo/client';
 import { GET_MENU } from "../lib/graphql";
+import { StoryblokComponent } from "@storyblok/react";
 
-type HeaderProps = {
-  siteLogo?: string;
-  topInformationBar?: string;
-};
-
-type MenuItem = {
-  id: string;
-  label: string;
-  uri: string;
-  childItems: MenuItem[];
-};
 
 function classNames(...classes: string[]): string {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Nav({ siteLogo, topInformationBar }: HeaderProps) {
+// @ts-ignore
+export default function Nav({ blok }) {
   const { loggedIn } = useAuth();
   const { cartCount, updateCartData } = useCart();
   const [open, setOpen] = useState(false)
+
+  // console.log("blok", blok);
+  
 
   useEffect(() => {
     updateCartData();
@@ -43,8 +37,7 @@ export default function Nav({ siteLogo, topInformationBar }: HeaderProps) {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
-  const menuItems = data.menu.menuItems.edges.map(({ node }: any) => node);
-
+  // const menuItems = data.menu.menuItems.edges.map(({ node }: any) => node);
 
   return (
     <>
@@ -89,10 +82,9 @@ export default function Nav({ siteLogo, topInformationBar }: HeaderProps) {
 
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
                   <div className="flow-root">
-                    {menuItems.map((item: MenuItem) => (
-                      <Link href={item.uri} key={item.id} legacyBehavior>
-                        <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">{item.label}</a>
-                      </Link>
+                    {/* @ts-ignore */}
+                    {blok?.header_menu.map((nestedBlok) => (
+                      <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
                     ))}
                   </div>
 
@@ -117,19 +109,8 @@ export default function Nav({ siteLogo, topInformationBar }: HeaderProps) {
                           <a className="-m-2 block p-2 font-medium text-gray-900">Members</a>
                         </Link>
                       </div>
-                      {/* <div className="flow-root">
-                        <Link href="/create-post">
-                          <a className="-m-2 block p-2 font-medium text-gray-900">Create Post</a>
-                        </Link>
-                      </div> */}
-                      {/* <div className="flow-root">
-
-                        <Link href="/profile">
-                          <a className="-m-2 block p-2 font-medium text-gray-900">Profile</a>
-                        </Link>
-                      </div> */}
                       <div className="flow-root">
-                        <Link href="/">
+                        <Link href="/log-out">
                           <a className="-m-2 block p-2 font-medium text-gray-900">Log Out</a>
                         </Link>
                       </div>
@@ -147,7 +128,7 @@ export default function Nav({ siteLogo, topInformationBar }: HeaderProps) {
 
       <header className="relative">
         <p className="flex h-10 items-center justify-center bg-black px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          {topInformationBar}
+          {blok.topInformationBar}
         </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -165,22 +146,14 @@ export default function Nav({ siteLogo, topInformationBar }: HeaderProps) {
               {/* Logo */}
               <div className="ml-4 lg:ml-0 basis-40 p-7">
                 <Link href="/" legacyBehavior>
-                  <a className="relative">
-                    <span className="sr-only">Salvia Extract</span>
-                    {siteLogo ? (
-                      <Image
-                        src={siteLogo}
-                        alt="logo"
-                        layout="responsive"
-                        width={300}
-                        height={139}
-                      />
-                    ) : (
-                      // Replace with a default image or a placeholder
-                      <div className="bg-gray-200" style={{ width: 300, height: 139 }}>
-                        SalviaExtract
-                      </div>
-                    )}
+                  <a className="order-2">
+                    <Image
+                      src={blok?.logo.filename}
+                      alt="Salvia Extract"
+                      layout="responsive"
+                      width={300}
+                      height={139}
+                    />
                   </a>
                 </Link>
               </div>
@@ -188,12 +161,9 @@ export default function Nav({ siteLogo, topInformationBar }: HeaderProps) {
               {/* Flyout menus */}
               <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div className="flex h-full space-x-8">
-                  {menuItems.map((item: MenuItem) => (
-
-                    <Link href={item.uri} key={item.id} legacyBehavior>
-                      <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">{item.label}</a>
-                    </Link>
-
+                  {/* @ts-ignore */}
+                  {blok?.header_menu.map((nestedBlok) => (
+                    <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
                   ))}
                 </div>
               </Popover.Group>
@@ -214,33 +184,14 @@ export default function Nav({ siteLogo, topInformationBar }: HeaderProps) {
                     </>
                   ) : (
                     <>
-
                       <Link href="/members">
                         <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Members</a>
                       </Link>
-
-                      {/* <Link href="/create-post">
-                        <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Create Post</a>
-                      </Link>
-
-                      <Link href="/profile">
-                        <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Profile</a>
-                      </Link> */}
-
-                      <Link href="/">
+                      <Link href="/log-out">
                         <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Log Out</a>
                       </Link>
-
                     </>
                   )}
-                </div>
-
-                {/* Search */}
-                <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-                  </a>
                 </div>
 
                 {/* Cart */}

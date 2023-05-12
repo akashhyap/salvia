@@ -6,10 +6,12 @@ type HeaderProps = {
   topInformationBar?: string;
 };
 
-export default function Header({ siteLogo, topInformationBar }: HeaderProps) {
+// @ts-ignore
+export default function Header({ blok }) {
   return (
     <div className="header bg-blue-300">
-      <Nav siteLogo={siteLogo} topInformationBar={topInformationBar}/>
+      {/* @ts-ignore */}
+      <Nav blok={blok} />
     </div>
   );
 }

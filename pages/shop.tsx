@@ -37,14 +37,14 @@ type HomeProps = {
 export default function Shop({ products, siteLogo, topInformationBar }: HomeProps) {
 
   return (
-    <Layout siteLogo={siteLogo} topInformationBar={topInformationBar}>
+    <>
      <main className={styles.main}>
         <h1 className={styles.title}>
           Shop
         </h1>
         <Products products={products} />
       </main>
-    </Layout>
+    </>
   )
 }
 

@@ -1,39 +1,44 @@
+import {
+  getStoryblokApi,
+  StoryblokComponent,
+} from "@storyblok/react";
+
 import React from 'react';
 import CartItems from '../components/cart/CartItems';
-import { client } from '../lib/apolloClient';
-
-import Layout from '../components/Layout';
-import { GET_SITE_LOGO, GET_OPTIONS } from '../lib/graphql'
-
 interface SettingProps {
   siteLogo: string;
   topInformationBar?: string
 }
 
-const CartPage = ({ siteLogo, topInformationBar }: SettingProps) => {
+// @ts-ignore
+const CartPage = ({ story }) => {
   return (
-    <Layout siteLogo={siteLogo} topInformationBar={topInformationBar}>
-      <h1>Cart</h1>
+    <>
       <CartItems />
-    </Layout>
+    </>
   );
 };
 
 export default CartPage;
 
-export async function getStaticProps() {
-  const [siteLogoResponse, topInformationBarResponse] = await Promise.all([
-    client.query({ query: GET_SITE_LOGO }),
-    client.query({ query: GET_OPTIONS }),
-  ]);
-
-  const siteLogo = siteLogoResponse?.data?.getHeader?.siteLogoUrl;
-  const topInformationBar = topInformationBarResponse?.data?.options?.topInformationBar?.informationBar;
+// @ts-ignore
+export async function getStaticProps({params}) {
+  // @ts-ignore
+  let slug = params?.slug ? params?.slug.join("/") : "home";
+  let sbParams = {
+    version: "draft", // or 'published'
+    resolve_links: "url",
+  };
+  const storyblokApi = getStoryblokApi();
+  // @ts-ignore
+  let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
+  let { data: config } = await storyblokApi.get("cdn/stories/config");
 
   return {
     props: {
-      siteLogo,
-      topInformationBar,
+      story: data ? data.story : false,
+      key: data ? data.story.id : false,
+      config: config ? config.story : false,
     },
   };
 }

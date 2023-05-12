@@ -209,11 +209,11 @@ export const CartProvider: React.FC = ({ children }) => {
         updatedItems[itemIndex].quantity += item.quantity;
         updatedItems[itemIndex].subtotal = itemSubtotal * Number(updatedItems[itemIndex].quantity);
 
-        console.log("updatedItems ", updatedItems);
-        console.log("updatedItems[itemIndex].subtotal ", updatedItems[itemIndex].subtotal);
-        console.log("updatedItems[itemIndex] ", updatedItems[itemIndex]);
-        console.log("Number(updatedItems[itemIndex].quantity ", Number(updatedItems[itemIndex].quantity));
-        console.log("itemSubtotal ", itemSubtotal);
+        // console.log("updatedItems ", updatedItems);
+        // console.log("updatedItems[itemIndex].subtotal ", updatedItems[itemIndex].subtotal);
+        // console.log("updatedItems[itemIndex] ", updatedItems[itemIndex]);
+        // console.log("Number(updatedItems[itemIndex].quantity ", Number(updatedItems[itemIndex].quantity));
+        // console.log("itemSubtotal ", itemSubtotal);
 
         // Update the cart count
         setCartCount((prevCount) => prevCount + item.quantity);

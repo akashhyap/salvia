@@ -49,55 +49,69 @@ export default function SignUpForm() {
   }
 
   return (
-    <form method="post" onSubmit={handleSubmit}>
-      <fieldset disabled={loading} aria-busy={loading}>
-        <label htmlFor="sign-up-first-name">First name</label>
-        <input
-          id="sign-up-first-name"
-          type="text"
-          name="firstName"
-          autoComplete="given-name"
-          required
-        />
-        <label htmlFor="sign-up-last-name">Last name</label>
-        <input
-          id="sign-up-first-name"
-          type="text"
-          name="lastName"
-          autoComplete="family-name"
-          required
-        />
-        <label htmlFor="sign-up-email">Email</label>
-        <input
-          id="sign-up-email"
-          type="email"
-          name="email"
-          autoComplete="username"
-          required
-        />
-        <label htmlFor="sign-up-pass">Password</label>
-        <input
-          id="sign-up-pass"
-          type="password"
-          name="password"
-          required
-        />
-        {error ? (
-          (error.message.includes('This username is already registered') ? (
-            <p className="error-message">
-              You&#39;re already signed up! <Link href="/log-in">Log in</Link>
-            </p>
-          ) : (
-            <p className="error-message">{error.message}</p>
-          ))
-        ) : null}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Signing up...' : 'Sign up'}
-        </button>
-      </fieldset>
-      <p>
-        Already have an account? <Link href="/log-in"><a>Log in</a></Link>
-      </p>
-    </form>
+    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <h1 className="text-5xl mb-10">Sign Up</h1>
+      <form method="post" onSubmit={handleSubmit}>
+        <fieldset disabled={loading} className="grid gap-4 lg:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
+            <div>
+              <label htmlFor="sign-up-first-name" className="block text-sm font-medium leading-6 text-gray-900">First Name</label>
+              <input id="sign-up-first-name"
+                type="text"
+                name="firstName"
+                autoComplete="given-name"
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            </div>
+
+            <div>
+              <label htmlFor="sign-up-last-name" className="block text-sm font-medium leading-6 text-gray-900">Last Name</label>
+              <input id="sign-up-last-name"
+                type="text"
+                name="lastName" className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="sign-up-email" className="block text-sm font-medium leading-6 text-gray-900">Email</label>
+            <input
+              id="sign-up-email"
+              type="email"
+              name="email"
+              autoComplete="username"
+              required
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="sign-up-pass" className="block text-sm font-medium leading-6 text-gray-900">Password</label>
+            <input
+              id="sign-up-pass"
+              type="password"
+              name="password"
+              required
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div>
+          {error ? (
+            (error.message.includes('This username is already registered') ? (
+              <p className="error-message">
+                You&#39;re already signed up! <Link href="/log-in">Log in</Link>
+              </p>
+            ) : (
+              <p className="error-message">{error.message}</p>
+            ))
+          ) : null}
+          <div className="mt-5">
+            <button type="submit" disabled={loading} className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              {loading ? 'Signing up...' : 'Sign up'}
+            </button>
+          </div>
+        </fieldset>
+        <p className="mt-10 text-center text-sm text-gray-500">
+          Already have an account? <Link href="/log-in"><a>Log in</a></Link>
+        </p>
+      </form>
+    </div>
   );
 }

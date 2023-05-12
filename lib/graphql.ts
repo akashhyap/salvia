@@ -166,7 +166,6 @@ export const GET_HOME_PAGE = gql`
     }
    }
 `
-
 export const GET_MENU = gql`
   query GetMenu($id: ID!) {
     menu(id: $id, idType: DATABASE_ID) {
@@ -233,3 +232,16 @@ export const GET_CUSTOMER_ORDERS = gql`
     }
   }
 `;
+
+export const GET_POSTS = gql`
+    query AllPostsQuery {
+      posts {
+        nodes {
+          title
+          content
+          date
+          uri
+        }
+      }
+    }
+  `;

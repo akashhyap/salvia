@@ -1,8 +1,12 @@
 import { useEffect } from "react";
 import { useMutation, gql } from "@apollo/client";
+import {
+  useStoryblokState,
+  getStoryblokApi,
+  StoryblokComponent,
+} from "@storyblok/react";
 
 import { GET_USER } from "../hooks/useAuth";
-import Layout from "../components/Layout";
 import { client } from "../lib/apolloClient";
 
 const LOG_OUT = gql`
@@ -37,7 +41,7 @@ export default function LogOut() {
   
 
   return (
-    <Layout>
+    <>
       <h1>Log Out</h1>
       {!called || loading ? (
         <p>Logging out...</p>
@@ -48,6 +52,28 @@ export default function LogOut() {
       ) : (
         <p>You have been logged out.</p>
       )}
-    </Layout>
+    </>
   );
+}
+
+// @ts-ignore
+export async function getStaticProps({params}) {
+  // @ts-ignore
+  let slug = params?.slug ? params?.slug.join("/") : "home";
+  let sbParams = {
+    version: "draft", // or 'published'
+    resolve_links: "url",
+  };
+  const storyblokApi = getStoryblokApi();
+  // @ts-ignore
+  let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
+  let { data: config } = await storyblokApi.get("cdn/stories/config");
+
+  return {
+    props: {
+      story: data ? data.story : false,
+      key: data ? data.story.id : false,
+      config: config ? config.story : false,
+    },
+  };
 }

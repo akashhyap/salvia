@@ -1,43 +1,44 @@
-import { gql } from "@apollo/client";
-import Layout from "../components/Layout";
-import { client } from "../lib/apolloClient";
+import {
+  useStoryblokState,
+  getStoryblokApi,
+  StoryblokComponent,
+} from "@storyblok/react";
 
 import UnAuthContent from "../components/UnAuthContent";
 import LogInForm from "../components/LogInForm";
-import { GET_SITE_LOGO, GET_OPTIONS } from '../lib/graphql';
 
 interface Params {
   uri: string;
   databaseId: string;
 }
-interface PageProps {
-  siteLogo: string;
-  topInformationBar?: string
-}
-
-export default function LogIn({ siteLogo, topInformationBar }: PageProps) {
+// @ts-ignore
+export default function LogIn({ story }) {
   return (
-    <Layout siteLogo={siteLogo} topInformationBar={topInformationBar}>
-      <h1>Log In</h1>
+    <>
       <UnAuthContent>
         <LogInForm />
       </UnAuthContent>
-    </Layout>
+    </>
   );
 }
 
 export async function getStaticProps({ params }: { params: Params }) {
-  const [siteLogoResponse, topInformationBarResponse] = await Promise.all([
-    client.query({ query: GET_SITE_LOGO }),
-    client.query({ query: GET_OPTIONS }),
-  ])
-  const siteLogo = siteLogoResponse?.data?.getHeader?.siteLogoUrl;
-  const topInformationBar = topInformationBarResponse?.data?.options?.topInformationBar?.informationBar;
+  // @ts-ignore
+  let slug = params?.slug ? params?.slug.join("/") : "home";
+  let sbParams = {
+    version: "draft", // or 'published'
+    resolve_links: "url",
+  };
+  const storyblokApi = getStoryblokApi();
+  // @ts-ignore
+  let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
+  let { data: config } = await storyblokApi.get("cdn/stories/config");
 
   return {
     props: {
-      siteLogo,
-      topInformationBar,
+      story: data ? data.story : false,
+      key: data ? data.story.id : false,
+      config: config ? config.story : false,
     },
     revalidate: 60,
   };

@@ -13,6 +13,7 @@
     "@apollo/client": "^3.7.10",
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.17",
+    "@storyblok/react": "^2.0.18",
     "atob": "^2.1.2",
     "classnames": "^2.3.2",
     "cookie": "^0.5.0",
@@ -27,6 +28,8 @@
     "preline": "^1.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "storyblok-js-client": "^5.10.5",
+    "storyblok-rich-text-react-renderer": "^2.8.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

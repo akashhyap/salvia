@@ -1,11 +1,15 @@
 import { gql, useQuery } from "@apollo/client";
 import atob from "atob";
-import Layout from "../components/Layout";
+
 import AuthContent from "../components/AuthContent";
 import { useEffect, useState } from "react";
 import { client } from "../lib/apolloClient";
-import { GET_SITE_LOGO, GET_OPTIONS, GET_CUSTOMER_ORDERS } from '../lib/graphql';
+import { GET_CUSTOMER_ORDERS } from '../lib/graphql';
 
+import {
+  getStoryblokApi,
+  StoryblokComponent,
+} from "@storyblok/react";
 interface Params {
   uri: string;
   databaseId: string;
@@ -16,7 +20,7 @@ interface PageProps {
 }
 
 
-export default function MembersContent({ siteLogo, topInformationBar }: PageProps) {
+export default function MembersContent() {
   const [customerId, setCustomerId] = useState<any | null>(null);
 
   const decodeCustomerId = (encodedCustomerId: string | null) => {
@@ -31,7 +35,7 @@ export default function MembersContent({ siteLogo, topInformationBar }: PageProp
       return null;
     }
   };
-  
+
   useEffect(() => {
     const fetchCustomerData = async () => {
       const { data } = await client.query({ query: GET_CUSTOMER_ORDERS });
@@ -56,7 +60,7 @@ export default function MembersContent({ siteLogo, topInformationBar }: PageProp
   console.log("customerId", customerId);
 
   return (
-    <Layout siteLogo={siteLogo} topInformationBar={topInformationBar}>
+    <>
       <h1>Members</h1>
       <AuthContent>
         <p>Here is some top-secret members-only content!</p>
@@ -79,22 +83,17 @@ export default function MembersContent({ siteLogo, topInformationBar }: PageProp
           </div>
         ))}
       </AuthContent>
-    </Layout>
+    </>
   );
 }
 
 export async function getStaticProps({ params }: { params: Params }) {
-  const [siteLogoResponse, topInformationBarResponse] = await Promise.all([
-    client.query({ query: GET_SITE_LOGO }),
-    client.query({ query: GET_OPTIONS }),
-  ])
-  const siteLogo = siteLogoResponse?.data?.getHeader?.siteLogoUrl;
-  const topInformationBar = topInformationBarResponse?.data?.options?.topInformationBar?.informationBar;
-
+  const storyblokApi = getStoryblokApi();
+  // @ts-ignore
+  let { data: config } = await storyblokApi.get("cdn/stories/config");
   return {
     props: {
-      siteLogo,
-      topInformationBar,
+      config: config ? config.story : false,
     },
     revalidate: 60,
   };

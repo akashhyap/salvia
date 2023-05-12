@@ -5,6 +5,7 @@ import { GET_USER } from "../hooks/useAuth";
 import { useCart, CartItem } from "./cart/CartContext";
 import { useAddToCart } from "../hooks/useAddToCart";
 import { Variation } from "../pages/products/[slug]";
+
 const LOG_IN = gql`
   mutation logIn($login: String!, $password: String!) {
     loginWithCookies(input: {
@@ -70,43 +71,66 @@ export default function LogInForm() {
   }
 
   return (
-    <form method="post" onSubmit={handleSubmit}>
-      <fieldset disabled={loading}>
-        <label htmlFor="log-in-email">Email</label>
-        <input
-          id="log-in-email"
-          type="email"
-          name="email"
-          autoComplete="username"
-          required
-        />
-        <label htmlFor="log-in-password">Password</label>
-        <input
-          id="log-in-password"
-          type="password"
-          name="password"
-          autoComplete="current-password"
-          required
-        />
-        <Link href="/forgot-password">
-          <a className="forgot-password-link">Forgot password?</a>
-        </Link>
-        {!isEmailValid ? (
-          <p className="error-message">Invalid email. Please try again.</p>
-        ) : null}
-        {!isPasswordValid ? (
-          <p className="error-message">Invalid password. Please try again.</p>
-        ) : null}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Log in'}
-        </button>
-      </fieldset>
-      <p className="account-sign-up-message">
-        Don&#39;t have an account yet?{' '}
-        <Link href="/sign-up">
-          <a>Sign up</a>
-        </Link>
-      </p>
-    </form>
+    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <h1 className="text-5xl mb-10">Log In</h1>
+      <form method="post" onSubmit={handleSubmit} className="space-y-6">
+        <fieldset disabled={loading}>
+          <div>
+            <label htmlFor="log-in-email" className="block text-sm font-medium leading-6 text-gray-900">Email</label>
+            <div className="mt-2">
+              <input
+                id="log-in-email"
+                type="email"
+                name="email"
+                autoComplete="username"
+                required
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div className="mt-2">
+            <div className="flex items-center justify-between">
+              <label htmlFor="log-in-password" className="block text-sm font-medium leading-6 text-gray-900">
+                Password
+              </label>
+              <div className="text-sm">
+                <Link href="/forgot-password">
+                  <a className="forgot-password-link">Forgot password?</a>
+                </Link>
+              </div>
+            </div>
+            <div className="mt-2">
+              <input
+                id="log-in-password"
+                type="password"
+                name="password"
+                autoComplete="current-password"
+                required
+                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+
+          {!isEmailValid ? (
+            <p className="error-message">Invalid email. Please try again.</p>
+          ) : null}
+          {!isPasswordValid ? (
+            <p className="error-message">Invalid password. Please try again.</p>
+          ) : null}
+
+          <div className="mt-5">
+            <button type="submit" disabled={loading} className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              {loading ? 'Logging in...' : 'Log in'}
+            </button>
+          </div>
+        </fieldset>
+        <p className="mt-10 text-center text-sm text-gray-500">
+          Don&#39;t have an account yet? {" "}
+          <Link href="/sign-up">
+            <a>Sign up</a>
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 }
