@@ -8,6 +8,7 @@ import {
 
 import { GET_USER } from "../hooks/useAuth";
 import { client } from "../lib/apolloClient";
+import Link from "next/link";
 
 const LOG_OUT = gql`
   mutation logOut {
@@ -35,29 +36,38 @@ export default function LogOut() {
         console.error("Error logging out and resetting store:", error);
       }
     };
-  
+
     logOutAndResetStore();
   }, [logOut]);
-  
 
   return (
-    <>
-      <h1>Log Out</h1>
+    <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:px-0">
       {!called || loading ? (
-        <p>Logging out...</p>
+        <p className="text-xl">Logging out...</p>
       ) : error ? (
         <p>{error.message}</p>
       ) : !loggedOut ? (
         <p>Unable to log out. Please reload the page and try again.</p>
       ) : (
-        <p>You have been logged out.</p>
+        <>
+          <h1 className="text-xl">You have been logged out.</h1>
+          <p className="mt-6">
+            <Link href="/" legacyBehavior>
+              <a className="font-medium text-indigo-600 hover:text-indigo-500">
+                Continue Shopping
+                <span aria-hidden="true"> &rarr;</span>
+              </a>
+            </Link>
+          </p>
+        </>
+
       )}
-    </>
+    </div>
   );
 }
 
 // @ts-ignore
-export async function getStaticProps({params}) {
+export async function getStaticProps({ params }) {
   // @ts-ignore
   let slug = params?.slug ? params?.slug.join("/") : "home";
   let sbParams = {

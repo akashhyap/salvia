@@ -202,15 +202,75 @@ export const LOG_OUT = gql`
 export const GET_CUSTOMER_ORDERS = gql`
   query GetCustomerOrders($customerId: Int) {
     customer(customerId: $customerId) {
+      firstName
       email
       id
       orders {
         nodes {
           id
+          databaseId
           orderKey
           date
           total
           status
+          lineItems {
+            nodes {
+              variation {
+                node {
+                  databaseId
+                  name
+                  regularPrice
+                  attributes {
+                    nodes {
+                        name
+                        label
+                    }
+                  }
+                }
+              }
+              product {
+                node {
+                  name
+                  slug
+                  ... on SimpleProduct {
+                    id
+                    databaseId
+                    name
+                    price
+                    featuredImage {
+                      node {
+                        sourceUrl
+                      }
+                    }
+                  }
+                  ... on VariableProduct {
+                    id
+                    databaseId
+                    name
+                    price
+                    variations {
+                      nodes {
+                        databaseId
+                        name
+                        price
+                        attributes {
+                          nodes {
+                            name
+                            label
+                          }
+                        }
+                      }
+                    }
+                    featuredImage {
+                      node {
+                        sourceUrl
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
           billing {
             firstName
             lastName

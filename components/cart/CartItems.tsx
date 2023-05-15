@@ -15,6 +15,7 @@ import { v4 } from "uuid";
 import CheckoutButton from './CartButton';
 import Cookies from 'js-cookie';
 import Image from 'next/image';
+import Link from 'next/link';
 
 type CartProduct = {
     id: string;
@@ -28,7 +29,7 @@ const CartItems = () => {
 
     const [requestError, setRequestError] = useState(null);
 
-    
+
     useEffect(() => {
         const fetchCartItems = async () => {
             const { data } = await client.query({ query: FETCH_CART_ITEMS });
@@ -57,18 +58,18 @@ const CartItems = () => {
         });
         const updatedItems = fetchedCartItems.map((item) => {
             console.log("cart updatedItems", item);
-            
+
             return (
                 item.key === itemId
-                ? {
-                    ...item,
-                    quantity: data.updateItemQuantities.items[0].quantity,
-                    subtotal: data.updateItemQuantities.items[0].subtotal.replace("$", ""),
-                }
-                : item
+                    ? {
+                        ...item,
+                        quantity: data.updateItemQuantities.items[0].quantity,
+                        subtotal: data.updateItemQuantities.items[0].subtotal.replace("$", ""),
+                    }
+                    : item
             )
         }
-           
+
         );
         setFetchedCartItems(updatedItems);
         if (!userLoggedIn) {
@@ -149,7 +150,7 @@ const CartItems = () => {
             setCartCount(0);
         }
     };
-    
+
 
     // Calculate total cost
     // @ts-ignore
@@ -163,7 +164,7 @@ const CartItems = () => {
                 <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
                     {fetchedCartItems.map((item) => {
                         // @ts-ignore
-                        console.log("product item", item.product.node.image.sourceUrl);
+                        console.log("product item", item.product.node);
 
                         return (
                             <li key={item.key} className="flex py-6 sm:py-10" data-item={item.key}>
@@ -185,9 +186,10 @@ const CartItems = () => {
                                         <div className="flex justify-between sm:grid sm:grid-cols-2">
                                             <div className="pr-6">
                                                 <h3 className="text-sm">
-                                                    <a href="/" className="font-medium text-gray-700 hover:text-gray-800">
+                                                    {/* @ts-ignore */}
+                                                    <Link href={`products/${item.product.node.slug}`} className="font-medium text-gray-700 hover:text-gray-800">
                                                         {item.product.node.name}
-                                                    </a>
+                                                    </Link>
                                                 </h3>
                                                 {/* <p className="mt-1 text-sm text-gray-500">{item.color}</p>
                                     {item.size ? <p className="mt-1 text-sm text-gray-500">{item.size}</p> : null} */}
@@ -236,11 +238,13 @@ const CartItems = () => {
 
                     <div className="mt-6 text-center text-sm text-gray-500">
                         <p>
-                            or
-                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
-                                Continue Shopping
-                                <span aria-hidden="true"> &rarr;</span>
-                            </a>
+                            or {" "}
+                            <Link href="/" legacyBehavior>
+                                <a className="font-medium text-indigo-600 hover:text-indigo-500">
+                                    Continue Shopping
+                                    <span aria-hidden="true"> &rarr;</span>
+                                </a>
+                            </Link>
                         </p>
                     </div>
                 </div>
