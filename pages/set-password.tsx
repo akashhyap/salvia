@@ -14,7 +14,6 @@ export default function SetPassword() {
 
   return (
     <>
-      <h1>Set Password</h1>
       <SetPasswordForm resetKey={resetKey} login={login} />
     </>
   )

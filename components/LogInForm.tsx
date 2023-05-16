@@ -6,6 +6,8 @@ import { useCart, CartItem } from "./cart/CartContext";
 import { useAddToCart } from "../hooks/useAddToCart";
 import { Variation } from "../pages/products/[slug]";
 
+import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
+
 const LOG_IN = gql`
   mutation logIn($login: String!, $password: String!) {
     loginWithCookies(input: {
@@ -38,7 +40,6 @@ export default function LogInForm() {
         // Clear local storage cart items after merging
         localStorage.removeItem("cartItems");
       }
-
       // Update cart data after login
       await updateCartData();
     },
@@ -77,15 +78,20 @@ export default function LogInForm() {
         <fieldset disabled={loading}>
           <div>
             <label htmlFor="log-in-email" className="block text-sm font-medium leading-6 text-gray-900">Email</label>
-            <div className="mt-2">
+            <div className="relative mt-2">
               <input
                 id="log-in-email"
                 type="email"
                 name="email"
                 autoComplete="username"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className={`block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!isEmailValid ? "text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300" : ""}`}
               />
+              {!isEmailValid ? (
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                  <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
+                </div>
+              ) : null}
             </div>
           </div>
           <div className="mt-2">
@@ -99,23 +105,28 @@ export default function LogInForm() {
                 </Link>
               </div>
             </div>
-            <div className="mt-2">
+            <div className="relative mt-2">
               <input
                 id="log-in-password"
                 type="password"
                 name="password"
                 autoComplete="current-password"
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className={`block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!isPasswordValid ? "text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300" : ""}`}
               />
+              {!isPasswordValid ? (
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                  <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
+                </div>
+              ) : null}
             </div>
           </div>
 
           {!isEmailValid ? (
-            <p className="error-message">Invalid email. Please try again.</p>
+            <p className="mt-2 text-sm text-red-600">Invalid email. Please try again.</p>
           ) : null}
           {!isPasswordValid ? (
-            <p className="error-message">Invalid password. Please try again.</p>
+            <p className="mt-2 text-sm text-red-600">Invalid password. Please try again.</p>
           ) : null}
 
           <div className="mt-5">

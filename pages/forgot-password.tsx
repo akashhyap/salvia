@@ -10,7 +10,6 @@ import SendPasswordResetEmailForm from "../components/SendPasswordResetEmailForm
 export default function ForgotPassword() {
   return (
     <>
-      <h1>Forgot Your Password?</h1>
       <UnAuthContent>
         <SendPasswordResetEmailForm />
       </UnAuthContent>
