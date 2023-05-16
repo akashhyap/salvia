@@ -76,7 +76,7 @@ export default function MembersContent() {
               if (variation) {
                 idToCheck = variation.databaseId;
                 // Log the variation attributes
-                // console.log("Variation attributes:", variation.attributes);
+                
               }
             }
 
