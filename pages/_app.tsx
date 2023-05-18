@@ -33,7 +33,7 @@ const components = {
   HeroSection,
   footerColumn: FooterColumn,
   footerMenu: FooterMenu,
-  newsletter: Newsletter,
+  newsletter: Newsletter
 }
 
 storyblokInit({

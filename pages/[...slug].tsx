@@ -13,8 +13,8 @@ import Products from "../components/products";
 
 
 // @ts-ignore
-export default function Page({ story, siteLogo, topInformationBar, products }) {
-    // console.log(story);
+export default function Page({ story, products }) {
+    console.log("page", story.content);
     story = useStoryblokState(story);
     return (
         <>
