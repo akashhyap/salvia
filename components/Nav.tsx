@@ -9,7 +9,7 @@ import { useCart } from "./cart/CartContext";
 import Image from "next/image";
 
 import { useQuery } from '@apollo/client';
-import { GET_MENU } from "../lib/graphql";
+// import { GET_MENU } from "../lib/graphql";
 import { StoryblokComponent } from "@storyblok/react";
 
 
@@ -30,12 +30,12 @@ export default function Nav({ blok }) {
     updateCartData();
   }, [loggedIn, updateCartData]);
 
-  const { loading, error, data } = useQuery(GET_MENU, {
-    variables: { id: '16' },
-  });
+  // const { loading, error, data } = useQuery(GET_MENU, {
+  //   variables: { id: '16' },
+  // });
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  // if (loading) return <div>Loading...</div>;
+  // if (error) return <div>Error: {error.message}</div>;
 
   // const menuItems = data.menu.menuItems.edges.map(({ node }: any) => node);
 
