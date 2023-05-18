@@ -1,11 +1,6 @@
 import Nav from "./Nav";
 import React, { ReactNode } from "react";
 
-type HeaderProps = {
-  siteLogo?: string;
-  topInformationBar?: string;
-};
-
 // @ts-ignore
 export default function Header({ blok }) {
   return (

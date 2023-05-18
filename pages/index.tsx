@@ -52,28 +52,6 @@ type HomeProps = {
 
 export default function Home({ story, products }: HomeProps) {
   story = useStoryblokState(story, { customParent: "http://localhost:3010/" });
-
-  // const [logOut, { called, loading, error, data }] = useMutation(LOG_OUT, {
-  //   refetchQueries: [
-  //     { query: GET_USER }
-  //   ],
-  //   awaitRefetchQueries: true,
-  // });
-  // const loggedOut = Boolean(data?.logout?.status);
-
-  // useEffect(() => {
-  //   const logOutAndResetStore = async () => {
-  //     try {
-  //       await logOut();
-  //       await client.resetStore();
-  //     } catch (error) {
-  //       console.error("Error logging out and resetting store:", error);
-  //     }
-  //   };
-
-  //   logOutAndResetStore();
-  // }, [logOut]);
-
   return (
     <>
       <StoryblokComponent blok={story.content} />
@@ -85,7 +63,6 @@ export default function Home({ story, products }: HomeProps) {
 }
 
 export async function getStaticProps() {
-  // Execute both queries concurrently using Promise.all
   const productsResponse = await client.query({ query: PRODUCT_QUERY })
   const products = { edges: productsResponse?.data?.products?.edges || [] };
   

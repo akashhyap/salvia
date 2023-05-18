@@ -8,8 +8,6 @@ import useAuth from "../hooks/useAuth";
 import { useCart } from "./cart/CartContext";
 import Image from "next/image";
 
-import { useQuery } from '@apollo/client';
-// import { GET_MENU } from "../lib/graphql";
 import { StoryblokComponent } from "@storyblok/react";
 
 
@@ -23,21 +21,12 @@ export default function Nav({ blok }) {
   const { cartCount, updateCartData } = useCart();
   const [open, setOpen] = useState(false)
 
-  // console.log("blok", blok);
+  console.log("blok", blok);
   
 
   useEffect(() => {
     updateCartData();
   }, [loggedIn, updateCartData]);
-
-  // const { loading, error, data } = useQuery(GET_MENU, {
-  //   variables: { id: '16' },
-  // });
-
-  // if (loading) return <div>Loading...</div>;
-  // if (error) return <div>Error: {error.message}</div>;
-
-  // const menuItems = data.menu.menuItems.edges.map(({ node }: any) => node);
 
   return (
     <>
@@ -128,7 +117,7 @@ export default function Nav({ blok }) {
 
       <header className="relative">
         <p className="flex h-10 items-center justify-center bg-black px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          {blok.topInformationBar}
+          {blok?.topInformationBar}
         </p>
 
         <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
