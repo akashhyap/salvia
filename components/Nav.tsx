@@ -21,8 +21,7 @@ export default function Nav({ blok }) {
   const { cartCount, updateCartData } = useCart();
   const [open, setOpen] = useState(false)
 
-  console.log("blok", blok);
-  
+  // console.log("blok", blok);
 
   useEffect(() => {
     updateCartData();

@@ -16,6 +16,9 @@ import MainTitle from "../components/MainTitle";
 import AllArticles from "../components/AllArticles";
 import Article from "../components/Article";
 import Menu from "../components/Menu";
+import FooterColumn from "../components/FooterColumn";
+import FooterMenu from "../components/FooterMenu";
+import Newsletter from "../components/Newsletter";
 
 import "../styles/globals.css";
 
@@ -28,6 +31,9 @@ const components = {
   "all-articles": AllArticles,
   Article,
   HeroSection,
+  footerColumn: FooterColumn,
+  footerMenu: FooterMenu,
+  newsletter: Newsletter,
 }
 
 storyblokInit({
