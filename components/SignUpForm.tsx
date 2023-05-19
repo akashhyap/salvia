@@ -41,10 +41,12 @@ export default function SignUpForm() {
 
   if (wasSignUpSuccessful) {
     return (
-      <p>
-        Success
-        {/* Thanks! Check your email – an account confirmation link has been sent to you. */}
-      </p>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 className="text-3xl mb-10">
+          Congrates you have successfully signed up!
+        </h2>
+        <p>Please check your email – an account confirmation link has been sent to you.</p>
+      </div>
     )
   }
 
