@@ -31,7 +31,6 @@ button:active {
 @tailwind utilities;
 
 @media screen and (max-width:1024px) {
-
   .hero-img span img,
   .hero-img span {
     position: relative !important;

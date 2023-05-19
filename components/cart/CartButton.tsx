@@ -20,18 +20,14 @@ const CheckoutButton: React.FC = () => {
 
   useEffect(() => {
     if (!loading && !error && data?.customer?.id && data.customer.id !== "") {
-      if (/^data:customer/.test(data.customer.id)) {
-        try {
-          console.log('Attempting to decode customer ID...');
-          const decodedCustomerId = atob(data.customer.id);
-          const customerId = parseInt(decodedCustomerId.replace("customer:", ""), 10);
-          console.log('Decoded customer ID:', customerId);
-          setSession(customerId.toString());
-        } catch (error) {
-          console.error("Error decoding customer ID:", error);
-        }
-      } else {
-        console.error("Invalid customer ID format:", data.customer.id);
+      try {
+        console.log('Attempting to decode customer ID...');
+        const decodedCustomerId = atob(data?.customer?.id);
+        const customerId = parseInt(decodedCustomerId.replace("customer:", ""), 10);
+        console.log('Decoded customer ID:', customerId);
+        setSession(customerId.toString());
+      } catch (error) {
+        console.error("Error decoding customer ID:", error);
       }
     } else {
       console.log('Attempting to get session from local storage...');
