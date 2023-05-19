@@ -7,7 +7,7 @@ import Link from "next/link";
 const Footer = ({ blok }) => {
     // console.log("footer", blok);
     return (
-        <footer aria-labelledby="footer-heading" className="bg-white">
+        <footer aria-labelledby="footer-heading" className="bg-white mt-5">
             <h2 id="footer-heading" className="sr-only">
                 Footer
             </h2>
