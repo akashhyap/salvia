@@ -60,9 +60,8 @@ export default function MembersContent() {
     <div className='mx-auto max-w-2xl px-4 py-12 sm:px-6 sm:py-12 lg:px-0'>
       <AuthContent>
         <h1 className="text-3xl mb-10">Welcome back {data?.customer.firstName.toUpperCase()}!</h1>
-        {data?.customer.orders.nodes.map((order: any) => {
-          console.log("order", order);
-
+        {(data?.customer.orders.nodes.length > 0) ? data?.customer.orders.nodes.map((order: any) => {
+          // console.log("order", order);
           // Filtering unique prducts
           const uniqueProducts = order.lineItems.nodes.reduce((acc: any, item: any) => {
             let idToCheck = item?.product?.node?.id;
@@ -76,7 +75,7 @@ export default function MembersContent() {
               if (variation) {
                 idToCheck = variation.databaseId;
                 // Log the variation attributes
-                
+
               }
             }
 
@@ -162,7 +161,14 @@ export default function MembersContent() {
             </div>
           );
 
-        })}
+        }) : (
+          <div className="mt-5 text-center bg-slate-100 p-5 rounded-r-md">
+            <h2 className="text-3xl mb-4">No orders found.</h2>
+            <Link href="/">
+              <a className="font-medium text-indigo-600 hover:text-indigo-500">Continue Shopping</a>
+            </Link>
+          </div>
+        )}
       </AuthContent>
     </div>
   );
