@@ -61,31 +61,29 @@ const Product: React.FC<ProductProps> = ({ product }) => {
     }
   };
 
-  const buttonText = added ? 'Added to cart': adding ? 'Adding...' : 'Add to cart';
+  const buttonText = added ? 'Added to cart' : adding ? 'Adding...' : 'Add to cart';
 
   return (
-    <div className="border border-slate-900 rounded-md overflow-hidden">
-      {product.node?.image && <Link href={`/products/${product.node.slug}`} legacyBehavior>
+    <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
+      {product.node?.image && <div className="relative"><Link href={`/products/${product.node.slug}`} legacyBehavior>
         <a>
-          <figure className="relative pt-[85%]">
+          <figure className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-60">
             <Image
               src={product.node?.image?.sourceUrl ?? ""}
               alt="Image product"
               layout="fill"
-              sizes="(max-width: 768px) 100%,
-              (max-width: 1200px) 50%,
-              33vw"
+              // className="h-full w-full object-cover object-center sm:h-full sm:w-full"
             />
           </figure>
         </a>
-      </Link>}
-      <div className="p-4">
-        <h2 className="text-xl py-2">
+      </Link></div>}
+      <div className="flex flex-1 flex-col space-y-2 p-4">
+        <h3 className="text-sm font-medium text-gray-900">
           <Link href={`/products/${product.node.slug}`} legacyBehavior>
             {product.node.name}
           </Link>
-        </h2>
-        <p className="py-2">{product.node.price}</p>
+        </h3>
+        <p className="text-sm text-gray-500">{product.node.price}</p>
 
         {product.node?.type !== "VARIABLE" ? (
           <button
