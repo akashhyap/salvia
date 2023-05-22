@@ -80,12 +80,12 @@ export default function Nav({ blok }) {
                     <>
                       <div className="flow-root">
                         <Link href="/log-in">
-                          <a className="-m-2 block p-2 font-medium text-gray-900">Log In</a>
+                          <a className="-m-2 block p-2 text-gray-900">Log In</a>
                         </Link>
                       </div>
                       <div className="flow-root">
                         <Link href="/sign-up">
-                          <a className="-m-2 block p-2 font-medium text-gray-900">Sign Up</a>
+                          <a className="-m-2 block p-2 text-gray-900">Sign Up</a>
                         </Link>
                       </div>
 
@@ -94,12 +94,12 @@ export default function Nav({ blok }) {
                     <>
                       <div className="flow-root">
                         <Link href="/members">
-                          <a className="-m-2 block p-2 font-medium text-gray-900">Members</a>
+                          <a className="-m-2 block p-2 text-gray-900">Members</a>
                         </Link>
                       </div>
                       <div className="flow-root">
                         <Link href="/log-out">
-                          <a className="-m-2 block p-2 font-medium text-gray-900">Log Out</a>
+                          <a className="-m-2 block p-2 text-gray-900">Log Out</a>
                         </Link>
                       </div>
 
@@ -162,21 +162,21 @@ export default function Nav({ blok }) {
                     <>
 
                       <Link href="/log-in">
-                        <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Log In
+                        <a className="flex items-center text-sm text-gray-900 hover:text-gray-800">Log In
                         </a>
                       </Link>
                       <Link href="/sign-up">
-                        <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Sign Up</a>
+                        <a className="flex items-center text-sm text-gray-900 hover:text-gray-800">Sign Up</a>
                       </Link>
 
                     </>
                   ) : (
                     <>
                       <Link href="/members">
-                        <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Members</a>
+                        <a className="flex items-center text-sm text-gray-900 hover:text-gray-800">Members</a>
                       </Link>
                       <Link href="/log-out">
-                        <a className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Log Out</a>
+                        <a className="flex items-center text-sm text-gray-900 hover:text-gray-800">Log Out</a>
                       </Link>
                     </>
                   )}
@@ -187,10 +187,10 @@ export default function Nav({ blok }) {
                   <Link href="/cart" legacyBehavior passHref>
                     <a className="group -m-2 flex items-center p-2">
                       <ShoppingBagIcon
-                        className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                        className="h-6 w-6 flex-shrink-0 text-gray-900 group-hover:text-gray-500"
                         aria-hidden="true"
                       />
-                      <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{cartCount}</span>
+                      <span className="ml-2 text-sm text-gray-900 group-hover:text-gray-700">{cartCount}</span>
                       <span className="sr-only">items in cart, view bag</span>
                     </a>
                   </Link>

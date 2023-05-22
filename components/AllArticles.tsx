@@ -31,18 +31,15 @@ const AllArticles = ({ blok }) => {
         getArticles();
     }, [currentTag]);
     return (
-        <>
+        <div className="max-w-6xl mx-auto py-14">
             <p className="text-3xl">{blok.title}</p>
-            <div
-                className="grid w-full grid-cols-1 gap-6 mx-auto lg:grid-cols-3 lg:px-24 md:px-16"
-                {...storyblokEditable(blok)}
-            >
+            <div className="grid w-full grid-cols-1 gap-6 lg:grid-cols-3 -mx-6">
                 {articles[0] && articles.map((article) => (
                     // @ts-ignore
                     <ArticleTeaser article={article.content} key={article.uuid} />
                 ))}
             </div>
-        </>
+        </div>
     );
 };
 export default AllArticles;

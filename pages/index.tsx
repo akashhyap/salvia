@@ -12,6 +12,7 @@ import Products from '../components/products';
 import { PRODUCT_QUERY, LOG_OUT } from '../lib/graphql';
 
 import { GET_USER } from '../hooks/useAuth';
+import Link from "next/link";
 
 type Product = {
   id: string;
@@ -49,9 +50,15 @@ type HomeProps = {
 
 
 // @ts-ignore
-
 export default function Home({ story, products }: HomeProps) {
   story = useStoryblokState(story, { customParent: "http://localhost:3010/" });
+
+  // @ts-ignore
+  story.content.body = story.content.body.map(blok => ({
+    ...blok,
+    products,
+  }));
+
   return (
     <>
       <StoryblokComponent blok={story.content} />

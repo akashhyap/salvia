@@ -23,6 +23,9 @@ import About from "../components/About";
 import FAQ from "../components/FAQ";
 import FaqItems from "../components/FaqItems";
 import TrendingProducts from "../components/TrendingProducts";
+import ShopByCategory from "../components/ShopByCategory";
+import ShopByCategoryItems from "../components/ShopByCategoryItems";
+import HeroSectionV2 from "../components/HeroSectionV2";
 
 import "../styles/globals.css";
 
@@ -35,6 +38,7 @@ const components = {
   "all-articles": AllArticles,
   Article,
   HeroSection,
+  HeroSectionV2,
   footerColumn: FooterColumn,
   footerMenu: FooterMenu,
   newsletter: Newsletter,
@@ -42,6 +46,8 @@ const components = {
   faq: FAQ,
   faqItems: FaqItems,
   trendingProducts: TrendingProducts,
+  shopByCategory: ShopByCategory,
+  shopByCategoryItems: ShopByCategoryItems,
 }
 
 storyblokInit({

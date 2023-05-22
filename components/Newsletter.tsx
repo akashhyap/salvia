@@ -9,7 +9,7 @@ export default function Newsletter({ blok }) {
 
     return (
         <>
-            <div className="flex items-center rounded-lg bg-gray-100 p-6 sm:p-10">
+            <div className="flex items-center rounded-lg bg-gray-200 p-6 sm:p-10">
                 <div className="mx-auto max-w-sm">
                     <h3 className="font-semibold text-gray-900">{blok.leftTitle}</h3>
                     <div className="mt-2 [&>p]:text-sm &>p]:text-gray-500">{render(blok?.leftText)}</div>
@@ -31,7 +31,7 @@ export default function Newsletter({ blok }) {
                         layout="fill"
                         className="h-full w-full object-cover object-center saturate-0 filter"
                     />
-                    <div className="absolute inset-0 bg-indigo-600 bg-opacity-90"></div>
+                    <div className="absolute inset-0 bg-gray-900"></div>
                 </div>
                 <div className="relative mx-auto max-w-sm text-center">
                     <h3 className="text-2xl font-bold tracking-tight text-white">{blok.rightTitle}</h3>

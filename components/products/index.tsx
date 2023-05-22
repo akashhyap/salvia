@@ -24,8 +24,8 @@ const Products = ({ products }: ProductsProps) => {
   // console.log("products page", products);
 
   return (
-    <div className="py-10 lg:py-14 mx-auto">
-      <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 md:grid-cols-3 lg:gap-x-8 xl:grid-cols-4">
+    <div className="py-10 lg:py-14">
+      <div className="gmt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
         {products?.edges.map((product) => {
           return <Product key={product.node?.id} product={product} />;
         })}

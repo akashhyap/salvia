@@ -1,5 +1,6 @@
 import { storyblokEditable, StoryblokComponent } from "@storyblok/react";
 import Image from "next/image";
+import Link from "next/link";
 import { render } from "storyblok-rich-text-react-renderer";
 
 // @ts-ignore
@@ -21,12 +22,13 @@ const HeroSection = ({ blok }) => {
                                         {render(blok.content)}
                                     </div>
                                     <div className="mt-6">
-                                        <a
-                                            href="#"
-                                            className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700"
-                                        >
-                                            {blok.button_label}
-                                        </a>
+                                        <Link href="/shop" legacyBehavior>
+                                            <a
+                                                className="inline-block rounded-md border border-transparent bg-gray-900 px-8 py-3 font-medium text-white hover:text-gray-900 hover:bg-gray-200"
+                                            >
+                                                {blok.button_label}
+                                            </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>

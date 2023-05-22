@@ -64,20 +64,21 @@ const Product: React.FC<ProductProps> = ({ product }) => {
   const buttonText = added ? 'Added to cart' : adding ? 'Adding...' : 'Add to cart';
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
-      {product.node?.image && <div className="relative"><Link href={`/products/${product.node.slug}`} legacyBehavior>
-        <a>
-          <figure className="aspect-[4/3] bg-gray-200 group-hover:opacity-75 h-full sm:h-60">
-            <Image
-              src={product.node?.image?.sourceUrl ?? ""}
-              alt="Image product"
-              layout="fill"
-              // className="h-full w-full object-cover object-center sm:h-full sm:w-full"
-            />
-          </figure>
-        </a>
-      </Link></div>}
-      <div className="flex flex-1 flex-col space-y-2 p-4">
+    <div className="relative">
+      {product.node?.image && <div className="relative h-72 w-full overflow-hidden rounded-lg">
+        <Link href={`/products/${product.node.slug}`} legacyBehavior>
+          <a>
+            <figure className="relative h-72 w-full overflow-hidden rounded-lg">
+              <Image
+                src={product.node?.image?.sourceUrl ?? ""}
+                alt="Image product"
+                layout="fill"
+                className="h-full w-full object-cover object-center"
+              />
+            </figure>
+          </a>
+        </Link></div>}
+      <div className="relative mt-4">
         <h3 className="text-sm font-medium text-gray-900">
           <Link href={`/products/${product.node.slug}`} legacyBehavior>
             {product.node.name}
@@ -86,19 +87,30 @@ const Product: React.FC<ProductProps> = ({ product }) => {
         <p className="text-sm text-gray-500">{product.node.price}</p>
 
         {product.node?.type !== "VARIABLE" ? (
-          <button
-            className="px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current hover:bg-slate-900 hover:text-white hover:border-slate-900"
-            onClick={handleAddToCart}
-          >
-            {buttonText}
-          </button>
+          <div className="mt-6">
+            <button
+              className="relative w-full flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white hover:text-gray-900 hover:bg-gray-200"
+              onClick={handleAddToCart}
+            >
+              {buttonText}
+            </button>
+          </div>
         ) : (
-          <Link href={`/products/${product.node?.slug}`} legacyBehavior>
-            <a className="px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current hover:bg-slate-900 hover:text-white hover:border-slate-900">
-              Select Option
-            </a>
-          </Link>
+          <div className="mt-6">
+            <Link href={`/products/${product.node?.slug}`} legacyBehavior>
+              <a className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white  hover:text-gray-900 hover:bg-gray-200">
+                Select Option
+              </a>
+            </Link>
+          </div>
         )}
+      </div>
+      <div className="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-gray-900 opacity-20"
+        />
+        {/* <p className="relative text-lg font-semibold text-white">{product.price}</p> */}
       </div>
     </div>
   );

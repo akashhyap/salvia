@@ -11,7 +11,7 @@ const FooterMenu = ({ blok }) => {
         {...storyblokEditable(blok)}
         legacyBehavior
       >
-        <a className="text-gray-500 hover:text-gray-600">{blok.text}</a>
+        <a className="text-gray-900 hover:text-gray-600">{blok.text}</a>
       </Link>
     </li>
   );

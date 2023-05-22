@@ -11,10 +11,10 @@ function classNames(...classes) {
 const Menu = ({ blok }) => {
   // console.log('blok link', blok);
   
-  const router = useRouter();
+  // const router = useRouter();
 
-  let cachedUrl = `/${blok.link.cached_url}`
-  let routerUrl = `${router.asPath}/`
+  // let cachedUrl = `/${blok.link.cached_url}`
+  // let routerUrl = `${router.asPath}/`
 
   return (
     <Link
@@ -22,15 +22,7 @@ const Menu = ({ blok }) => {
       {...storyblokEditable(blok)}
       legacyBehavior
     >
-      <a
-        className={classNames(
-          cachedUrl == routerUrl
-            ? "rounded-none transition duration-500 ease-in-out relative after:absolute after:block after:right-3 after:left-3 after:bottom-0  after:border-b-2 after:border-poppy-900"
-            : "flex items-center hover:bg-gray-200",
-          "block px-3 py-2 rounded-lg text-base"
-        )}
-        aria-current={cachedUrl == routerUrl ? "page" : undefined}
-      >
+      <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-gray-900">
         {blok.title}
       </a>
     </Link>

@@ -86,17 +86,23 @@ export async function getStaticProps({ params }) {
     let { data: config } = await storyblokApi.get("cdn/stories/config");
     const pageCategory = data.story.content.category;
     let filteredProducts = [];
-     // Only filter products if the page is not 'shop' and there is a category defined
-     if (slug !== 'shop' && pageCategory) {
+
+    // If the page is 'shop', return all products
+    if (slug === 'shop') {
+        filteredProducts = products.edges;
+    } 
+    // If the page has a category, return products that match the category
+    else if (pageCategory) {
         filteredProducts = products.edges.filter(
             (product: { node: { productCategories: { edges: any[]; }; }; }) =>
                 product.node.productCategories.edges.some(
                     (categoryEdge) => categoryEdge.node.slug === pageCategory
                 )
         );
-    } else {
-        // For the shop page or if there is no pageCategory, return all products
-        filteredProducts = products.edges;
+    } 
+    // If the page is not 'shop' and there's no category, return an empty array
+    else {
+        filteredProducts = [];
     }
 
     return {
