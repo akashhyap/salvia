@@ -65,15 +65,15 @@ const Product: React.FC<ProductProps> = ({ product }) => {
 
   return (
     <div className="relative">
-      {product.node?.image && <div className="relative h-72 w-full overflow-hidden rounded-lg">
+      {product.node?.image && <div className="relative">
         <Link href={`/products/${product.node.slug}`} legacyBehavior>
           <a>
-            <figure className="relative h-72 w-full overflow-hidden rounded-lg">
+            <figure className="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
               <Image
                 src={product.node?.image?.sourceUrl ?? ""}
                 alt="Image product"
                 layout="fill"
-                className="h-full w-full object-cover object-center"
+                className="object-contain object-center"
               />
             </figure>
           </a>
@@ -105,13 +105,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
           </div>
         )}
       </div>
-      <div className="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-gray-900 opacity-20"
-        />
-        {/* <p className="relative text-lg font-semibold text-white">{product.price}</p> */}
-      </div>
+      
     </div>
   );
 };

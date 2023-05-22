@@ -1,31 +1,38 @@
+import Image from "next/image";
 import Link from "next/link";
 import { render } from 'storyblok-rich-text-react-renderer';
- 
+
 // @ts-ignore
-const ArticleTeaser = ({ article }) => {
-return (
-  <div className="column feature">
-  <div className="p-6">
-    <img
-      className="object-cover object-center w-full mb-8 lg:h-48 md:h-36 rounded-xl"
-      src={article.image.filename}
-      alt="blog"
-    />
-    <h1 className="mx-auto mb-8 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">
-      {article.title}
-    </h1>
-    <div className="mt-4">
-      <Link href={`/blog/${article.slug}`}>
-        <a
-          className="inline-flex items-center mt-4 font-semibold text-blue-600 lg:mb-0 hover:text-neutral-600"
-          title="read more"
-        >
-          Read More »
-        </a>
-      </Link>
+const ArticleTeaser = ({ article, slug }) => {
+  console.log("article", article);
+  
+  return (
+    <div className="column feature">
+        <figure className="relative overflow-hidden rounded-xl mb-4">
+          <Image
+            src={article.image.filename}
+            alt={article.title}
+            layout="responsive"
+            width={11}
+            height={6}
+            objectFit="cover"
+            className="object-center"
+          />
+        </figure>
+        <h2 className="mx-auto mb-6 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">
+          {article.title}
+        </h2>
+        <div>
+          <Link href={slug}>
+            <a
+              className="inline-flex items-center mt-4 font-semibold border-b border-gray-900 text-gray-900 lg:mb-0 hover:text-gray-700"
+              title="read more"
+            >
+              Read More »
+            </a>
+          </Link>
+        </div>
     </div>
-  </div>
-</div>
-)
+  )
 };
 export default ArticleTeaser;

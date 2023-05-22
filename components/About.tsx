@@ -21,7 +21,7 @@ const About = ({ blok }) => {
                         />
                     </div>
                 </div>
-                <div className="mx-auto flex max-w-7xl flex-col items-center gap-x-8 gap-y-10 px-6 sm:gap-y-8 lg:px-8 xl:flex-row xl:items-stretch">
+                <div className="mx-auto flex max-w-7xl px-6 xl:px-0 flex-col items-center gap-x-8 gap-y-10 sm:gap-y-8 xl:flex-row xl:items-stretch">
                     <div className="-mt-8 w-full max-w-2xl xl:-mb-8 xl:w-96 xl:flex-none">
                         <div className="relative w-full aspect-[2/1] h-full md:-mx-8 xl:mx-0 xl:aspect-auto">
                             <img
@@ -37,7 +37,7 @@ const About = ({ blok }) => {
                             <div className="text-xl font-semibold leading-8 text-white sm:leading-9">
                                 {render(blok.content)}
                                 <Link href={blok.link.cached_url} legacyBehavior>
-                                   <a className="hover:text-gray-300 font-normal text-lg">More...</a>
+                                   <a className="hover:text-gray-300 font-normal text-lg mt-6 inline-block">More...</a>
                                 </Link>
                             </div>
                         </div>

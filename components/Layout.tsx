@@ -22,7 +22,7 @@ export default function Layout({ children, story }) {
       </Head>
       {/* @ts-ignore */}
       <Header blok={story?.content} />
-      <main className="px-7 xl:px-0">{children}</main>
+      <main>{children}</main>
       <Footer blok={story?.content} />
     </>
   );

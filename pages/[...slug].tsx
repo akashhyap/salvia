@@ -46,9 +46,9 @@ export default function Page({ story, products }) {
             <StoryblokComponent blok={story.content} all={story} />
             {
                 story.slug === 'shop' ?
-                    <div className="max-w-6xl mx-auto">
+                    <div className="max-w-7xl mx-auto">
                         {/* Filter UI */}
-                        <div className="flex justify-end pt-10 border-t-2">
+                        <div className="flex justify-end px-6 xl:px-0 pt-10 mt-10 border-t">
                             <label>
                                 Select Category:
                                 <select value={filters.category} onChange={handleCategoryChange} className="border border-slate-800 rounded-sm ml-2">
@@ -61,7 +61,7 @@ export default function Page({ story, products }) {
                         <Products products={{ edges: filteredProducts }} />
                     </div>
                     :
-                    <div className="max-w-6xl mx-auto">
+                    <div className="max-w-7xl mx-auto">
                         <Products products={products} />
                     </div>
             }

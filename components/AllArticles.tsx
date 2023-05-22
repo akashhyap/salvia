@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 const AllArticles = ({ blok }) => {
     const [articles, setArticles] = useState([]);
     const currentTag = blok.tag || '';
-
+ 
     useEffect(() => {
         const getArticles = async () => {
             const storyblokApi = getStoryblokApi();
@@ -30,13 +30,14 @@ const AllArticles = ({ blok }) => {
         };
         getArticles();
     }, [currentTag]);
+
     return (
-        <div className="max-w-6xl mx-auto py-14">
-            <p className="text-3xl">{blok.title}</p>
-            <div className="grid w-full grid-cols-1 gap-6 lg:grid-cols-3 -mx-6">
+        <div className="max-w-7xl mx-auto py-14 px-6 xl:px-0">
+            <p className="text-4xl font-bold tracking-tight text-gray-900 mb-7">{blok.title}</p>
+            <div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-3">
                 {articles[0] && articles.map((article) => (
                     // @ts-ignore
-                    <ArticleTeaser article={article.content} key={article.uuid} />
+                    <ArticleTeaser article={article.content} key={article.uuid} slug={article.full_slug} />
                 ))}
             </div>
         </div>

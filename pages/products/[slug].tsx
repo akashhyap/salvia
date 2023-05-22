@@ -61,9 +61,11 @@ export default function Product({ product }: ProductProps) {
   // console.log("product single:", product);
   const [selectedVariationId, setSelectedVariationId] = useState<number | "">("");
   const [selectedVariation, setSelectedVariation] = useState<Variation | null>(null);
-  const handleVariationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedId = parseInt(event.target.value);
+  const [isSelected, setIsSelected] = useState(true); // Add this state
 
+  const handleVariationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setIsSelected(true);
+    const selectedId = parseInt(event.target.value);
     if (isNaN(selectedId)) {
       setSelectedVariationId("");
       setSelectedVariation(null);
@@ -79,14 +81,18 @@ export default function Product({ product }: ProductProps) {
   };
   const addToCart = useAddToCart();
   const { addItem } = useCart();
+
   const handleAddToCart = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     event.preventDefault();
+
+    if (!selectedVariationId) {
+      setIsSelected(false); // If no option is selected when the button is clicked, update isSelected to false
+      return;
+    }
     try {
-
       const productId = selectedVariation ? selectedVariation.databaseId : product.databaseId;
-      console.log("productId", productId);
-
+      // console.log("productId", productId);
       if (!productId) {
         console.error('Product ID is null or undefined');
         return;
@@ -103,16 +109,14 @@ export default function Product({ product }: ProductProps) {
 
   return (
     <>
-      <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-10 mt-10">
-        <div>
-          <figure className="relative pt-[85%] border border-slate-300 rounded-lg overflow-hidden">
+      <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto mb-10 mt-10  px-6 xl:px-0">
+        <div className="relative">
+          <figure className="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-[450px]">
             <Image
               src={product?.image?.sourceUrl ?? ""}
               alt="Image product"
               layout="fill"
-              sizes="(max-width: 768px) 100vw,
-              (max-width: 1200px) 50vw,
-              33vw"
+              className="object-contain object-center"
             />
           </figure>
         </div>
@@ -145,11 +149,12 @@ export default function Product({ product }: ProductProps) {
           {product.__typename === "VariableProduct" ? (
             <>
               <div className="variation-select">
-                <label htmlFor="variation">Size:</label>
+                <label htmlFor="variation" className={`${!isSelected ? 'text-red-800' : ''}`}>Size:</label>
                 <select
+                  id="variation"
                   value={selectedVariationId}
                   onChange={handleVariationChange}
-                  className="border rounded-sm p-1 ml-2"
+                  className={`border rounded-sm p-1 ml-2 ${isSelected ? '' : 'border-red-800'}`}
                 >
                   <option value="">Select</option>
 
@@ -175,7 +180,8 @@ export default function Product({ product }: ProductProps) {
 
           <div className="mt-5">
             <button
-              className="px-3 py-1 rounded-sm mr-3 text-sm border-solid border border-current hover:bg-slate-900 hover:text-white hover:border-slate-900"
+              className={`relative flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white ${!selectedVariationId ? "opacity-50 cursor-help" : "hover:text-gray-900 hover:bg-gray-200"
+                }`}
               onClick={handleAddToCart}
             >
               Add to Cart
@@ -184,7 +190,7 @@ export default function Product({ product }: ProductProps) {
 
         </div>
       </div>
-      <div className="flex max-w-6xl mx-auto">
+      <div className="flex max-w-7xl mx-auto px-6 xl:px-0 ">
         <div
           dangerouslySetInnerHTML={{
             __html: DOMPurify.sanitize(product.description),

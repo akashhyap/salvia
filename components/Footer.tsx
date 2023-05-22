@@ -11,7 +11,7 @@ const Footer = ({ blok }) => {
             <h2 id="footer-heading" className="sr-only">
                 Footer
             </h2>
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-6 xl:px-0">
                 <div className="border-t border-gray-200">
                     <div className="pb-20 pt-16">
                         {/* Logo */}
@@ -28,7 +28,7 @@ const Footer = ({ blok }) => {
                         </div>
                         {/* Menu */}
                         <div className="mx-auto mt-16 max-w-5xl xl:grid xl:gap-8">
-                            <div className="grid grid-cols-4 gap-8">
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
                                 {/* @ts-ignore */}
                                 {blok?.footer.map((nestedBlok) => (
                                     <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />

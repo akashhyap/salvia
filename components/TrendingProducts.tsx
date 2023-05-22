@@ -12,7 +12,7 @@ const TrendingProducts = ({ blok }) => {
     )
   );
   return (
-    <div aria-labelledby="category-heading" className="py-10 lg:py-14 max-w-6xl mx-auto">
+    <div aria-labelledby="category-heading" className="pt-20 px-6 xl:px-0 max-w-7xl mx-auto">
       <div className="px-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8 xl:px-0 pb-4 mb-8 ">
         <h2 id="category-heading" className="text-3xl font-bold tracking-tight text-gray-900">{blok.title}</h2>
         <Link href="/shop" legacyBehavior>

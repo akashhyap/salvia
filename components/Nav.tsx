@@ -54,11 +54,11 @@ export default function Nav({ blok }) {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-white pb-12 shadow-xl">
+              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-gray-900 pb-12 shadow-xl">
                 <div className="flex px-4 pb-2 pt-5">
                   <button
                     type="button"
-                    className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
+                    className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-white"
                     onClick={() => setOpen(false)}
                   >
                     <span className="sr-only">Close menu</span>
@@ -68,8 +68,8 @@ export default function Nav({ blok }) {
 
                 {/* Links */}
 
-                <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  <div className="flow-root">
+                <div className="space-y-6 px-4 pb-6 pt-2">
+                  <div className="flow-root border-t border-gray-50 pt-3">
                     {/* @ts-ignore */}
                     {blok?.header_menu.map((nestedBlok) => (
                       <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
@@ -77,33 +77,23 @@ export default function Nav({ blok }) {
                   </div>
 
                   {!loggedIn ? (
-                    <>
-                      <div className="flow-root">
-                        <Link href="/log-in">
-                          <a className="-m-2 block p-2 text-gray-900">Log In</a>
-                        </Link>
-                      </div>
-                      <div className="flow-root">
-                        <Link href="/sign-up">
-                          <a className="-m-2 block p-2 text-gray-900">Sign Up</a>
-                        </Link>
-                      </div>
-
-                    </>
+                    <div className="flow-root border-t border-gray-50 pt-3">
+                      <Link href="/log-in">
+                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white">Log In</a>
+                      </Link>
+                      <Link href="/sign-up">
+                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white">Sign Up</a>
+                      </Link>
+                    </div>
                   ) : (
-                    <>
-                      <div className="flow-root">
-                        <Link href="/members">
-                          <a className="-m-2 block p-2 text-gray-900">Members</a>
-                        </Link>
-                      </div>
-                      <div className="flow-root">
-                        <Link href="/log-out">
-                          <a className="-m-2 block p-2 text-gray-900">Log Out</a>
-                        </Link>
-                      </div>
-
-                    </>
+                    <div className="flow-root border-t border-gray-50 pt-3">
+                      <Link href="/members">
+                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white">Members</a>
+                      </Link>
+                      <Link href="/log-out">
+                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white">Log Out</a>
+                      </Link>
+                    </div>
                   )}
 
                 </div>
@@ -119,12 +109,12 @@ export default function Nav({ blok }) {
           {blok?.topInformationBar}
         </p>
 
-        <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <nav aria-label="Top" className="mx-auto max-w-7xl px-6 xl:px-0">
           <div className="border-b border-gray-200">
             <div className="flex h-16 items-center">
               <button
                 type="button"
-                className="rounded-md bg-white p-2 text-gray-400 lg:hidden"
+                className="rounded-md bg-white p-2 text-gray-900 lg:hidden"
                 onClick={() => setOpen(true)}
               >
                 <span className="sr-only">Open menu</span>
