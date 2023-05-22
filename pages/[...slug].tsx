@@ -6,16 +6,34 @@ import {
 } from "@storyblok/react";
 
 import { client } from "../lib/apolloClient";
-import Layout from "../components/Layout";
 
-import { GET_SITE_LOGO, GET_OPTIONS, PRODUCT_QUERY } from '../lib/graphql';
+import { PRODUCT_QUERY } from '../lib/graphql';
 import Products from "../components/products";
+import { useEffect, useState } from "react";
 
 
 // @ts-ignore
 export default function Page({ story, products }) {
-    // console.log("page", story.content);
+    // console.log("page", story);
     story = useStoryblokState(story);
+
+    const [filters, setFilters] = useState({ category: "", stockStatus: "", priceOrder: "" });
+    const [filteredProducts, setFilteredProducts] = useState(products.edges);
+
+    useEffect(() => {
+        let filtered = [...products.edges]; // Use the original products array
+        if (filters.category) {
+            // @ts-ignore
+            filtered = filtered.filter(product => product.node.productCategories.edges.some(categoryEdge => categoryEdge.node.name === filters.category));
+        }
+        // Update the state
+        setFilteredProducts(filtered);
+    }, [filters, products]);
+
+    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setFilters(prevFilters => ({ ...prevFilters, category: event.target.value }));
+    };
+
     return (
         <>
             <Head>
@@ -26,9 +44,27 @@ export default function Page({ story, products }) {
                 </title>
             </Head>
             <StoryblokComponent blok={story.content} all={story} />
-            <div className="max-w-6xl mx-auto">
-                <Products products={products} />
-            </div>
+            {
+                story.slug === 'shop' ?
+                    <div className="max-w-6xl mx-auto">
+                        {/* Filter UI */}
+                        <div className="flex justify-end pt-10 border-t-2">
+                            <label>
+                                Select Category:
+                                <select value={filters.category} onChange={handleCategoryChange} className="border border-slate-800 rounded-sm ml-2">
+                                    <option value="">All</option>
+                                    <option value="salvia">Salvia</option>
+                                    <option value="kratom">Kratom</option>
+                                </select>
+                            </label>
+                        </div>
+                        <Products products={{ edges: filteredProducts }} />
+                    </div>
+                    :
+                    <div className="max-w-6xl mx-auto">
+                        <Products products={products} />
+                    </div>
+            }
         </>
     );
 }
@@ -50,15 +86,19 @@ export async function getStaticProps({ params }) {
     let { data: config } = await storyblokApi.get("cdn/stories/config");
     const pageCategory = data.story.content.category;
     let filteredProducts = [];
-    if (pageCategory) {
-        // Filter products based on the page's assigned category
+     // Only filter products if the page is not 'shop' and there is a category defined
+     if (slug !== 'shop' && pageCategory) {
         filteredProducts = products.edges.filter(
             (product: { node: { productCategories: { edges: any[]; }; }; }) =>
                 product.node.productCategories.edges.some(
                     (categoryEdge) => categoryEdge.node.slug === pageCategory
                 )
         );
+    } else {
+        // For the shop page or if there is no pageCategory, return all products
+        filteredProducts = products.edges;
     }
+
     return {
         props: {
             products: { edges: filteredProducts },
