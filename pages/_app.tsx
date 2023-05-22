@@ -19,6 +19,10 @@ import Menu from "../components/Menu";
 import FooterColumn from "../components/FooterColumn";
 import FooterMenu from "../components/FooterMenu";
 import Newsletter from "../components/Newsletter";
+import About from "../components/About";
+import FAQ from "../components/FAQ";
+import FaqItems from "../components/FaqItems";
+import TrendingProducts from "../components/TrendingProducts";
 
 import "../styles/globals.css";
 
@@ -33,7 +37,11 @@ const components = {
   HeroSection,
   footerColumn: FooterColumn,
   footerMenu: FooterMenu,
-  newsletter: Newsletter
+  newsletter: Newsletter,
+  about: About,
+  faq: FAQ,
+  faqItems: FaqItems,
+  trendingProducts: TrendingProducts,
 }
 
 storyblokInit({

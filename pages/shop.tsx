@@ -97,7 +97,6 @@ export default function Shop({ story, products }: HomeProps) {
 export async function getStaticProps() {
     const productsResponse = await client.query({ query: PRODUCT_QUERY })
     const products = { edges: productsResponse?.data?.products?.edges || [] };
-    let slug = "shop";
     let sbParams: {
         version: "draft" | "published";
         resolve_links: "url" | "story";
@@ -105,11 +104,9 @@ export async function getStaticProps() {
         version: "draft",
         resolve_links: "url",
     };
-
     const storyblokApi = getStoryblokApi();
-    let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
+    let { data } = await storyblokApi.get(`cdn/stories/shop`, sbParams);
     let { data: config } = await storyblokApi.get("cdn/stories/config");
-
     return {
         props: {
             products,

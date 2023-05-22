@@ -1,4 +1,4 @@
-import Product from "./product";
+import Product from "./products/product";
 
 interface ProductNode {
   id: string;
@@ -20,7 +20,7 @@ interface ProductsProps {
   };
 }
 
-const Products = ({ products }: ProductsProps) => {
+const TrendingProducts = ({ products }: ProductsProps) => {
   // console.log("products page", products);
 
   return (
@@ -34,4 +34,4 @@ const Products = ({ products }: ProductsProps) => {
   );
 };
 
-export default Products;
+export default TrendingProducts;

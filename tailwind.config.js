@@ -19,6 +19,6 @@ module.exports = {
   },
   plugins: [
     require("preline/plugin"),
-    require("@tailwindcss/aspect-ratio")
+    // require("@tailwindcss/aspect-ratio")
   ],
 };

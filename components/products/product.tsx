@@ -67,7 +67,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
     <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
       {product.node?.image && <div className="relative"><Link href={`/products/${product.node.slug}`} legacyBehavior>
         <a>
-          <figure className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-60">
+          <figure className="aspect-[4/3] bg-gray-200 group-hover:opacity-75 h-full sm:h-60">
             <Image
               src={product.node?.image?.sourceUrl ?? ""}
               alt="Image product"

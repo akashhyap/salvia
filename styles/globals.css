@@ -14,11 +14,6 @@ fieldset {
   padding: 0;
 }
 
-button:hover,
-button:active {
-  color: var(--color-yellow-2);
-}
-
 .profile-update-confirmation {
   display: block;
   background: var(--color-gray-9);

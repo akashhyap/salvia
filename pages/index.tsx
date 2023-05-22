@@ -55,9 +55,6 @@ export default function Home({ story, products }: HomeProps) {
   return (
     <>
       <StoryblokComponent blok={story.content} />
-      <div className='max-w-6xl mx-auto'>
-        <Products products={products} />
-      </div>
     </>
   )
 }
@@ -65,7 +62,7 @@ export default function Home({ story, products }: HomeProps) {
 export async function getStaticProps() {
   const productsResponse = await client.query({ query: PRODUCT_QUERY })
   const products = { edges: productsResponse?.data?.products?.edges || [] };
-  
+
   let slug = "home";
 
   let sbParams: {
