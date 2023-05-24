@@ -59,7 +59,7 @@ export default function SendPasswordResetEmailForm() {
           {error ? (
             <p className="error-message">{error.message}</p>
           ) : null}
-          <button type="submit" disabled={loading} className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+          <button type="submit" disabled={loading} className="flex w-full justify-center rounded-full bg-gray-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-200 hover:text-gray-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
             {loading ? 'Sending...' : 'Send password reset email'}
           </button>
         </fieldset>

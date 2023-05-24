@@ -64,7 +64,7 @@ const CheckoutButton: React.FC = () => {
     window.open(`https://woocommerce-186938-3327038.cloudwaysapps.com/checkout?session_id=${session}`);
   };
 
-  return <button onClick={() => checkoutLink()} className="w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">Checkout</button>;
+  return <button onClick={() => checkoutLink()} className="w-full rounded-full border border-transparent bg-gray-900 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 focus:ring-offset-gray-50">Checkout</button>;
 };
 
 export default CheckoutButton;
