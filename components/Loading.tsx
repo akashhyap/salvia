@@ -5,7 +5,7 @@ import cx from 'classnames';
 const Loading = ( { message, classes, contentColorClass, showSpinner, showMessage, visible, hasVisibilityToggle } ) => {
   return (
     <div className={cx( classes, {'invisible': ! visible && hasVisibilityToggle} )}>
-      <div className="inline-flex rounded-md shadow-sm ml-8">
+      <div className="inline-flex rounded-md shadow-sm mt-5">
         <div
           className={cx(contentColorClass, 'inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-rose-600 hover:bg-rose-500 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-not-allowed')}
         >
