@@ -43,7 +43,6 @@ export default function LogInForm() {
       // Update cart data after login
       await updateCartData();
     },
-
   });
 
 
@@ -72,7 +71,7 @@ export default function LogInForm() {
   }
 
   return (
-    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm px-6 xl:px-0">
       <h1 className="text-5xl mb-10">Log In</h1>
       <form method="post" onSubmit={handleSubmit} className="space-y-6">
         <fieldset disabled={loading}>

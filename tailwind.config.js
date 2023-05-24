@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'foregen': ['Foregen', 'fallback-font', 'serif'],
+      },
       colors: {
         blue: {
           300: "#dadff1",

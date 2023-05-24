@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import {
   useStoryblokState,
   getStoryblokApi,
@@ -48,9 +50,10 @@ type HomeProps = {
   };
 };
 
-
 // @ts-ignore
 export default function Home({ story, products }: HomeProps) {
+  // console.log("home",story);
+
   story = useStoryblokState(story, { customParent: "http://localhost:3010/" });
 
   // @ts-ignore
@@ -61,6 +64,31 @@ export default function Home({ story, products }: HomeProps) {
 
   return (
     <>
+      <Head>
+        <title>
+          {story.content.metatags
+            ? story.content?.metatags?.title
+            : story?.name}
+        </title>
+        <meta
+          name="description"
+          content={story.content.metatags
+            ? story.content?.metatags?.description
+            : story?.name}
+        />
+        <meta
+          property="og:title"
+          content={story.content.metatags
+            ? story.content?.metatags?.og_title
+            : story?.name}
+        />
+        <meta
+          property="og:description"
+          content={story.content.metatags
+            ? story.content?.metatags?.og_description
+            : story?.name}
+        />
+      </Head>
       <StoryblokComponent blok={story.content} />
     </>
   )

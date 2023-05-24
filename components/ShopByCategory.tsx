@@ -37,7 +37,7 @@ const ShopByCategory = ({ blok }) => {
                         </div>
                         <div className="py-14 px-10 xl:p-14 text-white">
                             <h2 className="text-4xl font-bold tracking-tight text-white mb-4 xl:mb-10">{blok.title}</h2>
-                            <div className="text-xl font-semibold leading-8 text-white sm:leading-9">
+                            <div className="text-xl leading-8 text-white sm:leading-9">
                                 {render(blok.text)}
                             </div>
 

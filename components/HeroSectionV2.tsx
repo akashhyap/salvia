@@ -7,14 +7,23 @@ import { render } from "storyblok-rich-text-react-renderer";
 const HeroSectionV2 = ({ blok }) => {
     console.log("heroSection V2:", blok);
     return (
-        <div className="relative isolate overflow-hidden bg-gray-900 pb-16 pt-14 sm:pb-20">
-            <img
+        <div className="relative image-effect isolate overflow-hidden bg-gray-900 pb-16 pt-14 sm:pb-20">
+            {/* <figure className="">
+                <Image
+                    src={`${blok.image.filename}`}
+                    alt=""
+                    layout="fill"
+                    objectFit="cover"
+                    className="inset-0 -z-10 h-full w-full"
+                />
+            </figure> */}
+            {/* <img
                 src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply"
                 alt=""
                 className="absolute inset-0 -z-10 h-full w-full object-cover"
-            />
+            /> */}
             <div
-                className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+                className="absolute inset-x-0 -top-40 -z-8 transform-gpu overflow-hidden blur-3xl sm:-top-80"
                 aria-hidden="true"
             >
                 <div
@@ -39,16 +48,16 @@ const HeroSectionV2 = ({ blok }) => {
                         </div>
                     </div>
                     <div className="text-center">
-                        <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                        <h1 className="text-4xl font-foregen tracking-tight text-white sm:text-5xl">
                             {blok.title}
                         </h1>
                         <div className="mt-6 text-lg leading-8 text-gray-300">
                             {render(blok.subTitle)}
                         </div>
-                        <div className="mt-10 flex items-center justify-center gap-x-6">
+                        <div className="relative z-20 mt-10 flex items-center justify-center gap-x-6">
                             <Link href={blok.buttonLink1.cached_url} legacyBehavior>
                                 <a
-                                    className="rounded-md bg-gray-200 px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                                    className="rounded-full bg-gray-200 px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
                                 >
                                     {blok.buttonLabel1}
                                 </a>
@@ -63,7 +72,7 @@ const HeroSectionV2 = ({ blok }) => {
                 </div>
             </div>
             <div
-                className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+                className="absolute inset-x-0 top-[calc(100%-13rem)] -z-8 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
                 aria-hidden="true"
             >
                 <div

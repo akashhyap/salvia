@@ -21,7 +21,7 @@ export default function Nav({ blok }) {
   const { cartCount, updateCartData } = useCart();
   const [open, setOpen] = useState(false)
 
-  console.log("nav blok", blok);
+  // console.log("nav blok", blok);
 
   useEffect(() => {
     updateCartData();
@@ -72,32 +72,32 @@ export default function Nav({ blok }) {
                   <div className="flow-root border-t border-gray-50 pt-3">
                     {/* @ts-ignore */}
                     {blok?.header_menu.map((nestedBlok) => (
-                      <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
+                      <div onClick={() => setOpen(false)} key={nestedBlok._uid}>
+                        <StoryblokComponent blok={nestedBlok} />
+                      </div>
                     ))}
                   </div>
 
                   {!loggedIn ? (
                     <div className="flow-root border-t border-gray-50 pt-3">
                       <Link href="/log-in">
-                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white">Log In</a>
+                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white hover:text-gray-900" onClick={() => setOpen(false)}>Log In</a>
                       </Link>
                       <Link href="/sign-up">
-                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white">Sign Up</a>
+                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white hover:text-gray-900" onClick={() => setOpen(false)}>Sign Up</a>
                       </Link>
                     </div>
                   ) : (
                     <div className="flow-root border-t border-gray-50 pt-3">
                       <Link href="/members">
-                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white">Members</a>
+                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white hover:text-gray-900" onClick={() => setOpen(false)}>Members</a>
                       </Link>
                       <Link href="/log-out">
-                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white">Log Out</a>
+                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white hover:text-gray-900" onClick={() => setOpen(false)}>Log Out</a>
                       </Link>
                     </div>
                   )}
-
                 </div>
-
               </Dialog.Panel>
             </Transition.Child>
           </div>

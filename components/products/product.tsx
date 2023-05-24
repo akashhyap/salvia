@@ -79,7 +79,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
           </a>
         </Link></div>}
       <div className="relative mt-4">
-        <h3 className="text-sm font-medium text-gray-900">
+        <h3 className="text-sm font-medium text-gray-900 lg:h-10">
           <Link href={`/products/${product.node.slug}`} legacyBehavior>
             {product.node.name}
           </Link>
@@ -89,7 +89,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
         {product.node?.type !== "VARIABLE" ? (
           <div className="mt-6">
             <button
-              className="relative w-full flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white hover:text-gray-900 hover:bg-gray-200"
+              className="relative w-full flex items-center justify-center rounded-full border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white hover:text-gray-900 hover:bg-gray-200"
               onClick={handleAddToCart}
             >
               {buttonText}
@@ -98,7 +98,7 @@ const Product: React.FC<ProductProps> = ({ product }) => {
         ) : (
           <div className="mt-6">
             <Link href={`/products/${product.node?.slug}`} legacyBehavior>
-              <a className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white  hover:text-gray-900 hover:bg-gray-200">
+              <a className="relative flex items-center justify-center rounded-full border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white  hover:text-gray-900 hover:bg-gray-200">
                 Select Option
               </a>
             </Link>

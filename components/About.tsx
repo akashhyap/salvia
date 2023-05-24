@@ -34,7 +34,7 @@ const About = ({ blok }) => {
                     <div className="w-full max-w-2xl xl:max-w-none xl:flex-auto xl:pl-10 xl:py-14">
                         <div className="relative isolate py-6">
                             <h2 className="text-4xl font-bold tracking-tight text-white mb-4">{blok.title}</h2>
-                            <div className="text-xl font-semibold leading-8 text-white sm:leading-9">
+                            <div className="text-xl leading-8 text-white sm:leading-9">
                                 {render(blok.content)}
                                 <Link href={blok.link.cached_url} legacyBehavior>
                                    <a className="hover:text-gray-300 font-normal text-lg mt-6 inline-block">More...</a>

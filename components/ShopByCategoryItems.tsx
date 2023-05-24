@@ -5,7 +5,7 @@ import { render } from "storyblok-rich-text-react-renderer";
 
 // @ts-ignore
 const ShopByCategoryItems = ({ blok }) => {
-    console.log("ShopByCategoryItems:", blok);
+    // console.log("ShopByCategoryItems:", blok);
 
     return (
         <div className="group aspect-h-1 aspect-w-2 overflow-hidden rounded-lg xl:aspect-none xl:relative xl:h-full">

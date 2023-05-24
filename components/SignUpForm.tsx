@@ -41,7 +41,7 @@ export default function SignUpForm() {
 
   if (wasSignUpSuccessful) {
     return (
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm px-6 xl:px-0">
         <h2 className="text-3xl mb-10">
           Congrates you have successfully signed up!
         </h2>
@@ -51,7 +51,7 @@ export default function SignUpForm() {
   }
 
   return (
-    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm px-6 xl:px-0">
       <h1 className="text-5xl mb-10">Sign Up</h1>
       <form method="post" onSubmit={handleSubmit}>
         <fieldset disabled={loading} className="grid gap-4">

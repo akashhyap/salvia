@@ -180,7 +180,7 @@ export default function Product({ product }: ProductProps) {
 
           <div className="mt-5">
             <button
-              className={`relative flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white ${product.__typename === "VariableProduct" && !selectedVariationId ? "opacity-50 cursor-help" : "hover:text-gray-900 hover:bg-gray-200"
+              className={`relative flex items-center justify-center rounded-full border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white ${product.__typename === "VariableProduct" && !selectedVariationId ? "opacity-50 cursor-help" : "hover:text-gray-900 hover:bg-gray-200"
                 }`}
               onClick={handleAddToCart}
             >

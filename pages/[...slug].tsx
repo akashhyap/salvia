@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 
 // @ts-ignore
 export default function Page({ story, products }) {
-    // console.log("page", story);
+    // console.log("inner page", story);
     story = useStoryblokState(story);
 
     const [filters, setFilters] = useState({ category: "", stockStatus: "", priceOrder: "" });
@@ -42,6 +42,24 @@ export default function Page({ story, products }) {
                         ? story.content?.metatags?.title
                         : story?.name}
                 </title>
+                <meta
+                    name="description"
+                    content={story.content.metatags
+                        ? story.content?.metatags?.description
+                        : story?.name}
+                />
+                <meta 
+                      property="og:title" 
+                      content={story.content.metatags
+                        ? story.content?.metatags?.og_title
+                        : story?.name}
+                />
+                <meta 
+                      property="og:description" 
+                      content={story.content.metatags
+                        ? story.content?.metatags?.og_description
+                        : story?.name}
+                />
             </Head>
             <StoryblokComponent blok={story.content} all={story} />
             {
@@ -70,10 +88,7 @@ export default function Page({ story, products }) {
 }
 // @ts-ignore
 export async function getStaticProps({ params }) {
-    // console.log("params:", params);
     const productsResponse = await client.query({ query: PRODUCT_QUERY })
-    // const siteLogo = siteLogoResponse?.data?.getHeader?.siteLogoUrl;
-    // const topInformationBar = topInformationBarResponse?.data?.options?.topInformationBar?.informationBar;
     const products = { edges: productsResponse?.data?.products?.edges || [] };
     let slug = params.slug ? params.slug.join("/") : "home";
     let sbParams = {
@@ -90,7 +105,7 @@ export async function getStaticProps({ params }) {
     // If the page is 'shop', return all products
     if (slug === 'shop') {
         filteredProducts = products.edges;
-    } 
+    }
     // If the page has a category, return products that match the category
     else if (pageCategory) {
         filteredProducts = products.edges.filter(
@@ -99,7 +114,7 @@ export async function getStaticProps({ params }) {
                     (categoryEdge) => categoryEdge.node.slug === pageCategory
                 )
         );
-    } 
+    }
     // If the page is not 'shop' and there's no category, return an empty array
     else {
         filteredProducts = [];
