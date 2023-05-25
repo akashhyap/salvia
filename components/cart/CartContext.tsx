@@ -47,6 +47,7 @@ export interface CartItem {
   } | null;
   quantity: number;
   subtotal?: number;
+  total?: number;
 }
 
 interface CartContextData {
@@ -208,6 +209,7 @@ export const CartProvider: React.FC = ({ children }) => {
         const updatedItems = [...prevItems];
         updatedItems[itemIndex].quantity += item.quantity;
         updatedItems[itemIndex].subtotal = itemSubtotal * Number(updatedItems[itemIndex].quantity);
+        updatedItems[itemIndex].total = itemSubtotal * Number(updatedItems[itemIndex].quantity);
 
         // console.log("updatedItems ", updatedItems);
         // console.log("updatedItems[itemIndex].subtotal ", updatedItems[itemIndex].subtotal);

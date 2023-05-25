@@ -48,6 +48,7 @@ export const UPDATE_CART_ITEM = gql`
         key
         quantity
         subtotal
+        total
       }
     }
   }

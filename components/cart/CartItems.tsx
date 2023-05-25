@@ -64,7 +64,7 @@ const CartItems = () => {
                     ? {
                         ...item,
                         quantity: data.updateItemQuantities.items[0].quantity,
-                        subtotal: data.updateItemQuantities.items[0].subtotal.replace("$", ""),
+                        total: data.updateItemQuantities.items[0].total.replace("$", ""),
                     }
                     : item
             )
@@ -88,7 +88,7 @@ const CartItems = () => {
                 ? {
                     ...item,
                     quantity: data.updateItemQuantities.items[0].quantity,
-                    subtotal: data.updateItemQuantities.items[0].subtotal.replace("$", ""),
+                    total: data.updateItemQuantities.items[0].total.replace("$", ""),
                 }
                 : item
         );
@@ -151,10 +151,16 @@ const CartItems = () => {
         }
     };
 
-
+    // console.log("fetchedCartItems",fetchedCartItems);
     // Calculate total cost
     // @ts-ignore
-    const totalCost = fetchedCartItems.reduce((total, item) => total + parseFloat(item.subtotal), 0);
+    const totalCost = fetchedCartItems.reduce((total, item) => {
+        console.log("item", item);
+
+        // @ts-ignore
+        const itemTotal = parseFloat(item.total.replace('$', ''));
+        return total + itemTotal;
+    }, 0);
     // console.log("cost", totalCost);
 
     return (
@@ -164,8 +170,7 @@ const CartItems = () => {
                 <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
                     {fetchedCartItems.map((item) => {
                         // @ts-ignore
-                        // console.log("product item", item.product.node);
-
+                        // console.log("product item", item);
                         return (
                             <li key={item.key} className="flex py-6 sm:py-10" data-item={item.key}>
                                 <div className="relative flex-shrink-0 basis-24 overflow-hidden">
@@ -194,8 +199,8 @@ const CartItems = () => {
                                                 {/* <p className="mt-1 text-sm text-gray-500">{item.color}</p>
                                     {item.size ? <p className="mt-1 text-sm text-gray-500">{item.size}</p> : null} */}
                                             </div>
-
-                                            <p className="text-right text-sm font-medium text-gray-900">${item.subtotal}</p>
+                                            {/* @ts-ignore */}
+                                            <p className="text-right text-sm font-medium text-gray-900">${item.total.replace("$", "")}</p>
                                         </div>
 
                                         <div className="mt-4 flex items-center sm:absolute sm:left-1/2 sm:top-0 sm:mt-0 sm:block">
@@ -239,7 +244,7 @@ const CartItems = () => {
                     <div className="mt-6 text-center text-sm text-gray-500">
                         <p>
                             or {" "}
-                            <Link href="/" legacyBehavior>
+                            <Link href="/shop" legacyBehavior>
                                 <a className="font-medium text-indigo-600 hover:text-indigo-500">
                                     Continue Shopping
                                     <span aria-hidden="true"> &rarr;</span>
