@@ -72,6 +72,17 @@ export const GET_SINGLE_PRODUCT = gql`
       slug
       description
       shortDescription
+      productBrand {
+        brand
+      }
+      productDescription {
+        descriptionContent
+        faqContent {
+          question
+          answer
+        }
+        shippingContent
+      }
       onSale
       image {
         id
@@ -87,6 +98,7 @@ export const GET_SINGLE_PRODUCT = gql`
         stockStatus
         price
         id
+        sku
         stockQuantity
       }
       ... on VariableProduct {
@@ -95,6 +107,7 @@ export const GET_SINGLE_PRODUCT = gql`
         stockStatus
         price
         id
+        sku
         allPaSizes {
           nodes {
             name
@@ -110,6 +123,7 @@ export const GET_SINGLE_PRODUCT = gql`
             id
             databaseId
             name
+            sku
             stockStatus
             stockQuantity
             purchasable

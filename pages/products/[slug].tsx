@@ -13,6 +13,8 @@ import { useCart } from "../../components/cart/CartContext";
 import Image from "next/image";
 import { GET_SITE_LOGO, GET_SINGLE_PRODUCT, GET_OPTIONS } from '../../lib/graphql';
 
+import QuantitySelector from "../../components/QuantitySelector";
+
 interface ProductPath {
   slug: string;
 }
@@ -37,6 +39,9 @@ export interface Product {
   variations?: {
     nodes: Variation[];
   };
+  productBrand: any;
+  productDescription: any;
+  sku: any
 }
 export interface Variation {
   id: string;
@@ -58,10 +63,14 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  // console.log("product single:", product);
+  console.log("product single:", product);
   const [selectedVariationId, setSelectedVariationId] = useState<number | "">("");
   const [selectedVariation, setSelectedVariation] = useState<Variation | null>(null);
-  const [isSelected, setIsSelected] = useState(true); // Add this state
+  const [isSelected, setIsSelected] = useState(true);
+
+  const [quantity, setQuantity] = useState(1);
+
+  const [openAccordion, setOpenAccordion] = useState<number | null>(null);
 
   const handleVariationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setIsSelected(true);
@@ -97,8 +106,8 @@ export default function Product({ product }: ProductProps) {
         console.error('Product ID is null or undefined');
         return;
       }
-      const cartItem = await addToCart(productId, selectedVariation); // Pass selectedVariation here
-      console.log("item from addToCart:", cartItem);
+      const cartItem = await addToCart(productId, selectedVariation, quantity); // Pass selectedVariation here
+      // console.log("item from addToCart:", cartItem);
       // Use the addItem function from CartContext
       addItem(cartItem);
       // setCartCount((prevCount: number) => prevCount + cartItem.quantity);
@@ -120,32 +129,34 @@ export default function Product({ product }: ProductProps) {
             />
           </figure>
         </div>
-        <div>
-          <h1 className="text-4xl mb-5">{product.name}</h1>
-          <div className="flex justify-between">
-            {selectedVariation ? (
-              <p className="price mb-5 text-xl">
-                {selectedVariation.regularPrice}
-              </p>
-            ) : (
-              <p className="product-price mb-5 text-xl">
-                {product.regularPrice}
-              </p>
-            )}
 
-            <p>
+        {/* Right column */}
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">{product.name}</h1>
+          <div className="flex items-center my-3">
+            {product?.productBrand.brand && <span className="bg-gray-200 text-gray-900 text-xs py-1.5 px-3 rounded-full">{product?.productBrand.brand}</span>}
+            
               {product?.stockStatus === "IN_STOCK" ? (
-                <span className="bg-green-400 text-sm px-2 py-1 rounded-md">
+                <span className="bg-gray-200 text-gray-900 text-xs py-1.5 px-3 ml-4 rounded-full">
                   In stock
                 </span>
               ) : (
-                <span className="bg-red-400 text-sm px-2 py-1 rounded-md">
+                <span className="bg-gray-200 text-gray-900 text-xs py-1.5 px-3 ml-4 rounded-full">
                   Out of stock
                 </span>
               )}
-            </p>
           </div>
-
+          <div className="mt-5">
+            {selectedVariation ? (
+              <p className="price mb-5 text-2xl font-bold tracking-tight text-gray-900">
+                {selectedVariation.regularPrice}
+              </p>
+            ) : (
+              <p className="product-price mb-5 text-2xl font-bold tracking-tight text-gray-900">
+                {product.regularPrice}
+              </p>
+            )}
+          </div>
           {product.__typename === "VariableProduct" ? (
             <>
               <div className="variation-select">
@@ -154,16 +165,15 @@ export default function Product({ product }: ProductProps) {
                   id="variation"
                   value={selectedVariationId}
                   onChange={handleVariationChange}
-                  className={`border rounded-sm p-1 ml-2 ${isSelected ? '' : 'border-red-800'}`}
+                  className={`rounded-full border border-gray-900 py-1 px-2 ml-2 ${isSelected ? '' : 'border-red-800'}`}
                 >
                   <option value="">Select</option>
-
                   {product?.variations?.nodes.map((variation) => (
                     <option
                       key={variation.databaseId}
                       value={variation.databaseId}
                     >
-                      {variation.name}
+                      {variation.name.split("-")[1]}
                     </option>
                   ))}
                 </select>
@@ -171,16 +181,10 @@ export default function Product({ product }: ProductProps) {
             </>
           ) : null}
 
-          <div
-            dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(product.shortDescription),
-            }}
-            className="product-description my-5 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
-          />
-
-          <div className="mt-5">
+          <div className="flex items-center mt-5">
+            <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
             <button
-              className={`relative flex items-center justify-center rounded-full border border-transparent bg-gray-900 px-8 py-2 text-sm font-medium text-white ${product.__typename === "VariableProduct" && !selectedVariationId ? "opacity-50 cursor-help" : "hover:text-gray-900 hover:bg-gray-200"
+              className={`relative flex items-center justify-center rounded-full border border-transparent bg-gray-900 px-8 py-3 text-sm uppercase font-medium text-white ${product.__typename === "VariableProduct" && !selectedVariationId ? "opacity-50 cursor-help" : "hover:text-gray-900 hover:bg-gray-200"
                 }`}
               onClick={handleAddToCart}
             >
@@ -188,15 +192,94 @@ export default function Product({ product }: ProductProps) {
             </button>
           </div>
 
+          <div className="mt-10 mb-5">
+            <p className="font-bold">SKU:</p>
+            {/* @ts-ignore */}
+            {product.__typename === "SimpleProduct" ? product.sku : selectedVariation ? selectedVariation?.sku : product.sku}
+          </div>
+          {product.shortDescription && <p className="font-bold">Short Description:</p>}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(product.shortDescription),
+            }}
+            className="product-description [&>p]:py-3 [&>p]:leading-8 [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
+          />
         </div>
       </div>
-      <div className="flex max-w-7xl mx-auto px-6 xl:px-0 ">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(product.description),
-          }}
-          className="product-description mb-5 [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:py-4 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>h3]:text-2xl [&>h3]:font-semibold [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
-        />
+      <div className="max-w-7xl mx-auto px-6 xl:px-0 mt-16 md:mb-20 lg:mb-28">
+        {product.description === null ? (
+          <>
+            <select id="tab-select" className="sm:hidden py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" aria-label="Tabs">
+              <option value="#hs-tab-to-select-1">Description</option>
+              <option value="#hs-tab-to-select-2">FAQ</option>
+              <option value="#hs-tab-to-select-3">Shipping</option>
+            </select>
+
+            <div className="hidden sm:block border-b border-gray-200">
+              <nav className="flex space-x-2" aria-label="Tabs" role="tablist" data-hs-tab-select="#tab-select">
+                <button type="button" className="hs-tab-active:bg-gray-900 hs-tab-active:border-b-transparent hs-tab-active:text-white -mb-px py-3 px-4 inline-flex items-center gap-2 bg-gray-200 text-sm font-medium text-center border text-gray-900 rounded-t-lg hover:bg-gray-900 hover:text-white active" id="hs-tab-to-select-item-1" data-hs-tab="#hs-tab-to-select-1" aria-controls="hs-tab-to-select-1" role="tab">
+                  Description
+                </button>
+                <button type="button" className="hs-tab-active:bg-gray-900 hs-tab-active:border-b-transparent hs-tab-active:text-white -mb-px py-3 px-4 inline-flex items-center gap-2 bg-gray-200 text-sm font-medium text-center border text-gray-900 rounded-t-lg hover:bg-gray-900 hover:text-white" id="hs-tab-to-select-item-2" data-hs-tab="#hs-tab-to-select-2" aria-controls="hs-tab-to-select-2" role="tab">
+                  FAQ
+                </button>
+                <button type="button" className="hs-tab-active:bg-gray-900 hs-tab-active:border-b-transparent hs-tab-active:text-white -mb-px py-3 px-4 inline-flex items-center gap-2 bg-gray-200 text-sm font-medium text-center border text-gray-900 rounded-t-lg hover:bg-gray-900 hover:text-white" id="hs-tab-to-select-item-3" data-hs-tab="#hs-tab-to-select-3" aria-controls="hs-tab-to-select-3" role="tab">
+                  Shipping
+                </button>
+              </nav>
+            </div>
+
+            <div className="py-5">
+              <div id="hs-tab-to-select-1" role="tabpanel" aria-labelledby="hs-tab-to-select-item-1">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(product.productDescription.descriptionContent),
+                  }}
+                  className="product-description mb-5 [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:py-4 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>h3]:text-2xl [&>h3]:font-semibold [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
+                />
+              </div>
+              <div id="hs-tab-to-select-2" className="hidden" role="tabpanel" aria-labelledby="hs-tab-to-select-item-2">
+                {/* @ts-ignore */}
+                {product.productDescription.faqContent.map((faq, index) => (
+                  <div key={index} className="border-b border-gray-200">
+                    <button
+                      className="flex justify-between items-center w-full py-3"
+                      onClick={() => setOpenAccordion(openAccordion === index ? null : index)}
+                    >
+                      <p className="font-semibold">{faq.question}</p>
+                      <span>{openAccordion === index ? '-' : '+'}</span>
+                    </button>
+                    {openAccordion === index && (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(faq.answer),
+                        }}
+                        className="product-description mb-5 [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:py-4 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>h3]:text-2xl [&>h3]:font-semibold [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div id="hs-tab-to-select-3" className="hidden" role="tabpanel" aria-labelledby="hs-tab-to-select-item-3">
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: DOMPurify.sanitize(product.productDescription.shippingContent),
+                  }}
+                  className="product-description mb-5 [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:py-4 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>h3]:text-2xl [&>h3]:font-semibold [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
+                />
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="flex">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(product.description),
+              }}
+              className="product-description mb-5 [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:py-4 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>h3]:text-2xl [&>h3]:font-semibold [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
+            />
+          </div>
+        )}
       </div>
     </>
   );

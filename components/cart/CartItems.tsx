@@ -155,7 +155,7 @@ const CartItems = () => {
     // Calculate total cost
     // @ts-ignore
     const totalCost = fetchedCartItems.reduce((total, item) => total + parseFloat(item.subtotal), 0);
-    console.log("cost", totalCost);
+    // console.log("cost", totalCost);
 
     return (
         <div className='mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:px-0'>
@@ -164,7 +164,7 @@ const CartItems = () => {
                 <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
                     {fetchedCartItems.map((item) => {
                         // @ts-ignore
-                        console.log("product item", item.product.node);
+                        // console.log("product item", item.product.node);
 
                         return (
                             <li key={item.key} className="flex py-6 sm:py-10" data-item={item.key}>
