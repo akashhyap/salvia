@@ -45,7 +45,6 @@ fieldset {
 .image-effect {
   position: relative;
 }
-
 .image-effect::before {
   content: "";
   position: absolute;
@@ -57,4 +56,20 @@ fieldset {
   mix-blend-mode: multiply;
   pointer-events: none;
   z-index: -9;
+}
+.variation-select {
+  position: relative;
+  display: inline-block;
+}
+.variation-select select {
+  appearance: none; /* this will remove the default arrow in most modern browsers */
+  -moz-appearance: none; /* For Firefox */
+  -webkit-appearance: none; /* For Chrome, Safari, and Opera */
+}
+.select-icon {
+  position: absolute;
+  right: 10px;
+  top: 53%;
+  transform: translateY(-50%);
+  pointer-events: none; /* this will prevent the icon from interfering with the select box functionality */
 }

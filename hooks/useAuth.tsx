@@ -9,7 +9,6 @@ export interface User {
   email: string;
   capabilities: string[];
 }
-
 interface AuthData {
   loggedIn: boolean;
   user?: User,
