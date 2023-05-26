@@ -130,6 +130,7 @@ export const GET_SINGLE_PRODUCT = gql`
             onSale
             salePrice
             regularPrice
+            description
           }
         }
       }

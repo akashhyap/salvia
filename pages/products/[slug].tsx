@@ -200,7 +200,13 @@ export default function Product({ product }: ProductProps) {
 
           </div>
 
-          <div className="mt-10 mb-5">
+          {product.__typename === "VariableProduct" && selectedVariation?.description ? (
+              <div className="mt-6 text-slate-800">
+                 <span className="bg-gray-200 text-gray-900 text-sm font-bold py-1.5 px-3 rounded-full">{selectedVariation?.description}</span>
+              </div>
+            ) : null}
+          
+          <div className="mt-8 mb-5">
             <p className="font-bold">SKU:</p>
             {/* @ts-ignore */}
             {product.__typename === "SimpleProduct" ? product.sku : selectedVariation ? selectedVariation?.sku : product.sku}
