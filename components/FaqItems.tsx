@@ -13,10 +13,10 @@ function classNames(...classes) {
 
 // @ts-ignore
 const FaqItems = ({ blok }) => {
-  // console.log('blok link', blok);
+  console.log('blok link', blok);
 
   return (
-    <Disclosure as="div" key={blok.question} className="pt-6">
+    <Disclosure as="div" key={blok.question} className="pt-2">
       {({ open }) => (
         <>
           <dt>
@@ -32,8 +32,8 @@ const FaqItems = ({ blok }) => {
               </span>
             </Disclosure.Button>
           </dt>
-          <Disclosure.Panel as="dd" className="mt-2 pr-12">
-            <p className={`${blok.whiteText ? "text-gray-300" : "text-black"} text-base leading-7 `}>{render(blok.answer)}</p>
+          <Disclosure.Panel as="dd" className="mt-2">
+            <div className={`${blok.faqItemBg} ${blok.faqItemPadding} ${blok.whiteText ? "text-gray-300" : "text-black"} text-base leading-7 break-words`}>{render(blok.answer)}</div>
           </Disclosure.Panel>
         </>
       )}
