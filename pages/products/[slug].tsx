@@ -24,6 +24,7 @@ interface Params {
 }
 export interface Product {
   databaseId: any;
+  slug: any;
   name: string;
   regularPrice: string;
   stockStatus: string;
@@ -201,11 +202,11 @@ export default function Product({ product }: ProductProps) {
           </div>
 
           {product.__typename === "VariableProduct" && selectedVariation?.description ? (
-              <div className="mt-6 text-slate-800">
-                 <span className="bg-gray-200 text-gray-900 text-sm font-bold py-1.5 px-3 rounded-full">{selectedVariation?.description}</span>
-              </div>
-            ) : null}
-          
+            <div className="mt-6 text-slate-800">
+              <span className="bg-gray-200 text-gray-900 text-sm font-bold py-1.5 px-3 rounded-full">{selectedVariation?.description}</span>
+            </div>
+          ) : null}
+
           <div className="mt-8 mb-5">
             <p className="font-bold">SKU:</p>
             {/* @ts-ignore */}
@@ -296,6 +297,18 @@ export default function Product({ product }: ProductProps) {
           </div>
         )}
       </div>
+      <div className="yotpo bottomLine"
+        data-appkey={process.env.APP_KEY}
+        data-domain="salvia-extract.vercel.app"
+        data-product-id={product.databaseId}
+        data-product-models={product.name}
+        data-name={product.name}
+        data-url={product.slug}
+        data-image-url={product.image?.sourceUrl}
+        data-description={product.shortDescription}
+        data-bread-crumbs="Product_Category">
+      </div>
+
     </>
   );
 }
