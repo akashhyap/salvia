@@ -8,9 +8,6 @@ const nextConfig = {
       "a.storyblok.com",
     ],
   },
-  env: {
-    APP_KEY: process.env.APP_KEY,
-  },
 };
 
 module.exports = nextConfig;

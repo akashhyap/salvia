@@ -297,17 +297,7 @@ export default function Product({ product }: ProductProps) {
           </div>
         )}
       </div>
-      <div className="yotpo bottomLine"
-        data-appkey={process.env.APP_KEY}
-        data-domain="salvia-extract.vercel.app"
-        data-product-id={product.databaseId}
-        data-product-models={product.name}
-        data-name={product.name}
-        data-url={product.slug}
-        data-image-url={product.image?.sourceUrl}
-        data-description={product.shortDescription}
-        data-bread-crumbs="Product_Category">
-      </div>
+     
 
     </>
   );
