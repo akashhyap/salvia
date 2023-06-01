@@ -43,7 +43,8 @@ export interface Product {
   };
   productBrand: any;
   productDescription: any;
-  sku: any
+  sku: any;
+  currency: any
 }
 export interface Variation {
   id: string;
@@ -135,6 +136,13 @@ export default function Product({ product }: ProductProps) {
         {/* Right column */}
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">{product.name}</h1>
+          {/* Ratings */}
+          <div className="mt-2.5 mb-3">
+            <div className="yotpo bottomLine"
+              data-yotpo-product-id={product.databaseId}>
+            </div>
+          </div>
+          {/* Brand and Stock information */}
           <div className="flex items-center my-3">
             {product?.productBrand.brand && <span className={`bg-gray-200 text-gray-900 text-xs py-1.5 px-3 ${product?.productBrand.brand ? 'mr-2' : 'mr-0'} rounded-full`}>{product?.productBrand.brand}</span>}
             {product?.stockStatus === "IN_STOCK" ? (
@@ -147,6 +155,7 @@ export default function Product({ product }: ProductProps) {
               </span>
             )}
           </div>
+          {/* Price */}
           <div className="mt-5">
             {selectedVariation ? (
               <p className="price mb-5 text-2xl font-bold tracking-tight text-gray-900">
@@ -158,6 +167,7 @@ export default function Product({ product }: ProductProps) {
               </p>
             )}
           </div>
+
 
           <div className="flex flex-wrap items-center mt-5">
             {/* select variation */}
@@ -297,7 +307,16 @@ export default function Product({ product }: ProductProps) {
           </div>
         )}
       </div>
-     
+
+      <div
+        className="max-w-7xl mx-auto px-6 xl:px-0 mt-16 md:mb-20 lg:mb-28 yotpo yotpo-main-widget"
+        data-product-id={product.databaseId}
+        data-price={product.regularPrice}
+        data-currency={product.currency}
+        data-name={product.name}
+        data-url={product.slug}
+        data-image-url={product.image?.sourceUrl}
+      />
 
     </>
   );
