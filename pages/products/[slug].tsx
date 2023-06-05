@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { gql } from "@apollo/client";
 import DOMPurify from "isomorphic-dompurify";
 import {
@@ -14,7 +14,15 @@ import Image from "next/image";
 import { GET_SITE_LOGO, GET_SINGLE_PRODUCT, GET_OPTIONS } from '../../lib/graphql';
 
 import QuantitySelector from "../../components/QuantitySelector";
+import { sanitize } from "../../lib/sanitize";
+
 import { ChevronDownIcon } from '@heroicons/react/24/solid'
+import Head from "next/head";
+
+import Seo from "../../components/Seo";
+
+import { ProductJsonLd } from 'next-seo';
+import ProductFullDescription from "../../components/ProductFullDescription";
 
 interface ProductPath {
   slug: string;
@@ -41,9 +49,11 @@ export interface Product {
   variations?: {
     nodes: Variation[];
   };
-  productBrand: any;
+  productBrand?: any;
   productDescription: any;
   sku: any;
+  seo: any;
+  uri: any;
   currency: any
 }
 export interface Variation {
@@ -61,19 +71,18 @@ export interface Variation {
 
 interface ProductProps {
   product: Product;
-  siteLogo: string;
-  topInformationBar?: string
+  reviews: any;
+  aggregateRating?: any
 }
 
-export default function Product({ product }: ProductProps) {
-  console.log("product single:", product);
+
+export default function Product({ product, reviews, aggregateRating, }: ProductProps) {
+  // console.log("product aggregateRating:", aggregateRating);
   const [selectedVariationId, setSelectedVariationId] = useState<number | "">("");
   const [selectedVariation, setSelectedVariation] = useState<Variation | null>(null);
   const [isSelected, setIsSelected] = useState(true);
 
   const [quantity, setQuantity] = useState(1);
-
-  const [openAccordion, setOpenAccordion] = useState<number | null>(null);
 
   const handleVariationChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setIsSelected(true);
@@ -121,6 +130,31 @@ export default function Product({ product }: ProductProps) {
 
   return (
     <>
+      <Seo seo={product?.seo} uri={product?.uri} />
+      <Head>
+        <ProductJsonLd
+          productName={product.name}
+          images={[product.image?.sourceUrl || ""]}
+          description={product.description}
+          brand={product?.productBrand?.brand}
+          offers={[
+            {
+              price: selectedVariation ? selectedVariation.price.toString() : product.regularPrice,
+              priceCurrency: product.currency,
+              availability: product.stockStatus === "IN_STOCK" ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock',
+              url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}${product.uri}`, // make sure to set your frontend URL in environment variables
+              seller: {
+                name: "Salvia Extract",
+              },
+            },
+          ]}
+          // Optional product properties
+          sku={product.sku}
+        // mpn="925872"
+        reviews={reviews}
+        aggregateRating={aggregateRating}
+        />
+      </Head>
       <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto mb-10 mt-10  px-6 xl:px-0">
         <div className="relative">
           <figure className="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-[450px]">
@@ -144,7 +178,7 @@ export default function Product({ product }: ProductProps) {
           </div>
           {/* Brand and Stock information */}
           <div className="flex items-center my-3">
-            {product?.productBrand.brand && <span className={`bg-gray-200 text-gray-900 text-xs py-1.5 px-3 ${product?.productBrand.brand ? 'mr-2' : 'mr-0'} rounded-full`}>{product?.productBrand.brand}</span>}
+            {product?.productBrand?.brand && <span className={`bg-gray-200 text-gray-900 text-xs py-1.5 px-3 ${product?.productBrand?.brand ? 'mr-2' : 'mr-0'} rounded-full`}>{product?.productBrand?.brand}</span>}
             {product?.stockStatus === "IN_STOCK" ? (
               <span className="bg-gray-200 text-gray-900 text-xs py-1.5 px-3 rounded-full">
                 In stock
@@ -222,6 +256,7 @@ export default function Product({ product }: ProductProps) {
             {/* @ts-ignore */}
             {product.__typename === "SimpleProduct" ? product.sku : selectedVariation ? selectedVariation?.sku : product.sku}
           </div>
+
           {product.shortDescription && <p className="font-bold">Short Description:</p>}
           <div
             dangerouslySetInnerHTML={{
@@ -233,81 +268,9 @@ export default function Product({ product }: ProductProps) {
       </div>
 
       {/* Full description */}
-      <div className="max-w-7xl mx-auto px-6 xl:px-0 mt-16 md:mb-20 lg:mb-28">
-        {product.description === null ? (
-          <>
-            <select id="tab-select" className="sm:hidden py-3 px-4 pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" aria-label="Tabs">
-              <option value="#hs-tab-to-select-1">Description</option>
-              <option value="#hs-tab-to-select-2">FAQ</option>
-              <option value="#hs-tab-to-select-3">Shipping</option>
-            </select>
-            <div className="hidden sm:block border-b border-gray-200">
-              <nav className="flex space-x-2" aria-label="Tabs" role="tablist" data-hs-tab-select="#tab-select">
-                <button type="button" className="hs-tab-active:bg-gray-900 hs-tab-active:border-b-transparent hs-tab-active:text-white -mb-px py-3 px-4 inline-flex items-center gap-2 bg-gray-200 text-sm font-medium text-center border text-gray-900 rounded-t-lg hover:bg-gray-900 hover:text-white active" id="hs-tab-to-select-item-1" data-hs-tab="#hs-tab-to-select-1" aria-controls="hs-tab-to-select-1" role="tab">
-                  Description
-                </button>
-                <button type="button" className="hs-tab-active:bg-gray-900 hs-tab-active:border-b-transparent hs-tab-active:text-white -mb-px py-3 px-4 inline-flex items-center gap-2 bg-gray-200 text-sm font-medium text-center border text-gray-900 rounded-t-lg hover:bg-gray-900 hover:text-white" id="hs-tab-to-select-item-2" data-hs-tab="#hs-tab-to-select-2" aria-controls="hs-tab-to-select-2" role="tab">
-                  FAQ
-                </button>
-                <button type="button" className="hs-tab-active:bg-gray-900 hs-tab-active:border-b-transparent hs-tab-active:text-white -mb-px py-3 px-4 inline-flex items-center gap-2 bg-gray-200 text-sm font-medium text-center border text-gray-900 rounded-t-lg hover:bg-gray-900 hover:text-white" id="hs-tab-to-select-item-3" data-hs-tab="#hs-tab-to-select-3" aria-controls="hs-tab-to-select-3" role="tab">
-                  Shipping
-                </button>
-              </nav>
-            </div>
-            <div className="py-5">
-              <div id="hs-tab-to-select-1" role="tabpanel" aria-labelledby="hs-tab-to-select-item-1">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(product.productDescription.descriptionContent),
-                  }}
-                  className="product-description mb-5 [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:py-4 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>h3]:text-2xl [&>h3]:font-semibold [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
-                ></div>
-              </div>
-              <div id="hs-tab-to-select-2" className="hidden" role="tabpanel" aria-labelledby="hs-tab-to-select-item-2">
-                {/* @ts-ignore */}
-                {product.productDescription.faqContent.map((faq, index) => (
-                  <div key={index} className="border-b border-gray-200">
-                    <button
-                      className="flex justify-between items-center w-full py-3"
-                      onClick={() => setOpenAccordion(openAccordion === index ? null : index)}
-                    >
-                      <p className="font-semibold">{faq.question}</p>
-                      <span>{openAccordion === index ? '-' : '+'}</span>
-                    </button>
-                    {openAccordion === index && (
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: DOMPurify.sanitize(faq.answer),
-                        }}
-                        className="product-description mb-5 [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:py-4 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>h3]:text-2xl [&>h3]:font-semibold [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
-                      />
-                    )}
-                  </div>
-                ))}
-              </div>
-              <div id="hs-tab-to-select-3" className="hidden" role="tabpanel" aria-labelledby="hs-tab-to-select-item-3">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(product.productDescription.shippingContent),
-                  }}
-                  className="product-description mb-5 [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:py-4 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>h3]:text-2xl [&>h3]:font-semibold [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
-                />
-              </div>
-            </div>
-          </>
-        ) : (
-          <div className="flex">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(product.description),
-              }}
-              className="product-description mb-5 [&>h2]:text-2xl sm:[&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:py-4 [&>p]:text-lg [&>p]:py-4 [&>p]:leading-8 [&>h3]:text-2xl [&>h3]:font-semibold [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
-            >
-            </div>
-          </div>
-        )}
-      </div>
+      <ProductFullDescription product={product} />
 
+      {/* Review Widget */}
       <div
         className="max-w-7xl mx-auto px-6 xl:px-0 mt-16 md:mb-20 lg:mb-28 yotpo yotpo-main-widget"
         data-product-id={product.databaseId}
@@ -322,6 +285,36 @@ export default function Product({ product }: ProductProps) {
   );
 }
 
+// Define your helper functions
+//@ts-ignore
+function formatReviews(reviews) {
+  //@ts-ignore
+  return reviews.map(review => ({
+    author: review.user.display_name,
+    datePublished: review.created_at,
+    reviewBody: review.content,
+    name: review.title,
+    reviewRating: {
+      bestRating: '5',
+      ratingValue: review.score.toString(),
+      worstRating: '1',
+    },
+    publisher: {
+      type: 'Organization',
+      name: 'Your Organization Name',
+    },
+  }));
+}
+
+//@ts-ignore
+function calculateAggregateRating(reviews) {
+  return {
+    //@ts-ignore
+    ratingValue: (reviews.reduce((a, b) => a + b.score, 0) / reviews.length).toString(),
+    reviewCount: reviews.length.toString(),
+  };
+}
+
 export async function getStaticProps({ params }: { params: Params }) {
   const productResponse = await client.query({ query: GET_SINGLE_PRODUCT, variables: { id: params.slug } })
   const product = productResponse?.data?.product;
@@ -330,13 +323,28 @@ export async function getStaticProps({ params }: { params: Params }) {
   // @ts-ignore
   let { data: config } = await storyblokApi.get("cdn/stories/config");
 
+  // Fetch Reviews
+  const reviewResponse = await fetch(`https://api.yotpo.com/v1/widget/${process.env.APP_KEY}/products/${product.databaseId}/reviews.json`);
+
+  if (!reviewResponse.ok) {
+    throw new Error(`API request failed with status ${reviewResponse.status}`);
+  }
+
+  const reviewData = await reviewResponse.json()
+  const reviews = reviewData.response.reviews;
+  const formattedReviews = formatReviews(reviews);
+  const aggregateRating = calculateAggregateRating(reviews);
+
   return {
     props: {
       product,
       config: config ? config.story : false,
+      reviews: formattedReviews,
+      aggregateRating,
     },
   };
 }
+
 
 export async function getStaticPaths() {
   const GET_PRODUCTS_SLUGS = gql`

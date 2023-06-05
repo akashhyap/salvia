@@ -66,10 +66,15 @@ export const PRODUCT_QUERY = gql`
 export const GET_SINGLE_PRODUCT = gql`
   query Product($id: ID!) {
     product(id: $id, idType: SLUG) {
+      seo {
+        title
+        metaDesc
+      }
       id
       databaseId
       averageRating
       slug
+      uri
       description
       shortDescription
       productBrand {
@@ -108,11 +113,6 @@ export const GET_SINGLE_PRODUCT = gql`
         price
         id
         sku
-        allPaSizes {
-          nodes {
-            name
-          }
-        }
         allPaSizes {
           nodes {
             name

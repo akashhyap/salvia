@@ -14,7 +14,8 @@ import { useEffect, useState } from "react";
 
 // @ts-ignore
 export default function Page({ story, products }) {
-    // console.log("inner page", story);
+    // console.log("inner products", products);
+    // console.log("inner story", story);
     story = useStoryblokState(story);
 
     const [filters, setFilters] = useState({ category: "", stockStatus: "", priceOrder: "" });
@@ -71,8 +72,8 @@ export default function Page({ story, products }) {
                                 Select Category:
                                 <select value={filters.category} onChange={handleCategoryChange} className="border border-slate-800 rounded-sm ml-2">
                                     <option value="">All</option>
-                                    <option value="salvia">Salvia</option>
-                                    <option value="kratom">Kratom</option>
+                                    <option value="Salvia">Salvia</option>
+                                    <option value="Kratom">Kratom</option>
                                 </select>
                             </label>
                         </div>
@@ -100,6 +101,8 @@ export async function getStaticProps({ params }) {
     let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
     let { data: config } = await storyblokApi.get("cdn/stories/config");
     const pageCategory = data.story.content.category;
+
+    
     let filteredProducts = [];
 
     // If the page is 'shop', return all products
@@ -111,7 +114,7 @@ export async function getStaticProps({ params }) {
         filteredProducts = products.edges.filter(
             (product: { node: { productCategories: { edges: any[]; }; }; }) =>
                 product.node.productCategories.edges.some(
-                    (categoryEdge) => categoryEdge.node.slug === pageCategory
+                    (categoryEdge) => categoryEdge.node.name.toLowerCase() === pageCategory
                 )
         );
     }
