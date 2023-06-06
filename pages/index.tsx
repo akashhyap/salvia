@@ -88,6 +88,7 @@ export default function Home({ story, products }: HomeProps) {
             ? story.content?.metatags?.og_description
             : story?.name}
         />
+      
       </Head>
       <StoryblokComponent blok={story.content} />
     </>

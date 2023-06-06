@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 
 // @ts-ignore
 const AllArticles = ({ blok }) => {
+    console.log("blok",blok);
+    
     const [articles, setArticles] = useState([]);
     const currentTag = blok.tag || '';
  
@@ -19,6 +21,8 @@ const AllArticles = ({ blok }) => {
             });
             // @ts-ignore
             const filteredArticles = data.stories.filter((article) => {
+                // console.log("article",article.content);
+                
                 const articleTag = article.content.tag || '';
                 return currentTag === '' || currentTag === articleTag;
             });

@@ -16,15 +16,18 @@ import PropTypes from 'prop-types';
 
 // @ts-ignore
 const Seo = ( {seo, uri} ) => {
+	// console.log("seo", seo);
+	
 	const {
 		title,
 		metaDesc,
 		metaRobotsNoindex,
 		metaRobotsNofollow,
 		opengraphDescription,
+		description,
 		opengraphTitle,
 		opengraphImage,
-		opengraphSiteName
+		opengraphSiteName,
 	} = seo;
 
 	const currentLocation = (typeof window !== 'undefined') ? window.location.origin : null;
@@ -33,7 +36,7 @@ const Seo = ( {seo, uri} ) => {
 	return (
 		<NextSeo
 			title={title}
-			description={opengraphDescription || metaDesc}
+			description={opengraphDescription || metaDesc || description}
 			canonical={opengraphUrl}
 			noindex={metaRobotsNoindex}
 			nofollow={metaRobotsNofollow}

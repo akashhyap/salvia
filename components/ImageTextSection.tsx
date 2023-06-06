@@ -13,12 +13,14 @@ const ImageTextSection = ({ blok }) => {
                 <div className="mb-5 [&>h2]:text-3xl">
                     {render(blok.headline)}
                 </div>
-                <div className="flex flex-col lg:flex-row px-6 lg:px-0">
-                    <div className={`relative lg:flex-1 mb-10 lg:mb-0 p-7 ${blok.imageMoveRight ? "order-2" : "order-1"}`}>
+                <div className="flex flex-col lg:flex-row px-6 lg:px-0 lg:items-center">
+                    <div className={`relative lg:flex-1 mb-10 lg:mb-0 px-7 lg:pr-7 lg:pl-0 ${blok.imageMoveRight ? "order-2" : "order-1"}`}>
                         <Image
                             src={image}
                             alt=""
-                            layout="fill"
+                            layout="responsive"
+                            width={1}
+                            height={1}
                             className="w-full object-contain"
                         />
                     </div>

@@ -13,7 +13,7 @@ function classNames(...classes) {
 
 // @ts-ignore
 const FaqItems = ({ blok }) => {
-  console.log('blok link', blok);
+  // console.log('blok link', blok);
 
   return (
     <Disclosure as="div" key={blok.question} className="pt-2">

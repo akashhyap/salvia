@@ -11,6 +11,9 @@ import { PRODUCT_QUERY } from '../lib/graphql';
 import Products from "../components/products";
 import { useEffect, useState } from "react";
 
+import { ArticleJsonLd, WebPageJsonLd } from 'next-seo';
+import Seo from "../components/Seo";
+
 
 // @ts-ignore
 export default function Page({ story, products }) {
@@ -37,31 +40,35 @@ export default function Page({ story, products }) {
 
     return (
         <>
-            <Head>
-                <title>
-                    {story.content.metatags
-                        ? story.content?.metatags?.title
-                        : story?.name}
-                </title>
-                <meta
-                    name="description"
-                    content={story.content.metatags
-                        ? story.content?.metatags?.description
-                        : story?.name}
+            <Seo seo={story?.content.metatags} uri={story?.full_slug} />
+
+            {story?.full_slug.includes('blog/') ? (
+                <ArticleJsonLd
+                    type="BlogPosting"
+                    url={story?.full_slug}
+                    title="Blog headline"
+                    images={[
+                        'https://example.com/photos/1x1/photo.jpg',
+                        'https://example.com/photos/4x3/photo.jpg',
+                        'https://example.com/photos/16x9/photo.jpg',
+                    ]}
+                    datePublished={story?.first_published_at}
+                    dateModified={story?.published_at}
+                    authorName="Salvia Extract"
+                    description={story?.content?.metatags?.description}
                 />
-                <meta 
-                      property="og:title" 
-                      content={story.content.metatags
-                        ? story.content?.metatags?.og_title
-                        : story?.name}
+            ) : (
+                <WebPageJsonLd
+                    description={story?.content?.metatags?.description}
+                    id="https://www.purpule-fox.io/#corporation"
+                    lastReviewed={story?.published_at}
+                    reviewedBy={{
+                        type: 'Person',
+                        name: 'Garmeeh',
+                    }}
                 />
-                <meta 
-                      property="og:description" 
-                      content={story.content.metatags
-                        ? story.content?.metatags?.og_description
-                        : story?.name}
-                />
-            </Head>
+            )}
+
             <StoryblokComponent blok={story.content} all={story} />
             {
                 story.slug === 'shop' ?
@@ -102,7 +109,7 @@ export async function getStaticProps({ params }) {
     let { data: config } = await storyblokApi.get("cdn/stories/config");
     const pageCategory = data.story.content.category;
 
-    
+
     let filteredProducts = [];
 
     // If the page is 'shop', return all products

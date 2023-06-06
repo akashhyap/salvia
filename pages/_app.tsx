@@ -26,6 +26,7 @@ import TrendingProducts from "../components/TrendingProducts";
 import ShopByCategory from "../components/ShopByCategory";
 import ShopByCategoryItems from "../components/ShopByCategoryItems";
 import HeroSectionV2 from "../components/HeroSectionV2";
+import Table from "../components/Table";
 
 import "../styles/globals.css";
 
@@ -48,6 +49,7 @@ const components = {
   trendingProducts: TrendingProducts,
   shopByCategory: ShopByCategory,
   shopByCategoryItems: ShopByCategoryItems,
+  table: Table,
 }
 
 storyblokInit({

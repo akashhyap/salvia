@@ -301,7 +301,7 @@ function formatReviews(reviews) {
     },
     publisher: {
       type: 'Organization',
-      name: 'Your Organization Name',
+      name: 'Salvia Extract',
     },
   }));
 }
