@@ -3,7 +3,7 @@ import { render } from 'storyblok-rich-text-react-renderer';
 
 // @ts-ignore
 const Article = ({ blok }) => {
-  // console.log("article", blok.body);
+  console.log("article", blok.body);
 
   return (
     <section className="text-gray-600 body-font">
@@ -18,7 +18,7 @@ const Article = ({ blok }) => {
             {blok.title}
           </h1>
           {/* @ts-ignore */}
-          {blok.body.map((nestedBlok) => (
+          {blok?.body?.map((nestedBlok) => (
             <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
           ))}
           {/* <div className="mb-8 leading-relaxed text-justify">{render(blok.content)}</div> */}

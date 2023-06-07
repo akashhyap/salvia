@@ -5,9 +5,11 @@ import { render } from 'storyblok-rich-text-react-renderer';
 // @ts-ignore
 const ArticleTeaser = ({ article, slug }) => {
   console.log("article", article);
-  
+
   return (
     <div className="column feature">
+      <Link href={slug} legacyBehavior>
+        <a>
         <figure className="relative overflow-hidden rounded-xl mb-4">
           <Image
             src={article.image.filename}
@@ -19,19 +21,21 @@ const ArticleTeaser = ({ article, slug }) => {
             className="object-center"
           />
         </figure>
-        <h2 className="mx-auto mb-6 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">
-          {article.title}
-        </h2>
-        <div>
-          <Link href={slug}>
-            <a
-              className="inline-flex items-center mt-4 font-semibold border-b border-gray-900 text-gray-900 lg:mb-0 hover:text-gray-700"
-              title="read more"
-            >
-              Read More »
-            </a>
-          </Link>
-        </div>
+        </a>
+      </Link>
+      <h2 className="mx-auto mb-6 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">
+        {article.title}
+      </h2>
+      <div>
+        <Link href={slug}>
+          <a
+            className="inline-flex items-center mt-4 font-semibold border-b border-gray-900 text-gray-900 lg:mb-0 hover:text-gray-700"
+            title="read more"
+          >
+            Read More »
+          </a>
+        </Link>
+      </div>
     </div>
   )
 };

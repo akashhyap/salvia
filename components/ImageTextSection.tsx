@@ -3,8 +3,8 @@ import Image from "next/image";
 import { render } from "storyblok-rich-text-react-renderer";
 // @ts-ignore
 const ImageTextSection = ({ blok }) => {
-    console.log("ImageTextSection", blok);
-    console.log("imageMoveRight", blok.imageMoveRight);
+    // console.log("ImageTextSection", blok);
+    // console.log("imageMoveRight", blok.imageMoveRight);
     let image = blok.image.filename + "/m/";
 
     return (
