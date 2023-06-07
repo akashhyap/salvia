@@ -10,22 +10,25 @@ const ArticleTeaser = ({ article, slug }) => {
     <div className="column feature">
       <Link href={slug} legacyBehavior>
         <a>
-        <figure className="relative overflow-hidden rounded-xl mb-4">
-          <Image
-            src={article.image.filename}
-            alt={article.title}
-            layout="responsive"
-            width={11}
-            height={6}
-            objectFit="cover"
-            className="object-center"
-          />
-        </figure>
+          <figure className="relative overflow-hidden rounded-xl mb-4">
+            <Image
+              src={article.image.filename}
+              alt={article.title}
+              layout="responsive"
+              width={11}
+              height={6}
+              objectFit="cover"
+              className="object-center"
+            />
+          </figure>
         </a>
       </Link>
-      <h2 className="mx-auto mb-6 text-2xl font-semibold leading-none tracking-tighter text-neutral-600 lg:text-3xl">
+      <h2 className="mx-auto mb-6 text-xl font-semibold leading-snug tracking-tighter">
         {article.title}
       </h2>
+      <div>
+        {render(article?.metatags?.description)}
+      </div>
       <div>
         <Link href={slug}>
           <a
