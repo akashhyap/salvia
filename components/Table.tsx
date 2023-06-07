@@ -7,7 +7,7 @@ const Table = ({ blok }) => {
   const { content } = blok;
 
   return (
-    <table>
+    <table className="mb-5">
       <thead>
         <tr>
           {/* @ts-ignore */}
@@ -22,7 +22,7 @@ const Table = ({ blok }) => {
           <tr key={index}>
             {/* @ts-ignore */}
             {tr.body.map((td, index) => (
-              <td key={index}>{td.value}</td>
+              <td key={index} className="text-black text-lg p-2">{td.value}</td>
             ))}
           </tr>
         ))}
