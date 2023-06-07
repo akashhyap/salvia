@@ -27,6 +27,7 @@ import ShopByCategory from "../components/ShopByCategory";
 import ShopByCategoryItems from "../components/ShopByCategoryItems";
 import HeroSectionV2 from "../components/HeroSectionV2";
 import Table from "../components/Table";
+import YouTube from "../components/YouTube";
 
 import "../styles/globals.css";
 
@@ -50,6 +51,7 @@ const components = {
   shopByCategory: ShopByCategory,
   shopByCategoryItems: ShopByCategoryItems,
   table: Table,
+  youtube: YouTube,
 }
 
 storyblokInit({
