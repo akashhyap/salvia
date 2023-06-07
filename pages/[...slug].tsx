@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { ArticleJsonLd, WebPageJsonLd } from 'next-seo';
 import Seo from "../components/Seo";
 
+import DisqusComments from "../components/DisqusComments";
 
 // @ts-ignore
 export default function Page({ story, products }) {
@@ -91,6 +92,13 @@ export default function Page({ story, products }) {
                         <Products products={products} />
                     </div>
             }
+
+            {story?.full_slug.includes('blog/') ? (
+                <div className="max-w-7xl mx-auto">
+                    {/* @ts-ignore */}
+                    <DisqusComments story={story} />
+                </div>
+            ) : null}
         </>
     );
 }

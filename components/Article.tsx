@@ -3,7 +3,7 @@ import { render } from 'storyblok-rich-text-react-renderer';
 
 // @ts-ignore
 const Article = ({ blok }) => {
-  console.log("article", blok.body);
+  // console.log("article", blok.body);
 
   return (
     <section className="text-gray-600 body-font">
