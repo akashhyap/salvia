@@ -68,13 +68,11 @@ export interface Variation {
   regularPrice: number;
   salePrice: number;
 }
-
 interface ProductProps {
   product: Product;
   reviews: any;
   aggregateRating?: any
 }
-
 
 export default function Product({ product, reviews, aggregateRating, }: ProductProps) {
   // console.log("product aggregateRating:", aggregateRating);
@@ -131,8 +129,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
   return (
     <>
       <Seo seo={product?.seo} uri={product?.uri} />
-      <Head>
-        <ProductJsonLd
+      <ProductJsonLd
           productName={product.name}
           images={[product.image?.sourceUrl || ""]}
           description={product.description}
@@ -154,10 +151,9 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
         reviews={reviews}
         aggregateRating={aggregateRating}
         />
-      </Head>
-      <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto mb-10 mt-10  px-6 xl:px-0">
+      <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto mb-10 mt-10 px-6 xl:px-0">
         <div className="relative">
-          <figure className="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-[450px]">
+          <figure className="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-full">
             <Image
               src={product?.image?.sourceUrl ?? ""}
               alt="Image product"
