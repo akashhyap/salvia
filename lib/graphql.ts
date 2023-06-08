@@ -153,6 +153,96 @@ export const GET_SINGLE_PRODUCT = gql`
     }
   }
 `;
+export const GET_PRODUCT_BY_DATABASE_ID = gql`
+  query Product($id: ID!) {
+    product(id: $id, idType: DATABASE_ID) {
+      seo {
+        title
+        metaDesc
+      }
+      id
+      databaseId
+      averageRating
+      slug
+      uri
+      description
+      shortDescription
+      productBrand {
+        brand
+      }
+      productDescription {
+        descriptionContent
+        faqContent {
+          question
+          answer
+        }
+        shippingContent
+      }
+      onSale
+      image {
+        id
+        uri
+        title
+        srcSet
+        sourceUrl
+      }
+      name
+      ... on SimpleProduct {
+        salePrice
+        regularPrice
+        stockStatus
+        price
+        id
+        sku
+        stockQuantity
+      }
+      ... on VariableProduct {
+        salePrice
+        regularPrice
+        stockStatus
+        price
+        id
+        sku
+        allPaSizes {
+          nodes {
+            name
+          }
+        }
+        variations {
+          nodes {
+            id
+            databaseId
+            name
+            sku
+            stockStatus
+            stockQuantity
+            purchasable
+            onSale
+            salePrice
+            regularPrice
+            description
+          }
+        }
+      }
+      ... on ExternalProduct {
+        price
+        id
+        externalUrl
+      }
+      ... on GroupProduct {
+        products {
+          nodes {
+            ... on SimpleProduct {
+              id
+              price
+            }
+          }
+        }
+        id
+      }
+    }
+  }
+`;
 
 export const GET_ALL_PAGES = gql`
   query GetAllPages {

@@ -19,7 +19,8 @@ import DisqusComments from "../components/DisqusComments";
 // @ts-ignore
 export default function Page({ story, products }) {
     // console.log("inner products", products);
-    console.log("inner story", story);
+    // console.log("inner story", story);
+    
     story = useStoryblokState(story);
 
     const [filters, setFilters] = useState({ category: "", stockStatus: "", priceOrder: "" });

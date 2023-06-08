@@ -28,6 +28,8 @@ import ShopByCategoryItems from "../components/ShopByCategoryItems";
 import HeroSectionV2 from "../components/HeroSectionV2";
 import Table from "../components/Table";
 import YouTube from "../components/YouTube";
+import WooProductId from "../components/WooProductId";
+import WooProduct from "../components/WooProduct";
 
 import "../styles/globals.css";
 
@@ -52,6 +54,8 @@ const components = {
   shopByCategoryItems: ShopByCategoryItems,
   table: Table,
   youtube: YouTube,
+  "woo-product-id": WooProductId,
+  "woo-product": WooProduct,
 }
 
 storyblokInit({
