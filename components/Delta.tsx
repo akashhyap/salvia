@@ -4,11 +4,10 @@ import { getStoryblokApi, storyblokEditable } from "@storyblok/react";
 import { useState, useEffect } from "react";
 
 // @ts-ignore
-const Delta8 = ({ blok }) => {
-    // console.log("kratom articles", blok);
+const Delta = ({ blok }) => {
+    // console.log("delta articles", blok);
 
     const [articles, setArticles] = useState([]);
-    const currentTag = blok.tag || '';
 
     useEffect(() => {
         const getArticles = async () => {
@@ -16,11 +15,12 @@ const Delta8 = ({ blok }) => {
             const { data } = await storyblokApi.get(`cdn/stories`, {
                 starts_with: 'delta-8/',
             });
+            
             // @ts-ignore
             setArticles(data.stories);
         };
         getArticles();
-    }, [currentTag]);
+    }, []);
 
     return (
         <div className="max-w-7xl mx-auto py-14 px-6 xl:px-0">
@@ -41,4 +41,4 @@ const Delta8 = ({ blok }) => {
         </div>
     );
 };
-export default Delta8;
+export default Delta;

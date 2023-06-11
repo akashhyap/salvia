@@ -36,7 +36,7 @@ import SalviaDivinorum from "../components/SalviaDivinorum";
 import Blog from "../components/Blog";
 import Dropdown from "../components/Dropdown";
 import KratomWiki from "../components/KratomWiki";
-import Delta8 from "../components/Delta8";
+import Delta from "../components/Delta";
 
 import "../styles/globals.css";
 
@@ -69,7 +69,7 @@ const components = {
   blog: Blog,
   dropdown: Dropdown,
   "kratom-wiki": KratomWiki,
-  'delta-8': Delta8,
+  "delta-8": Delta,
 }
 
 storyblokInit({
