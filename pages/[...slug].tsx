@@ -154,17 +154,36 @@ export async function getStaticPaths() {
     let { data } = await storyblokApi.get("cdn/links/");
     // @ts-ignore
     let paths = [];
-    Object.keys(data.links).forEach((linkKey) => {
+    const promises = Object.keys(data.links).map(async (linkKey) => {
         if (data.links[linkKey].slug === "home") {
             return;
         }
+
         const slug = data.links[linkKey].slug;
         let splittedSlug = slug.split("/");
-        paths.push({ params: { slug: splittedSlug } });
+
+        // If this link is a folder, fetch the articles inside it and add their paths as well
+        if (data.links[linkKey].is_folder) {
+            const { data: folderData } = await storyblokApi.get("cdn/stories", {
+                starts_with: slug,
+            });
+            // @ts-ignore
+            folderData.stories.forEach((story) => {
+                const storySlug = story.full_slug.split("/");
+                paths.push({ params: { slug: storySlug } });
+            });
+        } else {
+            paths.push({ params: { slug: splittedSlug } });
+        }
     });
+
+    // Wait for all promises to resolve
+    await Promise.all(promises);
+
     return {
         // @ts-ignore
         paths: paths,
         fallback: false,
     };
 }
+

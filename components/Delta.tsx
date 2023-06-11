@@ -15,9 +15,12 @@ const Delta = ({ blok }) => {
             const { data } = await storyblokApi.get(`cdn/stories`, {
                 starts_with: 'delta-8/',
             });
-            
+
             // @ts-ignore
-            setArticles(data.stories);
+            setArticles((prev) => data.stories.map((article) => {
+                article.content.slug = article.slug;
+                return article;
+            }));
         };
         getArticles();
     }, []);
