@@ -19,7 +19,7 @@ import DisqusComments from "../components/DisqusComments";
 // @ts-ignore
 export default function Page({ story, products }) {
     // console.log("inner products", products);
-    // console.log("inner story", story);
+    console.log("inner story", story);
     
     story = useStoryblokState(story);
 
@@ -44,7 +44,7 @@ export default function Page({ story, products }) {
         <>
             <Seo seo={story?.content.metatags} uri={story?.full_slug} />
 
-            {story?.full_slug.includes('blog/') ? (
+            {story?.content.component === "Article" ? (
                 <ArticleJsonLd
                     type="BlogPosting"
                     url={story?.full_slug}
