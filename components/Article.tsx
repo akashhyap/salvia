@@ -9,11 +9,6 @@ const Article = ({ blok }) => {
   return (
     <section className="text-gray-600 body-font">
       <div className="container mx-auto flex px-5 py-14 items-center justify-center flex-col">
-        {/* <img
-          className="md:h-96 w-full mb-10 object-cover object-center rounded"
-          alt={blok.image.alt}
-          src={blok.image.filename}
-        /> */}
         <figure className='relative md:h-96 w-full mb-10'>
           <Image
             alt={blok.image.alt}

@@ -28,168 +28,75 @@ export default function Nav({ blok }) {
   }, [loggedIn, updateCartData]);
 
   return (
-    <>
-      {/* Mobile menu */}
-      <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
-          <Transition.Child
-            as={Fragment}
-            enter="transition-opacity ease-linear duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-300"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+    <nav className="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between" aria-label="Global">
+      <div className="flex items-center justify-between">
+        <div className="ml-4 lg:ml-0">
+          <Link href="/" legacyBehavior>
+            <a className="relative py-2 inline-block">
+              <Image
+                src={blok?.logo.filename}
+                alt="Salvia Extract"
+                width={175}
+                height={60}
+                objectFit="contain"
+              />
+            </a>
+          </Link>
+        </div>
+        <div className="sm:hidden">
+          <button type="button" className="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800" data-hs-collapse="#navbar-collapse-basic" aria-controls="navbar-collapse-basic" aria-label="Toggle navigation">
+            <svg className="hs-collapse-open:hidden w-4 h-4" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+            </svg>
+            <svg className="hs-collapse-open:block hidden w-4 h-4" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div id="navbar-collapse-basic" className="hidden basis-full h-full grow sm:flex">
+        <div className="flex flex-col gap-5 mt-5 sm:flex-row sm:w-full sm:items-center sm:justify-end sm:mt-0 sm:pl-5">
+          {/* @ts-ignore */}
+          {blok?.header_menu.map((nestedBlok) => (
+            <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
+          ))}
 
-          <div className="fixed inset-0 z-40 flex">
-            <Transition.Child
-              as={Fragment}
-              enter="transition ease-in-out duration-300 transform"
-              enterFrom="-translate-x-full"
-              enterTo="translate-x-0"
-              leave="transition ease-in-out duration-300 transform"
-              leaveFrom="translate-x-0"
-              leaveTo="-translate-x-full"
-            >
-              <Dialog.Panel className="relative flex w-full max-w-xs flex-col overflow-y-auto bg-gray-900 pb-12 shadow-xl">
-                <div className="flex px-4 pb-2 pt-5">
-                  <button
-                    type="button"
-                    className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-white"
-                    onClick={() => setOpen(false)}
-                  >
-                    <span className="sr-only">Close menu</span>
-                    <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
-
-                {/* Links */}
-
-                <div className="space-y-6 px-4 pb-6 pt-2">
-                  <div className="flow-root border-t border-gray-50 pt-3">
-                    {/* @ts-ignore */}
-                    {blok?.header_menu.map((nestedBlok) => (
-                      <div onClick={() => setOpen(false)} key={nestedBlok._uid}>
-                        <StoryblokComponent blok={nestedBlok} />
-                      </div>
-                    ))}
-                  </div>
-
-                  {!loggedIn ? (
-                    <div className="flow-root border-t border-gray-50 pt-3">
-                      <Link href="/log-in">
-                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white hover:text-gray-900" onClick={() => setOpen(false)}>Log In</a>
-                      </Link>
-                      <Link href="/sign-up">
-                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white hover:text-gray-900" onClick={() => setOpen(false)}>Sign Up</a>
-                      </Link>
-                    </div>
-                  ) : (
-                    <div className="flow-root border-t border-gray-50 pt-3">
-                      <Link href="/members">
-                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white hover:text-gray-900" onClick={() => setOpen(false)}>Members</a>
-                      </Link>
-                      <Link href="/log-out">
-                        <a className="flex items-center hover:bg-gray-200 px-3 py-2 rounded-lg text-base text-white hover:text-gray-900" onClick={() => setOpen(false)}>Log Out</a>
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition.Root>
-
-      <header className="relative">
-        <p className="flex h-10 items-center justify-center bg-black px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-          {blok?.topInformationBar}
-        </p>
-
-        <nav aria-label="Top" className="mx-auto max-w-7xl px-6 xl:px-0">
-          <div className="border-b border-gray-200">
-            <div className="flex h-16 items-center">
-              <button
-                type="button"
-                className="rounded-md bg-white p-2 text-gray-900 lg:hidden"
-                onClick={() => setOpen(true)}
-              >
-                <span className="sr-only">Open menu</span>
-                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-              </button>
-
-              {/* Logo */}
-              <div className="ml-4 lg:ml-0 basis-40 p-7">
-                <Link href="/" legacyBehavior>
-                  <a className="order-2">
-                    <Image
-                      src={blok?.logo.filename}
-                      alt="Salvia Extract"
-                      layout="responsive"
-                      width={300}
-                      height={139}
-                    />
-                  </a>
-                </Link>
-              </div>
-
-              {/* Flyout menus */}
-              <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
-                <div className="flex h-full space-x-8">
-                  {/* @ts-ignore */}
-                  {blok?.header_menu.map((nestedBlok) => (
-                    <StoryblokComponent blok={nestedBlok} key={nestedBlok._uid} />
-                  ))}
-                </div>
-              </Popover.Group>
-
-              <div className="ml-auto flex items-center">
-                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {!loggedIn ? (
-                    <>
-
-                      <Link href="/log-in">
-                        <a className="flex items-center text-sm text-gray-900 hover:text-gray-800">Log In
-                        </a>
-                      </Link>
-                      <Link href="/sign-up">
-                        <a className="flex items-center text-sm text-gray-900 hover:text-gray-800">Sign Up</a>
-                      </Link>
-
-                    </>
-                  ) : (
-                    <>
-                      <Link href="/members">
-                        <a className="flex items-center text-sm text-gray-900 hover:text-gray-800">Members</a>
-                      </Link>
-                      <Link href="/log-out">
-                        <a className="flex items-center text-sm text-gray-900 hover:text-gray-800">Log Out</a>
-                      </Link>
-                    </>
-                  )}
-                </div>
-
-                {/* Cart */}
-                <div className="ml-4 flow-root lg:ml-6">
-                  <Link href="/cart" legacyBehavior passHref>
-                    <a className="group -m-2 flex items-center p-2">
-                      <ShoppingBagIcon
-                        className="h-6 w-6 flex-shrink-0 text-gray-900 group-hover:text-gray-500"
-                        aria-hidden="true"
-                      />
-                      <span className="ml-2 text-sm text-gray-900 group-hover:text-gray-700">{cartCount}</span>
-                      <span className="sr-only">items in cart, view bag</span>
-                    </a>
-                  </Link>
-                </div>
-              </div>
+          {!loggedIn ? (
+            <div className="lg:ml-auto flex flex-col gap-5 sm:flex-row sm:basis-full sm:items-center sm:justify-end sm:mt-0 sm:pl-5">
+              <Link href="/log-in">
+                <a className="flex items-center h-full hover:bg-gray-200 px-3 py-2 text-base hover:text-gray-900 text-black">Log In
+                </a>
+              </Link>
+              <Link href="/sign-up">
+                <a className="flex items-center h-full hover:bg-gray-200 px-3 py-2 text-base hover:text-gray-900 text-black">Sign Up</a>
+              </Link>
             </div>
+          ) : (
+            <div className="lg:ml-auto flex flex-col gap-5 sm:flex-row sm:basis-full sm:items-center sm:justify-end sm:mt-0 sm:pl-5">
+              <Link href="/members">
+                <a className="flex items-center h-full hover:bg-gray-200 px-3 py-2 text-base hover:text-gray-900 text-black">Members</a>
+              </Link>
+              <Link href="/log-out">
+                <a className="flex items-center h-full hover:bg-gray-200 px-3 py-2 text-base hover:text-gray-900 text-black">Log Out</a>
+              </Link>
+            </div>
+          )}
+
+          {/* Cart */}
+          <div className="flow-root lg:ml-6 pb-5 lg:pb-0 pl-3">
+            <Link href="/cart" legacyBehavior passHref>
+              <a className="group -m-2 flex items-center p-2">
+                <ShoppingBagIcon
+                  className="h-6 w-6 flex-shrink-0 text-gray-900 group-hover:text-gray-500"
+                  aria-hidden="true"
+                />
+                <span className="ml-2 text-sm text-gray-900 group-hover:text-gray-700">{cartCount}</span>
+                <span className="sr-only">items in cart, view bag</span>
+              </a>
+            </Link>
           </div>
-        </nav>
-      </header>
-    </>
+        </div>
+      </div>
+    </nav>
   );
 }

@@ -107,6 +107,7 @@ export default function Page({ story, products }) {
 export async function getStaticProps({ params }) {
     const productsResponse = await client.query({ query: PRODUCT_QUERY })
     const products = { edges: productsResponse?.data?.products?.edges || [] };
+
     let slug = params.slug ? params.slug.join("/") : "home";
     let sbParams = {
         version: "draft", // or 'published'
@@ -117,7 +118,6 @@ export async function getStaticProps({ params }) {
     let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
     let { data: config } = await storyblokApi.get("cdn/stories/config");
     const pageCategory = data.story.content.category;
-
 
     let filteredProducts = [];
 

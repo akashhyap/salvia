@@ -4,7 +4,7 @@ import { render } from 'storyblok-rich-text-react-renderer';
 
 // @ts-ignore
 const ArticleTeaser = ({ article, slug }) => {
-  console.log("article", article);
+  // console.log("article", article);
 
   return (
     <div className="column feature">

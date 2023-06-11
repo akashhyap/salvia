@@ -30,6 +30,11 @@ import Table from "../components/Table";
 import YouTube from "../components/YouTube";
 import WooProductId from "../components/WooProductId";
 import WooProduct from "../components/WooProduct";
+import News from "../components/News";
+import Salvia from "../components/Salvia";
+import SalviaDivinorum from "../components/SalviaDivinorum";
+import Blog from "../components/Blog";
+import Dropdown from "../components/Dropdown";
 
 import "../styles/globals.css";
 
@@ -56,6 +61,11 @@ const components = {
   youtube: YouTube,
   "woo-product-id": WooProductId,
   "woo-product": WooProduct,
+  news: News,
+  salvia: Salvia,
+  "salvia-divinorum": SalviaDivinorum,
+  blog: Blog,
+  dropdown: Dropdown,
 }
 
 storyblokInit({
