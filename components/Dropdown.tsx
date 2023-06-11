@@ -5,7 +5,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
 // @ts-ignore
 const Dropdown = ({ blok }) => {
-    console.log("dropdown", blok);
+    // console.log("dropdown", blok);
 
     return (
         <div className="hs-dropdown [--strategy:static] sm:[--strategy:absolute] [--adaptive:none] lg:flex lg:items-center h-full">

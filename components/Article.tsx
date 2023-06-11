@@ -11,8 +11,8 @@ const Article = ({ blok }) => {
       <div className="container mx-auto flex px-5 py-14 items-center justify-center flex-col">
         <figure className='relative md:h-96 w-full mb-10'>
           <Image
-            alt={blok.image.alt}
-            src={blok.image.filename}
+            alt={blok?.image?.alt}
+            src={blok?.image?.filename}
             layout='fill'
             objectFit='cover'
             objectPosition='center top'

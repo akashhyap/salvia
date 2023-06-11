@@ -9,7 +9,7 @@ function classNames(...classes) {
 
 // @ts-ignore
 const Menu = ({ blok }) => {
-  console.log('menu link', blok);
+  // console.log('menu link', blok);
   
   // const router = useRouter();
 

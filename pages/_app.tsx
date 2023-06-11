@@ -35,6 +35,7 @@ import Salvia from "../components/Salvia";
 import SalviaDivinorum from "../components/SalviaDivinorum";
 import Blog from "../components/Blog";
 import Dropdown from "../components/Dropdown";
+import KratomWiki from "../components/KratomWiki";
 
 import "../styles/globals.css";
 
@@ -66,6 +67,7 @@ const components = {
   "salvia-divinorum": SalviaDivinorum,
   blog: Blog,
   dropdown: Dropdown,
+  "kratom-wiki": KratomWiki,
 }
 
 storyblokInit({

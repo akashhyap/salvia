@@ -12,7 +12,7 @@ const ArticleTeaser = ({ article, slug }) => {
         <a>
           <figure className="relative overflow-hidden rounded-xl mb-4">
             <Image
-              src={article.image.filename}
+              src={article?.image?.filename}
               alt={article.title}
               layout="responsive"
               width={11}
