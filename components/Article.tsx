@@ -9,7 +9,7 @@ const Article = ({ blok }) => {
   return (
     <section className="text-gray-600 body-font">
       <div className="container mx-auto flex px-5 py-14 items-center justify-center flex-col">
-        <figure className='relative md:h-96 w-full mb-10'>
+        <figure className='relative h-40 md:h-96 w-full mb-10'>
           <Image
             alt={blok?.image?.alt}
             src={blok?.image?.filename}
@@ -19,7 +19,7 @@ const Article = ({ blok }) => {
           />
         </figure>
         <div className="lg:w-2/3 w-full">
-          <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">
+          <h1 className="title-font sm:text-4xl text-3xl mb-4 px-6 xl:px-0 font-medium text-gray-900">
             {blok.title}
           </h1>
           {/* @ts-ignore */}
