@@ -37,6 +37,7 @@ import Blog from "../components/Blog";
 import Dropdown from "../components/Dropdown";
 import KratomWiki from "../components/KratomWiki";
 import Delta from "../components/Delta";
+import CBD from "../components/CBD";
 
 import "../styles/globals.css";
 
@@ -70,6 +71,7 @@ const components = {
   dropdown: Dropdown,
   "kratom-wiki": KratomWiki,
   "delta-8": Delta,
+  cbd: CBD,
 }
 
 storyblokInit({
