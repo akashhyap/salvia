@@ -37,9 +37,9 @@ import Blog from "../components/Blog";
 import Dropdown from "../components/Dropdown";
 import KratomWiki from "../components/KratomWiki";
 import Delta from "../components/Delta";
-import CBD from "../components/CBD"
 import SalviaTripReport from "../components/SalviaTripReport";
 import Media from "../components/Media";
+import Cbd from "../components/Cbd";
 
 import "../styles/globals.css";
 
@@ -74,7 +74,7 @@ const components = {
   "kratom-wiki": KratomWiki,
   "delta-8": Delta,
   "salvia-trip-report": SalviaTripReport,
-  cbd: CBD,
+  cbd: Cbd,
   media: Media,
 }
 
