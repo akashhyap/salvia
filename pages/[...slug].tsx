@@ -20,14 +20,14 @@ import DisqusComments from "../components/DisqusComments";
 export default function Page({ story, products }) {
     // console.log("inner products", products);
     console.log("inner story", story);
-    
+
     story = useStoryblokState(story);
 
     const [filters, setFilters] = useState({ category: "", stockStatus: "", priceOrder: "" });
-    const [filteredProducts, setFilteredProducts] = useState(products.edges);
+    const [filteredProducts, setFilteredProducts] = useState(() => products?.edges || []);
 
     useEffect(() => {
-        let filtered = [...products.edges]; // Use the original products array
+        let filtered = [...(products?.edges || [])];
         if (filters.category) {
             // @ts-ignore
             filtered = filtered.filter(product => product.node.productCategories.edges.some(categoryEdge => categoryEdge.node.name === filters.category));
@@ -71,9 +71,9 @@ export default function Page({ story, products }) {
                 />
             )}
 
-            <StoryblokComponent blok={story.content} all={story} />
+            <StoryblokComponent blok={story?.content} all={story} />
             {
-                story.slug === 'shop' ?
+                story?.slug === 'shop' ?
                     <div className="max-w-7xl mx-auto">
                         {/* Filter UI */}
                         <div className="flex justify-end px-6 xl:px-0 pt-10 mt-10 border-t">
@@ -103,26 +103,27 @@ export default function Page({ story, products }) {
         </>
     );
 }
+
 // @ts-ignore
 export async function getStaticProps({ params }) {
     const productsResponse = await client.query({ query: PRODUCT_QUERY })
     const products = { edges: productsResponse?.data?.products?.edges || [] };
 
-    let slug = params.slug ? params.slug.join("/") : "home";
+    const slug = params.slug ? params.slug : ['home'];
     let sbParams = {
         version: "draft", // or 'published'
         resolve_links: "url",
     };
     const storyblokApi = getStoryblokApi();
     // @ts-ignore
-    let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
+    let { data } = await storyblokApi.get(`cdn/stories/${slug.join('/')}`, sbParams);
     let { data: config } = await storyblokApi.get("cdn/stories/config");
     const pageCategory = data.story.content.category;
 
     let filteredProducts = [];
 
     // If the page is 'shop', return all products
-    if (slug === 'shop') {
+    if (slug.join('/') === 'shop') {
         filteredProducts = products.edges;
     }
     // If the page has a category, return products that match the category
@@ -138,7 +139,6 @@ export async function getStaticProps({ params }) {
     else {
         filteredProducts = [];
     }
-
     return {
         props: {
             products: { edges: filteredProducts },
@@ -149,41 +149,33 @@ export async function getStaticProps({ params }) {
         revalidate: 3600,
     };
 }
+
+
+
 export async function getStaticPaths() {
     const storyblokApi = getStoryblokApi();
-    let { data } = await storyblokApi.get("cdn/links/");
+    let { data } = await storyblokApi.get("cdn/links/", {
+        version: 'draft'
+    });
+
+
     // @ts-ignore
     let paths = [];
-    const promises = Object.keys(data.links).map(async (linkKey) => {
+    Object.keys(data.links).forEach((linkKey) => {
         if (data.links[linkKey].slug === "home") {
             return;
         }
 
         const slug = data.links[linkKey].slug;
         let splittedSlug = slug.split("/");
+        paths.push({ params: { slug: splittedSlug } });
 
-        // If this link is a folder, fetch the articles inside it and add their paths as well
-        if (data.links[linkKey].is_folder) {
-            const { data: folderData } = await storyblokApi.get("cdn/stories", {
-                starts_with: slug,
-            });
-            // @ts-ignore
-            folderData.stories.forEach((story) => {
-                const storySlug = story.full_slug.split("/");
-                paths.push({ params: { slug: storySlug } });
-            });
-        } else {
-            paths.push({ params: { slug: splittedSlug } });
-        }
     });
-
-    // Wait for all promises to resolve
-    await Promise.all(promises);
 
     return {
         // @ts-ignore
         paths: paths,
-        fallback: false,
+        fallback: true,
     };
-}
 
+}

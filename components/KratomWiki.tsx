@@ -25,7 +25,7 @@ const KratomWiki = ({ blok }) => {
             // setArticles(data.stories);
         };
         getArticles();
-    }, [currentTag]);
+    });
 
     return (
         <div className="max-w-7xl mx-auto py-14 px-6 xl:px-0">

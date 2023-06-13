@@ -26,7 +26,7 @@ const Salvia = ({ blok }) => {
             }));
         };
         getArticles();
-    }, []);
+    });
 
     return (
         <div className="max-w-7xl mx-auto py-14 px-6 xl:px-0">
