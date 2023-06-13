@@ -4,7 +4,7 @@ import { getStoryblokApi, storyblokEditable } from "@storyblok/react";
 import { useState, useEffect } from "react";
 
 // @ts-ignore
-const Cbd = ({ blok }) => {
+const CbdComponent = ({ blok }) => {
     // console.log("all articles", blok);
 
     const [articles, setArticles] = useState([]);
@@ -15,7 +15,7 @@ const Cbd = ({ blok }) => {
             const storyblokApi = getStoryblokApi();
             const { data } = await storyblokApi.get(`cdn/stories`, {
                 version: "draft", // or 'published'
-                starts_with: 'media/',
+                starts_with: 'cbd/',
                 // @ts-ignore
                 is_startpage: false
             });
@@ -40,4 +40,4 @@ const Cbd = ({ blok }) => {
         </div>
     );
 };
-export default Cbd;
+export default CbdComponent;
