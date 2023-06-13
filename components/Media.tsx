@@ -4,7 +4,7 @@ import { getStoryblokApi, storyblokEditable } from "@storyblok/react";
 import { useState, useEffect } from "react";
 
 // @ts-ignore
-const SalviaDivinorum = ({ blok }) => {
+const Media = ({ blok }) => {
     // console.log("all articles", blok);
 
     const [articles, setArticles] = useState([]);
@@ -15,7 +15,7 @@ const SalviaDivinorum = ({ blok }) => {
             const storyblokApi = getStoryblokApi();
             const { data } = await storyblokApi.get(`cdn/stories`, {
                 version: "draft", // or 'published'
-                starts_with: 'salvia-divinorum/',
+                starts_with: 'media/',
                 // @ts-ignore
                 is_startpage: false
             });
@@ -40,4 +40,4 @@ const SalviaDivinorum = ({ blok }) => {
         </div>
     );
 };
-export default SalviaDivinorum;
+export default Media;
