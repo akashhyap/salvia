@@ -18,8 +18,8 @@ import DisqusComments from "../components/DisqusComments";
 
 // @ts-ignore
 export default function Page({ story, products }) {
-    // console.log("inner products", products);
-    console.log("inner story", story);
+    console.log("inner products", products);
+    // console.log("inner story", story);
 
     story = useStoryblokState(story);
 
@@ -30,7 +30,7 @@ export default function Page({ story, products }) {
         let filtered = [...(products?.edges || [])];
         if (filters.category) {
             // @ts-ignore
-            filtered = filtered.filter(product => product.node.productCategories.edges.some(categoryEdge => categoryEdge.node.name === filters.category));
+            filtered = filtered.filter(product => product.node.productCategories.edges.some(categoryEdge => categoryEdge.node.slug === filters.category));
         }
         // Update the state
         setFilteredProducts(filtered);
@@ -71,7 +71,8 @@ export default function Page({ story, products }) {
                 />
             )}
 
-            <StoryblokComponent blok={story?.content} all={story} />
+            {story ? <StoryblokComponent blok={story.content} all={story} /> : <div className="max-w-2xl p-5">Loading...</div>}
+
             {
                 story?.slug === 'shop' ?
                     <div className="max-w-7xl mx-auto">
@@ -81,8 +82,12 @@ export default function Page({ story, products }) {
                                 Select Category:
                                 <select value={filters.category} onChange={handleCategoryChange} className="border border-slate-800 rounded-sm ml-2">
                                     <option value="">All</option>
-                                    <option value="Salvia">Salvia</option>
-                                    <option value="Kratom">Kratom</option>
+                                    <option value="salvia">Salvia</option>
+                                    <option value="kratom">Kratom</option>
+                                    <option value="buy-salvia-extract">Buy Salvia Extract</option>
+                                    <option value="black-friday-opms-kratom-deals">Black Friday OPMS Kratom Deals</option>
+                                    <option value="black-friday-rh-kratom-deals">Black Friday RH Kratom Deals</option>
+                                    <option value="party-pack">Party Pack</option>
                                 </select>
                             </label>
                         </div>
@@ -105,7 +110,7 @@ export default function Page({ story, products }) {
 }
 
 // @ts-ignore
-export async function getStaticProps({ params }) {
+export async function getServerSideProps({ params }) {
     const productsResponse = await client.query({ query: PRODUCT_QUERY })
     const products = { edges: productsResponse?.data?.products?.edges || [] };
 
@@ -119,6 +124,7 @@ export async function getStaticProps({ params }) {
     let { data } = await storyblokApi.get(`cdn/stories/${slug.join('/')}`, sbParams);
     let { data: config } = await storyblokApi.get("cdn/stories/config");
     const pageCategory = data.story.content.category;
+    // console.log("pageCategory", pageCategory);
 
     let filteredProducts = [];
 
@@ -131,7 +137,7 @@ export async function getStaticProps({ params }) {
         filteredProducts = products.edges.filter(
             (product: { node: { productCategories: { edges: any[]; }; }; }) =>
                 product.node.productCategories.edges.some(
-                    (categoryEdge) => categoryEdge.node.name.toLowerCase() === pageCategory
+                    (categoryEdge) => categoryEdge.node.slug === pageCategory
                 )
         );
     }
@@ -146,36 +152,5 @@ export async function getStaticProps({ params }) {
             key: data ? data.story.id : false,
             config: config ? config.story : false,
         },
-        revalidate: 3600,
     };
-}
-
-
-
-export async function getStaticPaths() {
-    const storyblokApi = getStoryblokApi();
-    let { data } = await storyblokApi.get("cdn/links/", {
-        version: 'draft'
-    });
-
-
-    // @ts-ignore
-    let paths = [];
-    Object.keys(data.links).forEach((linkKey) => {
-        if (data.links[linkKey].slug === "home") {
-            return;
-        }
-
-        const slug = data.links[linkKey].slug;
-        let splittedSlug = slug.split("/");
-        paths.push({ params: { slug: splittedSlug } });
-
-    });
-
-    return {
-        // @ts-ignore
-        paths: paths,
-        fallback: true,
-    };
-
 }

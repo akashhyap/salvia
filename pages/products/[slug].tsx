@@ -130,27 +130,27 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
     <>
       <Seo seo={product?.seo} uri={product?.uri} />
       <ProductJsonLd
-          productName={product.name}
-          images={[product.image?.sourceUrl || ""]}
-          description={product.description}
-          brand={product?.productBrand?.brand}
-          offers={[
-            {
-              price: selectedVariation ? selectedVariation.price.toString() : product.regularPrice,
-              priceCurrency: product.currency,
-              availability: product.stockStatus === "IN_STOCK" ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock',
-              url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}${product.uri}`, // make sure to set your frontend URL in environment variables
-              seller: {
-                name: "Salvia Extract",
-              },
+        productName={product.name}
+        images={[product.image?.sourceUrl || ""]}
+        description={product.description}
+        brand={product?.productBrand?.brand}
+        offers={[
+          {
+            price: selectedVariation ? selectedVariation?.price?.toString() : product.regularPrice,
+            priceCurrency: product.currency,
+            availability: product.stockStatus === "IN_STOCK" ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock',
+            url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}${product.uri}`, // make sure to set your frontend URL in environment variables
+            seller: {
+              name: "Salvia Extract",
             },
-          ]}
-          // Optional product properties
-          sku={product.sku}
+          },
+        ]}
+        // Optional product properties
+        sku={product.sku}
         // mpn="925872"
         reviews={reviews}
         aggregateRating={aggregateRating}
-        />
+      />
       <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto mb-10 mt-10 px-6 xl:px-0">
         <div className="relative">
           <figure className="min-h-80 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-full">
@@ -243,14 +243,28 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
 
           {product.__typename === "VariableProduct" && selectedVariation?.description ? (
             <div className="mt-6 text-slate-800">
-              <span className="bg-gray-200 text-gray-900 text-sm font-bold py-1.5 px-3 rounded-full">{selectedVariation?.description}</span>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(selectedVariation?.description),
+                }}
+                className="bg-gray-200 text-gray-900 text-sm font-bold py-1.5 px-3 rounded-full"
+              />
             </div>
           ) : null}
 
           <div className="mt-8 mb-5">
-            <p className="font-bold">SKU:</p>
-            {/* @ts-ignore */}
-            {product.__typename === "SimpleProduct" ? product.sku : selectedVariation ? selectedVariation?.sku : product.sku}
+            {
+              // Show the SKU section only when 'product.sku' or 'selectedVariation?.sku' is available
+              // @ts-ignore
+              (product.sku || selectedVariation?.sku) && (
+                <div className="mt-8 mb-5">
+                  <p className="font-bold">SKU:</p>
+                  {/* @ts-ignore */}
+                  {product.__typename === "SimpleProduct" ? product.sku : selectedVariation ? selectedVariation?.sku : product.sku}
+                </div>
+              )
+            }
+
           </div>
 
           {product.shortDescription && <p className="font-bold">Short Description:</p>}

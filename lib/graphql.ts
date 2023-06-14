@@ -20,7 +20,7 @@ export const GET_OPTIONS = gql`
 
 export const PRODUCT_QUERY = gql`
   query {
-    products(first: 10) {
+    products(first: 21) {
       edges {
         node {
           id
