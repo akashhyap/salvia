@@ -40,7 +40,7 @@ export default function MembersContent() {
   useEffect(() => {
     const fetchCustomerData = async () => {
       const { data } = await client.query({ query: GET_CUSTOMER_ORDERS });
-      // console.log("data", data);
+      console.log("data", data);
       const decodedCustomerId = decodeCustomerId(data?.customer?.id);
       // Set the decoded customerId to the state
       setCustomerId(decodedCustomerId);
@@ -67,10 +67,10 @@ export default function MembersContent() {
             let idToCheck = item?.product?.node?.id;
             let variation;
             // Check if the product is a VariableProduct and it has variations
-            if (item.product.node.__typename === 'VariableProduct' && item.product.node.variations.nodes.length > 0) {
+            if (item.product?.node?.__typename === 'VariableProduct' && item.product?.node?.variations?.nodes.length > 0) {
               // Find the variation associated with this line item
               // @ts-ignore
-              variation = item.product.node.variations.nodes.find(variant => variant.databaseId === item.variation?.node?.databaseId);
+              variation = item.product?.node?.variations?.nodes.find(variant => variant.databaseId === item.variation?.node?.databaseId);
               // console.log("variation", variation);
               if (variation) {
                 idToCheck = variation.databaseId;
@@ -96,6 +96,7 @@ export default function MembersContent() {
 
               {/* @ts-ignore */}
               {uniqueProducts.map((item: any, index) => {
+                
                 let attributeLabel = "";
                 if (item.variation && item.variation.attributes && item.variation.attributes.nodes.length > 0) {
                   attributeLabel = item.variation.attributes.nodes[0].label;
@@ -103,10 +104,10 @@ export default function MembersContent() {
                 let variationName = item.variation ? item.variation.name : "";
                 let variationValue = variationName.split(" - ")[1] || "";
                 // Extract the featured image URL
-                let featuredImageUrl = item.product.node.featuredImage?.node?.sourceUrl;
+                let featuredImageUrl = item.product?.node?.featuredImage?.node?.sourceUrl;
 
                 return (
-                  <div key={`${item.variation ? item.variation.databaseId : item.product.node.databaseId}-${index}`} className="flex flex-row justify-between border-b border-gray-200 py-5" data-item={item.variation ? item.variation.databaseId : item.product.node.databaseId}>
+                  <div key={`${item.variation ? item.variation.databaseId : item.product?.node?.databaseId}-${index}`} className="flex flex-row justify-between border-b border-gray-200 py-5" data-item={item.variation ? item.variation.databaseId : item.product?.node?.databaseId}>
                     <div className="w-1/2 flex items-center">
                       {/* Display the featured image if it exists */}
                       <figure className='relative bg-blue-300 p-1 flex items-center justify-center rounded-md h-[60px] w-[60px]'>
@@ -114,7 +115,7 @@ export default function MembersContent() {
 
                           <Image
                             src={featuredImageUrl}
-                            alt={item.product.node.name}
+                            alt={item.product?.node.name}
                             width={60}
                             height={60}
                             className='cursor-pointer'
@@ -124,7 +125,7 @@ export default function MembersContent() {
 
                       </figure>
                       <div className='pl-3'>
-                        <p className="font-semibold text-md pb-2">{item.product.node.name}</p>
+                        <p className="font-semibold text-md pb-2">{item.product?.node?.name}</p>
                         {attributeLabel ? (<p className="text-gray-500">{attributeLabel}: {variationValue} | Quantity: {item.quantity}</p>) : (
                           <p className="text-gray-500">Quantity: {item.quantity}</p>
                         )}
@@ -132,9 +133,9 @@ export default function MembersContent() {
                     </div>
 
                     <div className="w-1/4 text-right">
-                      <p className="font-semibold">{item.variation ? item.variation.price : item.product.node.price}</p>
+                      <p className="font-semibold">{item.variation ? item.variation.price : item.product?.node?.price}</p>
                       <p>
-                        <Link href={`products/${item.product.node.slug}`} passHref legacyBehavior>
+                        <Link href={`products/${item.product?.node?.slug}`} passHref legacyBehavior>
                           <span className='text-xs cursor-pointer bg-blue-300 p-1 px-2 rounded-md'>View Product</span>
                         </Link>
                       </p>
