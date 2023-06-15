@@ -11,7 +11,7 @@ import Layout from "../../components/Layout";
 import { useAddToCart } from "../../hooks/useAddToCart";
 import { useCart } from "../../components/cart/CartContext";
 import Image from "next/image";
-import { GET_SITE_LOGO, GET_SINGLE_PRODUCT, GET_OPTIONS } from '../../lib/graphql';
+import { GET_SINGLE_PRODUCT } from '../../lib/graphql';
 
 import QuantitySelector from "../../components/QuantitySelector";
 import { sanitize } from "../../lib/sanitize";

@@ -87,6 +87,8 @@ export const GET_SINGLE_PRODUCT = gql`
           answer
         }
         shippingContent
+        effectsContent
+        usageAndDosageContent
       }
       onSale
       image {
