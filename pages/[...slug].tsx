@@ -18,7 +18,7 @@ import DisqusComments from "../components/DisqusComments";
 
 // @ts-ignore
 export default function Page({ story, products }) {
-    console.log("inner products", products);
+    // console.log("inner products", products);
     // console.log("inner story", story);
 
     story = useStoryblokState(story);
@@ -66,7 +66,7 @@ export default function Page({ story, products }) {
                     lastReviewed={story?.published_at}
                     reviewedBy={{
                         type: 'Person',
-                        name: 'Garmeeh',
+                        name: '',
                     }}
                 />
             )}

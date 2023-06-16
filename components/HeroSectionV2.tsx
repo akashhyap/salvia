@@ -5,10 +5,10 @@ import { render } from "storyblok-rich-text-react-renderer";
 
 // @ts-ignore
 const HeroSectionV2 = ({ blok }) => {
-    // console.log("heroSection V2:", blok);
+    console.log("heroSection V2:", blok);
     return (
         <div className="relative image-effect isolate overflow-hidden bg-gray-900 pb-16 pt-14 sm:pb-20">
-            {/* <figure className="">
+            <figure className="">
                 <Image
                     src={`${blok.image.filename}`}
                     alt=""
@@ -16,7 +16,7 @@ const HeroSectionV2 = ({ blok }) => {
                     objectFit="cover"
                     className="inset-0 -z-10 h-full w-full"
                 />
-            </figure> */}
+            </figure>
             {/* <img
                 src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply"
                 alt=""
@@ -35,9 +35,9 @@ const HeroSectionV2 = ({ blok }) => {
                 />
             </div>
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                <div className="mx-auto max-w-2xl py-24">
-                    <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-                        <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20">
+                <div className="ml-auto max-w-2xl py-24">
+                    <div className="hidden sm:mb-8 sm:flex sm:justify-end">
+                        <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-white ring-1 ring-white/10 hover:ring-white/20">
                             {blok.topContent}{' '}
                             <Link href={blok.topContentLink.cached_url} legacyBehavior>
                                 <a className="font-semibold text-white">
@@ -47,14 +47,17 @@ const HeroSectionV2 = ({ blok }) => {
                             </Link>
                         </div>
                     </div>
-                    <div className="text-center">
-                        <h1 className="text-4xl font-foregen tracking-tight text-white sm:text-5xl">
+                    <div className="text-right">
+                        {/* <h1 className="text-4xl font-foregen tracking-tight text-white sm:text-5xl">
                             {blok.title}
-                        </h1>
-                        <div className="mt-6 text-lg leading-8 text-gray-300">
+                        </h1> */}
+                        <div className="text-4xl font-foregen tracking-tight text-white sm:text-5xl">
+                            {render(blok.title)}
+                        </div>
+                        <div className="mt-6 text-lg leading-8 text-white">
                             {render(blok.subTitle)}
                         </div>
-                        <div className="relative z-20 mt-10 flex items-center justify-center gap-x-6">
+                        <div className="relative z-20 mt-10 flex items-center justify-end gap-x-6">
                             <Link href={blok.buttonLink1.cached_url} legacyBehavior>
                                 <a
                                     className="rounded-full bg-gray-200 px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
