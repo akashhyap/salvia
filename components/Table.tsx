@@ -12,7 +12,7 @@ const Table = ({ blok }) => {
         <tr>
           {/* @ts-ignore */}
           {content.thead.map((th, index) => (
-            <th key={index} className="py-4 text-black">{th.value}</th>
+            <th key={index} className="py-4 px-4 text-black">{th.value}</th>
           ))}
         </tr>
       </thead>
