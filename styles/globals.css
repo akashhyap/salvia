@@ -73,3 +73,8 @@ fieldset {
   transform: translateY(-50%);
   pointer-events: none; /* this will prevent the icon from interfering with the select box functionality */
 }
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
