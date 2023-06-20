@@ -62,7 +62,7 @@ export default function Page({ story, products }) {
             ) : (
                 <WebPageJsonLd
                     description={story?.content?.metatags?.description}
-                    id="https://www.purpule-fox.io/#corporation"
+                    id=""
                     lastReviewed={story?.published_at}
                     reviewedBy={{
                         type: 'Person',

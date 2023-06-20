@@ -90,17 +90,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     import("preline");
   }, []);
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = `https://staticw2.yotpo.com/${process.env.APP_KEY}/widget.js`; // Replace APP_KEY with your Yotpo app key
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
   return (
     <ApolloProvider client={client}>
       <AuthProvider>
