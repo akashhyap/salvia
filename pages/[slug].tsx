@@ -110,7 +110,7 @@ export default function Page({ story, products }) {
 }
 
 // @ts-ignore
-export async function getServerSideProps({ params }) {
+export async function getStaticProps({ params }) {
     const productsResponse = await client.query({ query: PRODUCT_QUERY })
     const products = { edges: productsResponse?.data?.products?.edges || [] };
 
@@ -121,7 +121,7 @@ export async function getServerSideProps({ params }) {
     };
     const storyblokApi = getStoryblokApi();
     // @ts-ignore
-    let { data } = await storyblokApi.get(`cdn/stories/${slug.join('/')}`, sbParams);
+    let { data } = await storyblokApi.get(`cdn/stories/${slug}`, sbParams);
     let { data: config } = await storyblokApi.get("cdn/stories/config");
     const pageCategory = data.story.content.category;
     // console.log("pageCategory", pageCategory);
@@ -129,7 +129,7 @@ export async function getServerSideProps({ params }) {
     let filteredProducts = [];
 
     // If the page is 'shop', return all products
-    if (slug.join('/') === 'shop') {
+    if (slug === 'shop') {
         filteredProducts = products.edges;
     }
     // If the page has a category, return products that match the category
@@ -152,5 +152,18 @@ export async function getServerSideProps({ params }) {
             key: data ? data.story.id : false,
             config: config ? config.story : false,
         },
+        revalidate: 60
+    };
+}
+
+export async function getStaticPaths() {
+    const storyblokApi = getStoryblokApi();
+    let { data } = await storyblokApi.get('cdn/links');
+
+    const paths = Object.keys(data.links).map((linkKey) => ({ params: { slug: linkKey } }));
+
+    return {
+        paths,
+        fallback: 'blocking', // or true, if you want to have fallback pages
     };
 }
