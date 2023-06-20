@@ -89,11 +89,11 @@ export async function getStaticPaths() {
         let paths: { params: { slug: string[] } }[] = [];
 
         Object.keys(data.links).forEach((linkKey) => {
-            if (data.links[linkKey].slug === "home") {
+            const slug = data.links[linkKey].slug;
+            // Exclude the base paths
+            if (slug === "home" || slug === 'cbd' || slug === 'media' || slug === 'news' || slug === 'salvia-trip-report' || slug === 'kratom-wiki' || slug === 'salvia-divinorum' || slug === 'delta-8' || slug === 'salvia') {
                 return;
             }
-            const slug = data.links[linkKey].slug;
-            // if the link is under 'kratom-wiki', add it to the paths
             if (slug.startsWith('kratom-wiki/')) {
                 paths.push({ params: { slug: slug.replace('kratom-wiki/', '') } });
             }
