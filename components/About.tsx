@@ -1,4 +1,5 @@
 import { storyblokEditable, StoryblokComponent } from "@storyblok/react";
+import Image from "next/image";
 import Link from "next/link";
 import { render } from "storyblok-rich-text-react-renderer";
 
@@ -24,11 +25,17 @@ const About = ({ blok }) => {
                 <div className="mx-auto flex max-w-7xl px-6 xl:px-0 flex-col items-center gap-x-8 gap-y-10 sm:gap-y-8 xl:flex-row xl:items-stretch">
                     <div className="-mt-8 w-full max-w-2xl xl:-mb-8 xl:w-96 xl:flex-none">
                         <div className="relative w-full aspect-[2/1] h-full md:-mx-8 xl:mx-0 xl:aspect-auto">
-                            <img
+                            <Image
                                 className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
                                 src={blok.image.filename}
                                 alt=""
+                                layout="fill"
                             />
+                            {/* <img
+                                className="absolute inset-0 h-full w-full rounded-2xl bg-gray-800 object-cover shadow-2xl"
+                                src={blok.image.filename}
+                                alt=""
+                            /> */}
                         </div>
                     </div>
                     <div className="w-full max-w-2xl xl:max-w-none xl:flex-auto xl:pl-10 xl:py-14">
@@ -37,7 +44,7 @@ const About = ({ blok }) => {
                             <div className="text-xl leading-8 text-white sm:leading-9">
                                 {render(blok.content)}
                                 <Link href={blok.link.cached_url} legacyBehavior>
-                                   <a className="hover:text-gray-300 font-normal text-lg mt-6 inline-block">More...</a>
+                                    <a className="hover:text-gray-300 font-normal text-lg mt-6 inline-block">More...</a>
                                 </Link>
                             </div>
                         </div>
