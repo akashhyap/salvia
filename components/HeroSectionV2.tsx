@@ -5,7 +5,7 @@ import { render } from "storyblok-rich-text-react-renderer";
 
 // @ts-ignore
 const HeroSectionV2 = ({ blok }) => {
-    console.log("heroSection V2:", blok);
+    // console.log("heroSection V2:", blok);
     return (
         <div className="relative image-effect isolate overflow-hidden bg-gray-900 pb-16 pt-14 sm:pb-20">
             <figure className="">

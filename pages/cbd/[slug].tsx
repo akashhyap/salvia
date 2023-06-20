@@ -56,7 +56,7 @@ export async function getStaticProps({ params }: { params: Params }) {
     try {
         const storyblokApi = getStoryblokApi();
     
-        let { data } = await storyblokApi.get(`cdn/stories/cbd/${params.slug.join('/')}`, {
+        let { data } = await storyblokApi.get(`cdn/stories/cbd/${params.slug}`, {
             version: "draft",
         });
 
@@ -94,7 +94,7 @@ export async function getStaticPaths() {
             }
             const slug = data.links[linkKey].slug;
             let splittedSlug = slug.split("/");
-            paths.push({ params: { slug: splittedSlug } });
+            paths.push({ params: { slug: splittedSlug.join('/') } });
         });
         
         return {

@@ -10,8 +10,8 @@ interface Params extends ParsedUrlQuery {
 }
 
 // @ts-ignore
-const DeltaPage = ({ story }) => {
-    // console.log("delta article detail", story);
+const SalviaDivinorumPage = ({ story }) => {
+    // console.log("Media article detail", story);
 
     const router = useRouter();
 
@@ -56,7 +56,7 @@ export async function getStaticProps({ params }: { params: Params }) {
     try {
         const storyblokApi = getStoryblokApi();
     
-        let { data } = await storyblokApi.get(`cdn/stories/delta-8/${params.slug.join('/')}`, {
+        let { data } = await storyblokApi.get(`cdn/stories/salvia-divinorum/${params.slug}`, {
             version: "draft",
         });
 
@@ -94,7 +94,7 @@ export async function getStaticPaths() {
             }
             const slug = data.links[linkKey].slug;
             let splittedSlug = slug.split("/");
-            paths.push({ params: { slug: splittedSlug } });
+            paths.push({ params: { slug: splittedSlug.join('/') } });
         });
         
         return {
@@ -111,4 +111,4 @@ export async function getStaticPaths() {
     }
 }
 
-export default DeltaPage;
+export default SalviaDivinorumPage;
