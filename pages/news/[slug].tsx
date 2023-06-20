@@ -93,8 +93,9 @@ export async function getStaticPaths() {
                 return;
             }
             const slug = data.links[linkKey].slug;
-            let splittedSlug = slug.split("/");
-            paths.push({ params: { slug: splittedSlug.join('/') } });
+            if (slug.startsWith('news/')) {
+                paths.push({ params: { slug: slug.replace('news/', '') } });
+            }
         });
         
         return {

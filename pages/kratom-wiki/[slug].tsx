@@ -93,8 +93,10 @@ export async function getStaticPaths() {
                 return;
             }
             const slug = data.links[linkKey].slug;
-            let splittedSlug = slug.split("/");
-            paths.push({ params: { slug: splittedSlug.join('/') } });
+            // if the link is under 'kratom-wiki', add it to the paths
+            if (slug.startsWith('kratom-wiki/')) {
+                paths.push({ params: { slug: slug.replace('kratom-wiki/', '') } });
+            }
         });
         
         return {
