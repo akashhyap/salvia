@@ -64,7 +64,7 @@ const CartItems = () => {
                     ? {
                         ...item,
                         quantity: data.updateItemQuantities.items[0].quantity,
-                        total: data.updateItemQuantities.items[0].total?.replace("$", ""),
+                        total: data.updateItemQuantities.items[0].total.replace("$", ""),
                     }
                     : item
             )
@@ -88,7 +88,7 @@ const CartItems = () => {
                 ? {
                     ...item,
                     quantity: data.updateItemQuantities.items[0].quantity,
-                    total: data.updateItemQuantities.items[0].total?.replace("$", ""),
+                    total: data.updateItemQuantities.items[0].total.replace("$", ""),
                 }
                 : item
         );
@@ -158,7 +158,7 @@ const CartItems = () => {
         console.log("item", item);
 
         // @ts-ignore
-        const itemTotal = parseFloat(String(item?.total || '').replace('$', ''));
+        const itemTotal = parseFloat(item.total.replace('$', ''));
         return total + itemTotal;
     }, 0);
     // console.log("cost", totalCost);
@@ -200,8 +200,7 @@ const CartItems = () => {
                                     {item.size ? <p className="mt-1 text-sm text-gray-500">{item.size}</p> : null} */}
                                             </div>
                                             {/* @ts-ignore */}
-                                            <p className="text-right text-sm font-medium text-gray-900">${String(item.total || '').replace("$", "")}</p>
-
+                                            <p className="text-right text-sm font-medium text-gray-900">${item.total.replace("$", "")}</p>
                                         </div>
 
                                         <div className="mt-4 flex items-center sm:absolute sm:left-1/2 sm:top-0 sm:mt-0 sm:block">

@@ -30,8 +30,17 @@ import Table from "../components/Table";
 import YouTube from "../components/YouTube";
 import WooProductId from "../components/WooProductId";
 import WooProduct from "../components/WooProduct";
+import News from "../components/News";
+import Salvia from "../components/Salvia";
+import SalviaDivinorum from "../components/SalviaDivinorum";
 import Blog from "../components/Blog";
 import Dropdown from "../components/Dropdown";
+import KratomWiki from "../components/KratomWiki";
+import Delta from "../components/Delta";
+import SalviaTripReport from "../components/SalviaTripReport";
+import Media from "../components/Media";
+import CbdComponent from "../components/CbdComponent";
+
 import "../styles/globals.css";
 
 const components = {
@@ -57,8 +66,16 @@ const components = {
   youtube: YouTube,
   "woo-product-id": WooProductId,
   "woo-product": WooProduct,
+  news: News,
+  salvia: Salvia,
+  "salvia-divinorum": SalviaDivinorum,
   blog: Blog,
   dropdown: Dropdown,
+  "kratom-wiki": KratomWiki,
+  "delta-8": Delta,
+  "salvia-trip-report": SalviaTripReport,
+  cbd: CbdComponent,
+  media: Media,
 }
 
 storyblokInit({
@@ -72,6 +89,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     // @ts-ignore
     import("preline");
   }, []);
+
 
   return (
     <ApolloProvider client={client}>

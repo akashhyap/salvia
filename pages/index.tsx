@@ -52,7 +52,7 @@ type HomeProps = {
 
 // @ts-ignore
 export default function Home({ story, products }: HomeProps) {
-  // console.log("home",story);
+  console.log("home",story);
 
   story = useStoryblokState(story, { customParent: "http://localhost:3010/" });
 
