@@ -77,7 +77,7 @@ const components = {
 }
 
 storyblokInit({
-  accessToken: "ueQ2wRv7HHABAaVO3Rr1lAtt",
+  accessToken: process.env.NEXT_PUBLIC_STORYBLOKINIT,
   use: [apiPlugin],
   components,
 });
