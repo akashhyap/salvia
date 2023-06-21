@@ -16,15 +16,19 @@ const Footer = ({ blok }) => {
                     <div className="pb-20 pt-16">
                         {/* Logo */}
                         <div className="md:flex md:justify-center">
-                            <Link href="/" legacyBehavior>
-                                <a className="relative w-36 h-10">
-                                    <Image
-                                        src={blok?.logo.filename}
-                                        alt="Salvia Extract"
-                                        layout="fill"
-                                    />
-                                </a>
-                            </Link>
+                            {blok?.logo ? (
+                                <Link href="/" legacyBehavior>
+                                    <a className="relative w-36 h-10">
+                                        <Image
+                                            src={blok?.logo.filename}
+                                            alt="Salvia Extract"
+                                            layout="fill"
+                                        />
+                                    </a>
+                                </Link>
+                            ) : (
+                                "SalviaExtract"
+                            )}
                         </div>
                         {/* Menu */}
                         <div className="mx-auto mt-16 max-w-5xl xl:grid xl:gap-8">

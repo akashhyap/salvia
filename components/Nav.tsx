@@ -31,17 +31,21 @@ export default function Nav({ blok }) {
     <nav className="max-w-[85rem] w-full mx-auto px-4 sm:flex sm:items-center sm:justify-between" aria-label="Global">
       <div className="flex items-center justify-between">
         <div className="ml-4 lg:ml-0">
-          <Link href="/" legacyBehavior>
-            <a className="relative py-2 inline-block">
-              <Image
-                src={blok?.logo.filename}
-                alt="Salvia Extract"
-                width={175}
-                height={60}
-                objectFit="contain"
-              />
-            </a>
-          </Link>
+          {blok?.logo ? (
+            <Link href="/" legacyBehavior>
+              <a className="relative py-2 inline-block">
+                <Image
+                  src={blok.logo.filename}
+                  alt="Salvia Extract"
+                  width={175}
+                  height={60}
+                  objectFit="contain"
+                />
+              </a>
+            </Link>
+          ) : (
+            "SalviaExtract"
+          )}
         </div>
         <div className="sm:hidden">
           <button type="button" className="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800" data-hs-collapse="#navbar-collapse-basic" aria-controls="navbar-collapse-basic" aria-label="Toggle navigation">
@@ -62,7 +66,7 @@ export default function Nav({ blok }) {
           ))}
 
           {!loggedIn ? (
-            <div className="lg:ml-auto flex flex-col gap-5 sm:flex-row sm:basis-full sm:items-center sm:justify-end sm:mt-0 sm:pl-5">
+            <div className="h-full lg:ml-auto flex flex-col gap-5 sm:flex-row sm:basis-full sm:items-center sm:justify-end sm:mt-0 sm:pl-5">
               <Link href="/log-in">
                 <a className="flex items-center h-full hover:bg-gray-200 px-3 py-2 text-base hover:text-gray-900 text-black">Log In
                 </a>
@@ -72,7 +76,7 @@ export default function Nav({ blok }) {
               </Link>
             </div>
           ) : (
-            <div className="lg:ml-auto flex flex-col gap-5 sm:flex-row sm:basis-full sm:items-center sm:justify-end sm:mt-0 sm:pl-5">
+            <div className="h-full lg:ml-auto flex flex-col gap-5 sm:flex-row sm:basis-full sm:items-center sm:justify-end sm:mt-0 sm:pl-5">
               <Link href="/members">
                 <a className="flex items-center h-full hover:bg-gray-200 px-3 py-2 text-base hover:text-gray-900 text-black">Members</a>
               </Link>

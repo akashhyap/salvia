@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import {
     useStoryblokState,
     getStoryblokApi,
@@ -16,10 +17,21 @@ import Seo from "../components/Seo";
 
 import DisqusComments from "../components/DisqusComments";
 import { ParsedUrlQuery } from "querystring";
+import SkeletonArticle from "../components/SkeletonArticle";
+import { useCallback } from 'react';
+
 
 interface Params extends ParsedUrlQuery {
     slug: string[];
 }
+interface Product {
+    node: {
+        productCategories: {
+            edges: any[];
+        };
+    };
+}
+
 
 // @ts-ignore
 export default function Page({ story, products }) {
@@ -32,18 +44,29 @@ export default function Page({ story, products }) {
     const [filteredProducts, setFilteredProducts] = useState(() => products?.edges || []);
 
     useEffect(() => {
-        let filtered = [...(products?.edges || [])];
+        let filtered: typeof products.edges = [];
         if (filters.category) {
             // @ts-ignore
-            filtered = filtered.filter(product => product.node.productCategories.edges.some(categoryEdge => categoryEdge.node.slug === filters.category));
+            filtered = products?.edges.filter(product => product.node.productCategories.edges.some(categoryEdge => categoryEdge.node.slug === filters.category));
+        } else {
+            filtered = products?.edges || [];
         }
         // Update the state
         setFilteredProducts(filtered);
     }, [filters, products]);
 
-    const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        setFilters(prevFilters => ({ ...prevFilters, category: event.target.value }));
-    };
+    const handleCategoryChange = useCallback(
+        (event: React.ChangeEvent<HTMLSelectElement>) => {
+            setFilters(prevFilters => ({ ...prevFilters, category: event.target.value }));
+        },
+        []
+    );
+
+    const router = useRouter();
+
+    if (router.isFallback) {
+        return <SkeletonArticle />;
+    }
 
     return (
         <>
@@ -53,11 +76,9 @@ export default function Page({ story, products }) {
                 <ArticleJsonLd
                     type="BlogPosting"
                     url={story?.full_slug}
-                    title="Blog headline"
+                    title={story?.name}
                     images={[
-                        'https://example.com/photos/1x1/photo.jpg',
-                        'https://example.com/photos/4x3/photo.jpg',
-                        'https://example.com/photos/16x9/photo.jpg',
+                        story.content.image.filename,
                     ]}
                     datePublished={story?.first_published_at}
                     dateModified={story?.published_at}
@@ -67,16 +88,16 @@ export default function Page({ story, products }) {
             ) : (
                 <WebPageJsonLd
                     description={story?.content?.metatags?.description}
-                    id="https://www.purpule-fox.io/#corporation"
+                    id={story?.content._uid}
                     lastReviewed={story?.published_at}
                     reviewedBy={{
                         type: 'Person',
-                        name: '',
+                        name: 'Marc',
                     }}
                 />
             )}
 
-            {story ? <StoryblokComponent blok={story.content} all={story} /> : <div className="max-w-2xl p-5">Loading...</div>}
+            <StoryblokComponent blok={story.content} all={story} />
 
             {
                 story?.slug === 'shop' ?
@@ -116,9 +137,7 @@ export default function Page({ story, products }) {
 
 
 export async function getStaticProps({ params }: { params: Params }) {
-    const productsResponse = await client.query({ query: PRODUCT_QUERY })
-    const products = { edges: productsResponse?.data?.products?.edges || [] };
-  
+
     const slug = params.slug ? params.slug : ['home'];
     let sbParams = {
         version: "draft", // or 'published'
@@ -129,27 +148,30 @@ export async function getStaticProps({ params }: { params: Params }) {
     let { data } = await storyblokApi.get(`cdn/stories/${slug.join('/')}`, sbParams);
     let { data: config } = await storyblokApi.get("cdn/stories/config");
     const pageCategory = data.story.content.category;
-    // console.log("pageCategory", pageCategory);
-  
-    let filteredProducts = [];
-  
-    // If the page is 'shop', return all products
-    if (slug.join('/') === 'shop') {
-        filteredProducts = products.edges;
+
+    let products = { edges: [] };
+    let filteredProducts: Product[] = [];
+
+    // Only fetch products if the page is 'shop' or if the pageCategory exists
+    if (slug.join('/') === 'shop' || pageCategory) {
+        const productsResponse = await client.query({ query: PRODUCT_QUERY })
+        products = { edges: productsResponse?.data?.products?.edges || [] };
+
+        // If the page is 'shop', assign all products to filteredProducts
+        if (slug.join('/') === 'shop') {
+            filteredProducts = products.edges;
+        }
+        // If the page has a category, filter the products to match the category
+        else if (pageCategory) {
+            filteredProducts = products.edges.filter(
+                (product: { node: { productCategories: { edges: any[]; }; }; }) =>
+                    product.node.productCategories.edges.some(
+                        (categoryEdge) => categoryEdge.node.slug === pageCategory
+                    )
+            );
+        }
     }
-    // If the page has a category, return products that match the category
-    else if (pageCategory) {
-        filteredProducts = products.edges.filter(
-            (product: { node: { productCategories: { edges: any[]; }; }; }) =>
-                product.node.productCategories.edges.some(
-                    (categoryEdge) => categoryEdge.node.slug === pageCategory
-                )
-        );
-    }
-    // If the page is not 'shop' and there's no category, return an empty array
-    else {
-        filteredProducts = [];
-    }
+
     return {
         props: {
             products: { edges: filteredProducts },
@@ -159,26 +181,27 @@ export async function getStaticProps({ params }: { params: Params }) {
         },
         revalidate: 1, // revalidate every 1 second
     };
-  }
-  
-  export async function getStaticPaths() {
+}
+
+
+export async function getStaticPaths() {
     const storyblokApi = getStoryblokApi();
     let { data } = await storyblokApi.get('cdn/links');
-    
+
     let paths = [];
-    for(let linkKey in data.links) {
-      if(data.links.hasOwnProperty(linkKey)) {
-        const link = data.links[linkKey];
-        const slug = link.slug;
-        // Don't include the '/' path
-        if(slug !== 'home') {
-          paths.push({ params: { slug: slug.split('/') } });
+    for (let linkKey in data.links) {
+        if (data.links.hasOwnProperty(linkKey)) {
+            const link = data.links[linkKey];
+            const slug = link.slug;
+            // Don't include the '/' path
+            if (slug !== 'home') {
+                paths.push({ params: { slug: slug.split('/') } });
+            }
         }
-      }
     }
-  
+
     return {
-      paths: paths,
-      fallback: true,
+        paths: paths,
+        fallback: true,
     }
-  }
+}

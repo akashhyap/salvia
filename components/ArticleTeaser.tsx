@@ -1,16 +1,20 @@
 import Image from "next/image";
 import Link from "next/link";
 import { render } from 'storyblok-rich-text-react-renderer';
+import SkeletonImage from "./SkeletonImage";
+import { useState } from "react";
 
 // @ts-ignore
 const ArticleTeaser = ({ article, slug }) => {
   // console.log("article", article);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <div className="column feature">
       <Link href={slug} legacyBehavior>
         <a>
           <figure className="relative overflow-hidden rounded-xl mb-4">
+            {!imageLoaded && <SkeletonImage />}
             <Image
               src={article?.image?.filename}
               alt={article.title}
@@ -19,6 +23,7 @@ const ArticleTeaser = ({ article, slug }) => {
               height={6}
               objectFit="cover"
               className="object-center"
+              onLoadingComplete={() => setImageLoaded(true)}
             />
           </figure>
         </a>
