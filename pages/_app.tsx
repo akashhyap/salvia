@@ -9,7 +9,6 @@ import { useEffect } from "react";
 
 import Layout from "../components/Layout";
 import Page from "../components/Page";
-import HeroSection from "../components/HeroSection";
 import Content from "../components/Content";
 import ImageTextSection from "../components/ImageTextSection";
 import MainTitle from "../components/MainTitle";
@@ -51,7 +50,6 @@ const components = {
   imageTextSection: ImageTextSection,
   "all-articles": AllArticles,
   Article,
-  HeroSection,
   HeroSectionV2,
   footerColumn: FooterColumn,
   footerMenu: FooterMenu,
