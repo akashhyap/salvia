@@ -67,10 +67,10 @@ const Media = ({ blok }: { blok: Blok }) => {
         <div className="max-w-7xl mx-auto py-14 px-6 xl:px-0">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-7">{blok.title}</h1>
             <TransitionGroup className="grid w-full grid-cols-1 gap-12 lg:grid-cols-3">
-                {articles.map((article) => (
+                {articles.map((article, index) => (
                     <CSSTransition key={article.uuid} timeout={500} classNames="article">
                         <Fragment>
-                            {article.content.component !== 'page' && <ArticleTeaser article={article.content} slug={article.full_slug} />}
+                            {article.content.component !== 'page' && <ArticleTeaser article={article.content} slug={article.full_slug} isPriority={index === 0} />}
                         </Fragment>
                     </CSSTransition>
                 ))}

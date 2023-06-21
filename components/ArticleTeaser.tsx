@@ -5,7 +5,7 @@ import SkeletonImage from "./SkeletonImage";
 import { useState } from "react";
 
 // @ts-ignore
-const ArticleTeaser = ({ article, slug }) => {
+const ArticleTeaser = ({ article, slug, isPriority }) => {
   // console.log("article", article);
   const [imageLoaded, setImageLoaded] = useState(false);
 
@@ -24,6 +24,7 @@ const ArticleTeaser = ({ article, slug }) => {
               objectFit="cover"
               className="object-center"
               onLoadingComplete={() => setImageLoaded(true)}
+              priority={isPriority}
             />
           </figure>
         </a>
