@@ -15,6 +15,7 @@ import { ArticleJsonLd, WebPageJsonLd } from 'next-seo';
 import Seo from "../components/Seo";
 
 import DisqusComments from "../components/DisqusComments";
+import { ParsedUrlQuery } from "querystring";
 
 interface Params extends ParsedUrlQuery {
     slug: string[];
