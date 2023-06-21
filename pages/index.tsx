@@ -10,36 +10,14 @@ import { useEffect } from 'react';
 import { useMutation } from "@apollo/client";
 
 import { client } from '../lib/apolloClient';
-import Products from '../components/products';
-import { PRODUCT_QUERY, LOG_OUT } from '../lib/graphql';
+
+import { LOG_OUT } from '../lib/graphql';
 
 import { GET_USER } from '../hooks/useAuth';
 import Link from "next/link";
 
-type Product = {
-  id: string;
-  slug: string;
-  name: string;
-  type: string;
-  databaseId: number;
-  shortDescription: string;
-  image: {
-    id: string;
-    sourceUrl: string;
-    altText: string;
-  };
-  onSale: boolean;
-  stockStatus: string;
-  price: string;
-  regularPrice: string;
-  salePrice: string;
-};
+
 type HomeProps = {
-  products: {
-    edges: {
-      node: Product;
-    }[];
-  };
   siteLogo: string;
   topInformationBar?: string;
   heroGallery?: { sourceUrl: string }[];
@@ -51,16 +29,10 @@ type HomeProps = {
 };
 
 // @ts-ignore
-export default function Home({ story, products }: HomeProps) {
-  console.log("home",story);
+export default function Home({ story }: HomeProps) {
+  // console.log("home",story);
 
   story = useStoryblokState(story, { customParent: "http://localhost:3010/" });
-
-  // @ts-ignore
-  story.content.body = story.content.body.map(blok => ({
-    ...blok,
-    products,
-  }));
 
   return (
     <>
@@ -96,9 +68,6 @@ export default function Home({ story, products }: HomeProps) {
 }
 
 export async function getStaticProps() {
-  const productsResponse = await client.query({ query: PRODUCT_QUERY })
-  const products = { edges: productsResponse?.data?.products?.edges || [] };
-
   let slug = "home";
 
   let sbParams: {
@@ -115,7 +84,6 @@ export async function getStaticProps() {
 
   return {
     props: {
-      products,
       story: data ? data.story : false,
       key: data ? data.story.id : false,
       config: config ? config.story : false,

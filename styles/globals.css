@@ -78,3 +78,13 @@ fieldset {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+.article-enter {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.article-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}

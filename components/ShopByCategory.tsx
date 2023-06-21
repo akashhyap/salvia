@@ -5,7 +5,7 @@ import Image from "next/image";
 
 //@ts-ignore
 const ShopByCategory = ({ blok }) => {
-    console.log("category", blok);
+    // console.log("category", blok);
 
     return (
         <section aria-labelledby="category-heading" className="relative px-6 xl:px-0">

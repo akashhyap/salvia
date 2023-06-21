@@ -82,6 +82,7 @@ storyblokInit({
   components,
 });
 
+
 export default function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     // @ts-ignore

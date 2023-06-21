@@ -1,16 +1,38 @@
 import Link from "next/link";
 import Product from "./products/product";
-
+import { PRODUCT_QUERY } from "../lib/graphql";
+import { useEffect, useState } from "react";
+import { client } from '../lib/apolloClient';
 //@ts-ignore
 const TrendingProducts = ({ blok }) => {
   // console.log("trending products", blok);
+
+  const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const productsResponse = await client.query({ query: PRODUCT_QUERY });
+      const productsData = { edges: productsResponse?.data?.products?.edges || [] };
+      //@ts-ignore
+      setProducts(productsData);
+    }
+
+    fetchProducts();
+  }, []);
+
+  // Ensure products data is loaded before rendering the component
+  if (!products) {
+    return <div>Loading...</div>;
+  }
+
   //@ts-ignore
-  const trendingProducts = blok.products.edges.filter((product) =>
+  const trendingProducts = products.edges.filter((product) =>
     product.node.productCategories.edges.some(
       //@ts-ignore
       (categoryEdge) => categoryEdge.node.slug === blok.category
     )
   );
+
 
   return (
     <>
