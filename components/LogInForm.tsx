@@ -76,10 +76,10 @@ export default function LogInForm() {
       <form method="post" onSubmit={handleSubmit} className="space-y-6">
         <fieldset disabled={loading}>
           <div>
-            <label htmlFor="log-in-email" className="block text-sm font-medium leading-6 text-gray-900">Email</label>
+            <label htmlFor="logEmail" className="block text-sm font-medium leading-6 text-gray-900">Email</label>
             <div className="relative mt-2">
               <input
-                id="log-in-email"
+                id="logEmail"
                 type="email"
                 name="email"
                 autoComplete="username"
@@ -95,7 +95,7 @@ export default function LogInForm() {
           </div>
           <div className="mt-2">
             <div className="flex items-center justify-between">
-              <label htmlFor="log-in-password" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="logPassword" className="block text-sm font-medium leading-6 text-gray-900">
                 Password
               </label>
               <div className="text-sm">
@@ -106,7 +106,7 @@ export default function LogInForm() {
             </div>
             <div className="relative mt-2">
               <input
-                id="log-in-password"
+                id="logPassword"
                 type="password"
                 name="password"
                 autoComplete="current-password"
