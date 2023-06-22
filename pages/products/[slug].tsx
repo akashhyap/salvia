@@ -86,7 +86,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
       document.body.removeChild(script);
     };
   }, []);
-
+  
   const [selectedVariationId, setSelectedVariationId] = useState<number | "">("");
   const [selectedVariation, setSelectedVariation] = useState<Variation | null>(null);
   const [isSelected, setIsSelected] = useState(true);
@@ -136,7 +136,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
       console.error('Failed to add item to cart:', error);
     }
   };
-
+  
 
   return (
     <>
@@ -160,8 +160,8 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
         // Optional product properties
         sku={product.sku}
         // mpn="925872"
-        reviews={reviews}
-        aggregateRating={aggregateRating}
+        // reviews={reviews}
+        // aggregateRating={aggregateRating}
       />
       <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto mb-10 mt-10 px-6 xl:px-0">
         <div className="relative">
@@ -179,11 +179,11 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">{product.name}</h1>
           {/* Ratings */}
-          <div className="mt-2.5 mb-3">
+          {/* <div className="mt-2.5 mb-3">
             <div className="yotpo bottomLine"
               data-yotpo-product-id={product.databaseId}>
             </div>
-          </div>
+          </div> */}
           {/* Brand and Stock information */}
           <div className="flex items-center my-3">
             {product?.productBrand?.brand && <span className={`bg-gray-200 text-gray-900 text-xs py-1.5 px-3 ${product?.productBrand?.brand ? 'mr-2' : 'mr-0'} rounded-full`}>{product?.productBrand?.brand}</span>}
@@ -293,7 +293,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
       <ProductFullDescription product={product} />
 
       {/* Review Widget */}
-      <div
+      {/* <div
         className="max-w-7xl mx-auto px-6 xl:px-0 mt-16 md:mb-20 lg:mb-28 yotpo yotpo-main-widget"
         data-product-id={product.databaseId}
         data-price={product.regularPrice}
@@ -301,7 +301,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
         data-name={product.name}
         data-url={product.slug}
         data-image-url={product.image?.sourceUrl}
-      />
+      /> */}
 
     </>
   );
@@ -309,74 +309,60 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
 
 // Define your helper functions
 //@ts-ignore
-function formatReviews(reviews) {
-  //@ts-ignore
-  return reviews.map(review => ({
-    author: review.user.display_name,
-    datePublished: review.created_at,
-    reviewBody: review.content,
-    name: review.title,
-    reviewRating: {
-      bestRating: '5',
-      ratingValue: review.score.toString(),
-      worstRating: '1',
-    },
-    publisher: {
-      type: 'Organization',
-      name: 'Salvia Extract',
-    },
-  }));
-}
+// function formatReviews(reviews) {
+//   //@ts-ignore
+//   return reviews.map(review => ({
+//     author: review.user.display_name,
+//     datePublished: review.created_at,
+//     reviewBody: review.content,
+//     name: review.title,
+//     reviewRating: {
+//       bestRating: '5',
+//       ratingValue: review.score.toString(),
+//       worstRating: '1',
+//     },
+//     publisher: {
+//       type: 'Organization',
+//       name: 'Salvia Extract',
+//     },
+//   }));
+// }
 
 //@ts-ignore
-function calculateAggregateRating(reviews) {
-  return {
-    //@ts-ignore
-    ratingValue: (reviews.reduce((a, b) => a + b.score, 0) / reviews.length).toString(),
-    reviewCount: reviews.length.toString(),
-  };
-}
+// function calculateAggregateRating(reviews) {
+//   return {
+//     //@ts-ignore
+//     ratingValue: (reviews.reduce((a, b) => a + b.score, 0) / reviews.length).toString(),
+//     reviewCount: reviews.length.toString(),
+//   };
+// }
 
 export async function getStaticProps({ params }: { params: Params }) {
-  console.log('Fetching product...');
-
   const productResponse = await client.query({ query: GET_SINGLE_PRODUCT, variables: { id: params.slug } })
   const product = productResponse?.data?.product;
-  console.log('Product fetched.');
 
   const storyblokApi = getStoryblokApi();
-
-
-
-  console.log('Fetching config...');
-
-
   // @ts-ignore
   let { data: config } = await storyblokApi.get("cdn/stories/config");
-  console.log('Config fetched.');
 
-  console.log('Fetching reviews...');
   // Fetch Reviews
-  const reviewResponse = await fetch(`https://api.yotpo.com/v1/widget/${process.env.APP_KEY}/products/${product.databaseId}/reviews.json`);
+  // const reviewResponse = await fetch(`https://api.yotpo.com/v1/widget/${process.env.APP_KEY}/products/${product.databaseId}/reviews.json`);
 
-  console.log('Reviews fetched.');
+  // if (!reviewResponse.ok) {
+  //   throw new Error(`API request failed with status ${reviewResponse.status}`);
+  // }
 
-
-  if (!reviewResponse.ok) {
-    throw new Error(`API request failed with status ${reviewResponse.status}`);
-  }
-
-  const reviewData = await reviewResponse.json()
-  const reviews = reviewData.response.reviews;
-  const formattedReviews = formatReviews(reviews);
-  const aggregateRating = calculateAggregateRating(reviews);
+  // const reviewData = await reviewResponse.json()
+  // const reviews = reviewData.response.reviews;
+  // const formattedReviews = formatReviews(reviews);
+  // const aggregateRating = calculateAggregateRating(reviews);
 
   return {
     props: {
       product,
       config: config ? config.story : false,
-      reviews: formattedReviews,
-      aggregateRating,
+      // reviews: formattedReviews,
+      // aggregateRating,
     },
   };
 }
