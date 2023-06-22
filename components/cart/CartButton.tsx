@@ -19,7 +19,7 @@ const CheckoutButton: React.FC = () => {
   });
 
   useEffect(() => {
-    if (!loading && !error && data?.customer?.id && data.customer.id !== "") {
+    if (!loading && !error && data?.customer?.id && data.customer.id !== "" && data.customer.id !== "guest") {
       try {
         console.log('Attempting to decode customer ID...');
         const decodedCustomerId = atob(data?.customer?.id);
@@ -29,7 +29,7 @@ const CheckoutButton: React.FC = () => {
       } catch (error) {
         console.error("Error decoding customer ID:", error);
       }
-    } else {
+    } else if (data?.customer?.id === "guest") {
       console.log('Attempting to get session from local storage...');
       const jwtSession = window.localStorage.getItem("woo-session");
       console.log("jwtSession", jwtSession);
@@ -38,7 +38,7 @@ const CheckoutButton: React.FC = () => {
           console.log('Attempting to decode JWT session...');
           const decoded = jwtDecode(jwtSession);
           console.log("decoded", decoded);
-
+  
           // @ts-ignore
           if (typeof decoded.data.customer_id === "string") {
             console.log('Setting session with decoded session ID...');
@@ -53,7 +53,7 @@ const CheckoutButton: React.FC = () => {
       }
     }
   }, [loading, error, data]);
-
+  
   useEffect(() => {
     console.log("Session ID updated: ", session);
   });

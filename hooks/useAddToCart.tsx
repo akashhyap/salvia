@@ -34,6 +34,7 @@ mutation AddToCart($productId: Int!, $variationId: Int, $quantity: Int!) {
           ... on SimpleProduct {
             onSale
             stockStatus
+            stockQuantity
             price
             regularPrice
             salePrice
@@ -41,6 +42,7 @@ mutation AddToCart($productId: Int!, $variationId: Int, $quantity: Int!) {
           ... on VariableProduct {
             onSale
             stockStatus
+            stockQuantity
             price
             regularPrice
             salePrice

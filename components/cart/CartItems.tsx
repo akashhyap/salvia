@@ -36,11 +36,24 @@ const CartItems = () => {
             console.log("Server cart items:", data.cart.contents.nodes);
             if (userLoggedIn) {
                 await updateCartData();
-                setFetchedCartItems(data.cart.contents.nodes);
+                // Convert item.total to a string
+                {/* @ts-ignore */ }
+                const convertedItems = data.cart.contents.nodes.map((item) => ({
+                    ...item,
+                    total: typeof item.total === 'number' ? item.total.toString() : item.total,
+                }));
+                setFetchedCartItems(convertedItems);
             } else {
-                setFetchedCartItems(cartItems);
+                // Convert item.total to a string for local cart items too
+                const convertedItems = cartItems.map((item) => ({
+                    ...item,
+                    total: typeof item.total === 'number' ? item.total.toString() : item.total,
+                }));
+                {/* @ts-ignore */ }
+                setFetchedCartItems(convertedItems);
             }
         };
+
         if (userLoggedIn) {
             fetchCartItems();
         } else {
@@ -56,21 +69,17 @@ const CartItems = () => {
             mutation: UPDATE_CART_ITEM,
             variables: { items: itemId, quantity: item.quantity + 1 },
         });
-        const updatedItems = fetchedCartItems.map((item) => {
-            console.log("cart updatedItems", item);
-
-            return (
-                item.key === itemId
-                    ? {
-                        ...item,
-                        quantity: data.updateItemQuantities.items[0].quantity,
-                        total: data.updateItemQuantities.items[0].total.replace("$", ""),
-                    }
-                    : item
-            )
-        }
-
-        );
+        const updatedItems = fetchedCartItems.map((item) => (
+            item.key === itemId
+                ? {
+                    ...item,
+                    quantity: data.updateItemQuantities.items[0].quantity,
+                    total: typeof data.updateItemQuantities.items[0].total === 'number'
+                        ? data.updateItemQuantities.items[0].total.toString()
+                        : data.updateItemQuantities.items[0].total,
+                }
+                : item
+        ));
         setFetchedCartItems(updatedItems);
         if (!userLoggedIn) {
             setCartItems(updatedItems);
@@ -88,7 +97,9 @@ const CartItems = () => {
                 ? {
                     ...item,
                     quantity: data.updateItemQuantities.items[0].quantity,
-                    total: data.updateItemQuantities.items[0].total.replace("$", ""),
+                    total: typeof data.updateItemQuantities.items[0].total === 'number'
+                        ? data.updateItemQuantities.items[0].total.toString()
+                        : data.updateItemQuantities.items[0].total,
                 }
                 : item
         );
@@ -155,12 +166,19 @@ const CartItems = () => {
     // Calculate total cost
     // @ts-ignore
     const totalCost = fetchedCartItems.reduce((total, item) => {
-        console.log("item", item);
-
-        // @ts-ignore
-        const itemTotal = parseFloat(item.total.replace('$', ''));
-        return total + itemTotal;
+        if (typeof item.total === 'string') {
+            // @ts-ignore
+            const itemTotal = parseFloat(item.total.replace('$', ''));
+            return total + itemTotal;
+        } else if (typeof item.total === 'number') {
+            return total + item.total;
+        } else {
+            console.warn("Unexpected item.total type:", typeof item.total);
+            return total;
+        }
     }, 0);
+
+
     // console.log("cost", totalCost);
 
     return (
@@ -169,8 +187,6 @@ const CartItems = () => {
             {fetchedCartItems.length > 0 ? (<div>
                 <ul role="list" className="divide-y divide-gray-200 border-b border-t border-gray-200">
                     {fetchedCartItems.map((item) => {
-                        // @ts-ignore
-                        // console.log("product item", item);
                         return (
                             <li key={item.key} className="flex py-6 sm:py-10" data-item={item.key}>
                                 <div className="relative flex-shrink-0 basis-24 overflow-hidden">
@@ -199,8 +215,12 @@ const CartItems = () => {
                                                 {/* <p className="mt-1 text-sm text-gray-500">{item.color}</p>
                                     {item.size ? <p className="mt-1 text-sm text-gray-500">{item.size}</p> : null} */}
                                             </div>
-                                            {/* @ts-ignore */}
-                                            <p className="text-right text-sm font-medium text-gray-900">${item.total.replace("$", "")}</p>
+
+                                            <p className="text-right text-sm font-medium text-gray-900">
+                                                {/* @ts-ignore */}
+                                                ${typeof item.total === 'string' ? parseFloat(item.total.replace("$", "")).toFixed(2) : parseFloat(item.total).toFixed(2)}
+                                            </p>
+
                                         </div>
 
                                         <div className="mt-4 flex items-center sm:absolute sm:left-1/2 sm:top-0 sm:mt-0 sm:block">
