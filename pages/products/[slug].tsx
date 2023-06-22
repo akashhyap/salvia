@@ -86,7 +86,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
       document.body.removeChild(script);
     };
   }, []);
-  
+
   const [selectedVariationId, setSelectedVariationId] = useState<number | "">("");
   const [selectedVariation, setSelectedVariation] = useState<Variation | null>(null);
   const [isSelected, setIsSelected] = useState(true);
@@ -136,7 +136,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
       console.error('Failed to add item to cart:', error);
     }
   };
-  
+
 
   return (
     <>
@@ -338,15 +338,29 @@ function calculateAggregateRating(reviews) {
 }
 
 export async function getStaticProps({ params }: { params: Params }) {
+  console.log('Fetching product...');
+
   const productResponse = await client.query({ query: GET_SINGLE_PRODUCT, variables: { id: params.slug } })
   const product = productResponse?.data?.product;
+  console.log('Product fetched.');
 
   const storyblokApi = getStoryblokApi();
+
+
+
+  console.log('Fetching config...');
+
+
   // @ts-ignore
   let { data: config } = await storyblokApi.get("cdn/stories/config");
+  console.log('Config fetched.');
 
+  console.log('Fetching reviews...');
   // Fetch Reviews
   const reviewResponse = await fetch(`https://api.yotpo.com/v1/widget/${process.env.APP_KEY}/products/${product.databaseId}/reviews.json`);
+
+  console.log('Reviews fetched.');
+
 
   if (!reviewResponse.ok) {
     throw new Error(`API request failed with status ${reviewResponse.status}`);
