@@ -15,6 +15,7 @@ const HeroSectionV2 = ({ blok }) => {
                     layout="fill"
                     objectFit="cover"
                     className="inset-0 -z-10 h-full w-full"
+                    priority
                 />
             </figure>
             <div

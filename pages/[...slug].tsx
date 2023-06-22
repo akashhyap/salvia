@@ -136,7 +136,7 @@ export default function Page({ story, products }) {
 }
 
 
-export async function getStaticProps({ params }: { params: Params }) {
+export async function getServerSideProps({ params }: { params: Params }) {
 
     const slug = params.slug ? params.slug : ['home'];
     let sbParams = {
@@ -179,29 +179,5 @@ export async function getStaticProps({ params }: { params: Params }) {
             key: data ? data.story.id : false,
             config: config ? config.story : false,
         },
-        revalidate: 1, // revalidate every 1 second
     };
-}
-
-
-export async function getStaticPaths() {
-    const storyblokApi = getStoryblokApi();
-    let { data } = await storyblokApi.get('cdn/links');
-
-    let paths = [];
-    for (let linkKey in data.links) {
-        if (data.links.hasOwnProperty(linkKey)) {
-            const link = data.links[linkKey];
-            const slug = link.slug;
-            // Don't include the '/' path
-            if (slug !== 'home') {
-                paths.push({ params: { slug: slug.split('/') } });
-            }
-        }
-    }
-
-    return {
-        paths: paths,
-        fallback: true,
-    }
 }
