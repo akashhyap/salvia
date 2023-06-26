@@ -8,16 +8,14 @@ const HeroSectionV2 = ({ blok }) => {
     // console.log("heroSection V2:", blok);
     return (
         <div className="relative image-effect isolate overflow-hidden bg-gray-900 pb-16 pt-14 sm:pb-20">
-            <figure className="">
-                <Image
-                    src={`${blok.image.filename}`}
-                    alt=""
-                    layout="fill"
-                    objectFit="cover"
-                    className="inset-0 -z-10 h-full w-full"
-                    priority
-                />
-            </figure>
+            <Image
+                src={`${blok.image.filename}`}
+                alt=""
+                layout="fill"
+                objectFit="cover"
+                className="inset-0 -z-10 h-full w-full"
+                priority
+            />
             <div
                 className="absolute inset-x-0 -top-40 -z-8 transform-gpu overflow-hidden blur-3xl sm:-top-80"
                 aria-hidden="true"

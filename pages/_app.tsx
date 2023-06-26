@@ -15,6 +15,8 @@ import MainTitle from "../components/MainTitle";
 import AllArticles from "../components/AllArticles";
 import Article from "../components/Article";
 import Menu from "../components/Menu";
+import Submenu from "../components/Submenu";
+import Dropdown from "../components/Dropdown";
 import FooterColumn from "../components/FooterColumn";
 import FooterMenu from "../components/FooterMenu";
 import Newsletter from "../components/Newsletter";
@@ -33,7 +35,6 @@ import News from "../components/News";
 import Salvia from "../components/Salvia";
 import SalviaDivinorum from "../components/SalviaDivinorum";
 import Blog from "../components/Blog";
-import Dropdown from "../components/Dropdown";
 import KratomWiki from "../components/KratomWiki";
 import Delta from "../components/Delta";
 import SalviaTripReport from "../components/SalviaTripReport";
@@ -45,6 +46,7 @@ import "../styles/globals.css";
 const components = {
   page: Page,
   menu: Menu,
+  submenu: Submenu,
   h1Title: MainTitle,
   content: Content,
   imageTextSection: ImageTextSection,
@@ -84,10 +86,10 @@ storyblokInit({
 
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  useEffect(() => {
-    // @ts-ignore
-    import("preline");
-  }, []);
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   import("preline");
+  // }, []);
 
 
   return (

@@ -8,7 +8,7 @@ function classNames(...classes) {
 }
 
 // @ts-ignore
-const Menu = ({ blok }) => {
+const Submenu = ({ blok }) => {
   // console.log('menu link', blok);
   
   // const router = useRouter();
@@ -22,10 +22,10 @@ const Menu = ({ blok }) => {
       {...storyblokEditable(blok)}
       legacyBehavior
     >
-      <a className="whitespace-nowrap flex items-center lg:h-full hover:bg-gray-200 lg:px-3 lg:py-2 text-base font-medium text-gray-900">
+      <a className="whitespace-nowrap flex items-center h-full hover:bg-gray-200 px-3 py-2 text-base hover:text-gray-900 text-black">
         {blok.title}
       </a>
     </Link>
   );
 };
-export default Menu;
+export default Submenu;
