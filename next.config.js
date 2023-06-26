@@ -5,7 +5,7 @@ const nextConfig = {
   images: {
     domains: [
       "woocommerce-186938-3327038.cloudwaysapps.com",
-      "www.salviaextract.com",
+      "www.salvia-extract.vercel.app",
       "a.storyblok.com",
     ],
   },
