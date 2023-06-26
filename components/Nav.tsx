@@ -122,20 +122,31 @@ export default function Nav({ blok }) {
                   })}
                 </div>
                 <div className="space-y-6 border-t border-gray-200 px-4 py-6">
-                  <div className="flow-root">
-                    <Link href="/sign-up">
-                      <a className="-m-2 block p-2 font-medium text-gray-900" onClick={() => setOpen(false)}>
-                        Create an account
-                      </a>
-                    </Link>
-                  </div>
-                  <div className="flow-root">
-                    <Link href="/log-in">
-                      <a className="-m-2 block p-2 font-medium text-gray-900" onClick={() => setOpen(false)}>
-                        Sign in
-                      </a>
-                    </Link>
-                  </div>
+                  {!loggedIn ? (
+                    <>
+                      <div className="flow-root">
+                        <Link href="/sign-up">
+                          <a className="-m-2 block p-2 font-medium text-gray-900" onClick={() => setOpen(false)}>
+                            Create an account
+                          </a>
+                        </Link>
+                      </div>
+                      <div className="flow-root">
+                        <Link href="/log-in">
+                          <a className="-m-2 block p-2 font-medium text-gray-900" onClick={() => setOpen(false)}>
+                            Sign in
+                          </a>
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flow-root">
+                      <Link href="/log-out">
+                        <a className="text-sm font-medium text-gray-900 hover:text-gray-100" onClick={() => setOpen(false)}>Log Out</a>
+                      </Link>
+                    </div>
+                  )
+                  }
                 </div>
               </Dialog.Panel>
             </Transition.Child>
@@ -148,11 +159,11 @@ export default function Nav({ blok }) {
           {/* Top navigation */}
           <div className="bg-gray-900">
             <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-0">
-              <p className="flex-1 text-center text-sm font-medium text-white lg:flex-none">
+              <p className="flex-1 text-center text-sm font-medium text-white lg:flex-none lg:pl-6">
                 {blok?.topInformationBar}
               </p>
 
-              <div className="flex flex-1 lg:items-center lg:justify-end space-x-6">
+              <div className="hidden lg:flex flex-1 lg:items-center lg:justify-end space-x-6">
                 {!loggedIn ? (
                   <>
                     <Link href="/sign-up">
@@ -169,7 +180,7 @@ export default function Nav({ blok }) {
                   </>
                 ) : (
                   <Link href="/log-out">
-                     <a className="text-sm font-medium text-white hover:text-gray-100">Log Out</a>
+                    <a className="text-sm font-medium text-white hover:text-gray-100">Log Out</a>
                   </Link>
                 )}
               </div>
