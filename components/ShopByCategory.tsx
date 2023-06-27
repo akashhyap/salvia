@@ -39,14 +39,13 @@ const ShopByCategory = ({ blok }) => {
                             /> */}
                         </figure>
                         <div className="relative flex flex-wrap text-white bg-gray-900 bg-opacity-60 z-10">
-                            <div className="py-14 px-10 xl:p-14">
+                            <div className="py-12 px-6 lg:px-10 xl:p-14">
                                 <h2 className="text-4xl font-bold tracking-tight text-white mb-4 xl:mb-10">{blok.title}</h2>
                                 <div className="text-xl leading-8 text-white sm:leading-9">
                                     {render(blok.text)}
                                 </div>
-
                             </div>
-                            <div className="flex items-end py-14 px-10 xl:p-14 pt-0">
+                            <div className="flex items-end py-14 px-6 lg:px-10 xl:p-14 pt-0">
                                 <div>
                                     <Link href="/shop" legacyBehavior>
                                         <a className="text-white">Know More...</a>

@@ -50,7 +50,7 @@ export default function Contact() {
     };
 
     return (
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm px-6 xl:px-0">
+        <div className="my-10 sm:mx-auto sm:w-full sm:max-w-sm px-6 xl:px-0">
             <h1 className="text-5xl mb-10">Contact</h1>
             {error && <p className="text-red-500 my-4 text-xl">{error}</p>}
 
@@ -71,7 +71,7 @@ export default function Contact() {
                         type="text"
                         name="name"
                         id="name"
-                        className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         required
                         value={values.name}
                         onBlur={onBlur}
@@ -85,7 +85,7 @@ export default function Contact() {
                         type="email"
                         name="email"
                         id="email"
-                        className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         required
                         value={values.email}
                         onBlur={onBlur}
@@ -99,7 +99,7 @@ export default function Contact() {
                         type="text"
                         name="subject"
                         id="subject"
-                        className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         required
                         value={values.subject}
                         onBlur={onBlur}
@@ -111,7 +111,7 @@ export default function Contact() {
                     <label htmlFor="message" className="block text-sm font-medium leading-6 text-gray-900">Message</label>
                     <textarea
                         name="message"
-                        id="message" className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        id="message" className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         required
                         value={values.message}
                         onBlur={onBlur}

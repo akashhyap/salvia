@@ -42,10 +42,10 @@ const HeroSectionV2 = ({ blok }) => {
                         </div>
                     </div>
                     <div className="text-right">
-                        <div className="text-4xl font-foregen tracking-tight text-white sm:text-5xl">
+                        <div className="text-[2.5rem] sm:text-5xl lg:text-7xl font-foregen tracking-tight text-white">
                             {render(blok.title)}
                         </div>
-                        <div className="mt-6 text-lg leading-8 text-white">
+                        <div className="mt-6 text-lg leading-7 sm:leading-8 text-white">
                             {render(blok.subTitle)}
                         </div>
                         <div className="relative z-20 mt-10 flex items-center justify-end gap-x-6">

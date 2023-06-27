@@ -2,6 +2,7 @@ import { storyblokEditable, StoryblokComponent } from "@storyblok/react";
 import { render } from "storyblok-rich-text-react-renderer";
 import Image from "next/image";
 import Link from "next/link";
+import ScrollToTopButton from "./ScrollToTopButton";
 
 // @ts-ignore
 const Footer = ({ blok }) => {
@@ -48,7 +49,6 @@ const Footer = ({ blok }) => {
                         ))}
                     </div>
                 </div>
-
                 {/* Copyright section */}
                 <div className="py-10 md:flex md:items-center md:justify-between">
                     <div className="text-center md:text-left [&>p]:text-sm [&>p]:text-gray-500">
@@ -67,6 +67,7 @@ const Footer = ({ blok }) => {
                     </div>
                 </div>
             </div>
+            <ScrollToTopButton/>
         </footer>
     );
 };

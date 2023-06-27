@@ -84,7 +84,7 @@ export default function LogInForm() {
                 name="email"
                 autoComplete="username"
                 required
-                className={`block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!isEmailValid ? "text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300" : ""}`}
+                className={`block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!isEmailValid ? "text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300" : ""}`}
               />
               {!isEmailValid ? (
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
@@ -111,7 +111,7 @@ export default function LogInForm() {
                 name="password"
                 autoComplete="current-password"
                 required
-                className={`block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!isPasswordValid ? "text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300" : ""}`}
+                className={`block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 ${!isPasswordValid ? "text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300" : ""}`}
               />
               {!isPasswordValid ? (
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">

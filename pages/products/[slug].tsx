@@ -76,17 +76,8 @@ interface ProductProps {
 
 export default function Product({ product, reviews, aggregateRating, }: ProductProps) {
   // console.log("product aggregateRating:", aggregateRating);
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = `https://staticw2.yotpo.com/${process.env.APP_KEY}/widget.js`; // Replace APP_KEY with your Yotpo app key
-    script.async = true;
-    document.body.appendChild(script);
+  const [loading, setLoading] = useState(false);
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-  
   const [selectedVariationId, setSelectedVariationId] = useState<number | "">("");
   const [selectedVariation, setSelectedVariation] = useState<Variation | null>(null);
   const [isSelected, setIsSelected] = useState(true);
@@ -120,6 +111,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
       setIsSelected(false); // If no option is selected when the button is clicked, update isSelected to false
       return;
     }
+    setLoading(true);
     try {
       const productId = selectedVariation ? selectedVariation.databaseId : product.databaseId;
       // console.log("productId", productId);
@@ -128,12 +120,12 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
         return;
       }
       const cartItem = await addToCart(productId, selectedVariation, quantity); // Pass selectedVariation here
-      // console.log("item from addToCart:", cartItem);
       // Use the addItem function from CartContext
       addItem(cartItem);
-      // setCartCount((prevCount: number) => prevCount + cartItem.quantity);
+      setLoading(false)
     } catch (error) {
       console.error('Failed to add item to cart:', error);
+      setLoading(false)
     }
   };
   
@@ -214,7 +206,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
           <div className="flex flex-wrap items-center mt-5">
             {/* select variation */}
             {product.__typename === "VariableProduct" ? (
-              <div className="basis-full sm:basis-0">
+              <div className="basis-full sm:basis-0 mb-5 sm:mb-0">
                 <div className="variation-select mr-4 ">
                   <label htmlFor="variation" className={`sr-only ${!isSelected ? 'text-red-800' : ''}`}>Size:</label>
                   <select
@@ -245,7 +237,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
                 }`}
               onClick={handleAddToCart}
             >
-              Add to Cart
+               {loading ? 'Loading...' : 'Add to Cart'} 
             </button>
 
             {/* Quantity selector */}
