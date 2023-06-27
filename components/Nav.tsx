@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingCartIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -226,59 +212,52 @@ export default function Nav({ blok }) {
                           <Fragment key={nestedBlok._uid}>
                             {nestedBlok.component === "dropdown" &&
                               <Popover key={nestedBlok._uid} className="flex">
-                                {({ open }) => (
+                                {({ open, close }) => (
                                   <>
                                     <div className="relative flex">
                                       <Popover.Button
                                         className={classNames(
                                           open
                                             ? 'border-indigo-600 text-indigo-600'
-                                            : 'border-transparent text-gray-900 hover:text-gray-800',
-                                          'relative z-10 -mb-px flex items-center border-b-2 pt-px text-sm font-medium transition-colors duration-200 ease-out'
+                                            : 'border-transparent text-gray-900 hover:text-gray-900',
+                                          'relative z-10 -mb-px flex items-center border-b-2 pt-px text-base font-medium transition-colors duration-200 ease-out'
                                         )}
                                       >
                                         {nestedBlok.label} <ChevronDownIcon className="h-6 w-6 text-gray-900" />
                                       </Popover.Button>
-                                    </div>
-                                    <Transition
-                                      as={Fragment}
-                                      enter="transition ease-out duration-200"
-                                      enterFrom="opacity-0"
-                                      enterTo="opacity-100"
-                                      leave="transition ease-in duration-150"
-                                      leaveFrom="opacity-100"
-                                      leaveTo="opacity-0"
-                                    >
-                                      <Popover.Panel className="absolute inset-x-0 top-full text-gray-500 sm:text-sm">
-                                        <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
-                                        <div className="relative bg-white">
-                                          <div className="mx-auto max-w-7xl px-8">
-                                            <div className="grid grid-cols-2 items-start gap-x-8 gap-y-10 pb-12 pt-10">
-                                              <div className="grid grid-cols-2 gap-x-8 gap-y-10">
-                                                <div>
-                                                  <ul
-                                                    role="list"
-                                                    aria-labelledby={`desktop-featured-heading-${nestedBlok._uid}`}
-                                                    className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
-                                                  >
-                                                    {/* @ts-ignore */}
-                                                    {nestedBlok.submenu.map((item) => (
-                                                      <li key={item.label} className="flex">
-                                                        <Link href={item.link.cached_url} legacyBehavior>
-                                                          <a className="hover:text-gray-800" onClick={() => setOpen(false)}>
-                                                            {item.label}
-                                                          </a>
-                                                        </Link>
-                                                      </li>
-                                                    ))}
-                                                  </ul>
-                                                </div>
-                                              </div>
-                                            </div>
+
+                                      <Transition
+                                        as={Fragment}
+                                        enter="transition ease-out duration-200"
+                                        enterFrom="opacity-0"
+                                        enterTo="opacity-100"
+                                        leave="transition ease-in duration-150"
+                                        leaveFrom="opacity-100"
+                                        leaveTo="opacity-0"
+                                      >
+                                        <Popover.Panel className="absolute left-0 top-full text-gray-500 sm:text-sm">
+                                          <div className="absolute inset-0 top-1/2 bg-white shadow" aria-hidden="true" />
+                                          <div className="relative bg-white px-4 py-4 w-56">
+                                            <ul
+                                              role="list"
+                                              aria-labelledby={`desktop-featured-heading-${nestedBlok._uid}`}
+                                              className="space-y-6 sm:space-y-4"
+                                            >
+                                              {/* @ts-ignore */}
+                                              {nestedBlok.submenu.map((item) => (
+                                                <li key={item.label} className="flex">
+                                                  <Link href={item.link.cached_url} legacyBehavior>
+                                                    <a className="hover:text-gray-800" onClick={close}>
+                                                      {item.label}
+                                                    </a>
+                                                  </Link>
+                                                </li>
+                                              ))}
+                                            </ul>
                                           </div>
-                                        </div>
-                                      </Popover.Panel>
-                                    </Transition>
+                                        </Popover.Panel>
+                                      </Transition>
+                                    </div>
                                   </>
                                 )}
 
