@@ -14,7 +14,7 @@ function classNames(...classes: string[]): string {
 
 // @ts-ignore
 export default function Nav({ blok }) {
-  console.log("nav", blok);
+  // console.log("nav", blok);
 
   const [open, setOpen] = useState(false);
   const { loggedIn } = useAuth();

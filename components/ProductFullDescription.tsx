@@ -23,11 +23,11 @@ const ProductFullDescription = ({ product }) => {
                 <>
                     {/* Mobile view - Accordion */}
                     <div className="sm:hidden">
-                        {tabs.map((tab) => (
+                        {tabs.map((tab, index) => (
                             <Disclosure as="div" key={tab} className="mb-2">
                                 {({ open }) => (
                                     <>
-                                        <Disclosure.Button className="flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-gray-900 bg-blue-300 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75">
+                                        <Disclosure.Button className={`flex justify-between w-full px-4 py-2 text-sm font-medium text-left bg-blue-300 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? 'bg-gray-900 text-white' : ''}`}>
                                             <span>{tab}</span>
                                             <ChevronDownIcon
                                                 className={`ml-3 h-5 w-5 text-gray-500 ${open ? 'transform rotate-180' : ''}`}
@@ -57,10 +57,10 @@ const ProductFullDescription = ({ product }) => {
                                                 product.productDescription?.faqContent?.map((faq, index) => (
                                                     <div key={index} className="border-b border-gray-200">
                                                         <button
-                                                            className="flex justify-between items-center w-full py-3"
+                                                            className="flex justify-between w-full py-3"
                                                             onClick={() => setOpenAccordion(openAccordion === index ? null : index)}
                                                         >
-                                                            <p className="font-semibold">{faq.question}</p>
+                                                            <p className="font-semibold text-left">{faq.question}</p>
                                                             <span>{openAccordion === index ? '-' : '+'}</span>
                                                         </button>
                                                         {openAccordion === index && (
@@ -89,15 +89,20 @@ const ProductFullDescription = ({ product }) => {
                     {/* Desktop view - Tabs */}
                     <div className="hidden sm:block">
                         <Tab.Group>
-                            <Tab.List className="flex p-1 space-x-1 bg-blue-300 rounded-md">
-                                <Tab className="py-2.5 px-3">Description</Tab>
-                                {product.productDescription?.effectsContent && <Tab className="py-2.5 px-3">Effects</Tab>}
-                                {product.productDescription?.usageAndDosageContent && <Tab className="py-2.5 px-3">Usage and Dosage</Tab>}
-                                {product.productDescription?.faqContent && <Tab className="py-2.5 px-3">FAQ</Tab>}
-                                {product.productDescription?.shippingContent && <Tab className="py-2.5 px-3">Shipping</Tab>}
-                            </Tab.List>
+                            {(tabs || []).map((tabName, index) => (
+                                <Tab
+                                    key={tabName}
+                                    className={({ selected }) =>
+                                        selected
+                                            ? 'py-2.5 px-3 bg-gray-900 text-white rounded-md' // change to the class you want for the active tab 
+                                            : 'py-2.5 px-3'
+                                    }
+                                >
+                                    {tabName}
+                                </Tab>
+                            ))}
                             <Tab.Panels>
-                                <Tab.Panel className="p-4 text-gray-900">
+                                <Tab.Panel className="py-4 px-0 text-gray-900">
                                     <div
                                         dangerouslySetInnerHTML={{
                                             __html: DOMPurify.sanitize(product.productDescription?.descriptionContent),
@@ -106,7 +111,7 @@ const ProductFullDescription = ({ product }) => {
                                     ></div>
                                 </Tab.Panel>
 
-                                {product.productDescription?.effectsContent && <Tab.Panel className="p-4 text-gray-900">
+                                {product.productDescription?.effectsContent && <Tab.Panel className="py-4 px-0 text-gray-900">
                                     <div
                                         dangerouslySetInnerHTML={{
                                             __html: DOMPurify.sanitize(product.productDescription?.effectsContent),
@@ -115,7 +120,7 @@ const ProductFullDescription = ({ product }) => {
                                     ></div>
                                 </Tab.Panel>}
 
-                                {product.productDescription?.usageAndDosageContent && <Tab.Panel className="p-4 text-gray-900">
+                                {product.productDescription?.usageAndDosageContent && <Tab.Panel className="py-4 px-0 text-gray-900">
                                     <div
                                         dangerouslySetInnerHTML={{
                                             __html: DOMPurify.sanitize(product.productDescription?.usageAndDosageContent),
@@ -124,12 +129,12 @@ const ProductFullDescription = ({ product }) => {
                                     ></div>
                                 </Tab.Panel>}
 
-                                {product.productDescription?.faqContent && <Tab.Panel className="p-4 text-gray-900">
+                                {product.productDescription?.faqContent && <Tab.Panel className="py-4 px-0 text-gray-900">
                                     {/* @ts-ignore */}
                                     {product.productDescription?.faqContent?.map((faq, index) => (
                                         <div key={index} className="border-b border-gray-200">
                                             <button
-                                                className="flex justify-between items-center w-full py-3"
+                                                className="flex justify-between w-full py-3"
                                                 onClick={() => setOpenAccordion(openAccordion === index ? null : index)}
                                             >
                                                 <p className="font-semibold">{faq.question}</p>
@@ -147,7 +152,7 @@ const ProductFullDescription = ({ product }) => {
                                     ))}
                                 </Tab.Panel>}
 
-                                {product.productDescription?.shippingContent && <Tab.Panel className="p-4 text-gray-900">
+                                {product.productDescription?.shippingContent && <Tab.Panel className="py-4 px-0 text-gray-900">
                                     <div
                                         dangerouslySetInnerHTML={{
                                             __html: DOMPurify.sanitize(product?.productDescription?.shippingContent),
