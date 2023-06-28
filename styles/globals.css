@@ -34,6 +34,7 @@ fieldset {
 }
 
 @media screen and (max-width:1024px) {
+
   .hero-img span img,
   .hero-img span {
     position: relative !important;
@@ -42,9 +43,11 @@ fieldset {
     height: 100% !important;
   }
 }
+
 .image-effect {
   position: relative;
 }
+
 .image-effect::before {
   content: "";
   position: absolute;
@@ -57,27 +60,40 @@ fieldset {
   pointer-events: none;
   z-index: -9;
 }
+
 .variation-select {
   position: relative;
   display: inline-block;
 }
+
 .variation-select select {
-  appearance: none; /* this will remove the default arrow in most modern browsers */
-  -moz-appearance: none; /* For Firefox */
-  -webkit-appearance: none; /* For Chrome, Safari, and Opera */
+  appearance: none;
+  /* this will remove the default arrow in most modern browsers */
+  -moz-appearance: none;
+  /* For Firefox */
+  -webkit-appearance: none;
+  /* For Chrome, Safari, and Opera */
 }
+
 .select-icon {
   position: absolute;
   right: 10px;
   top: 53%;
   transform: translateY(-50%);
-  pointer-events: none; /* this will prevent the icon from interfering with the select box functionality */
+  pointer-events: none;
+  /* this will prevent the icon from interfering with the select box functionality */
 }
 
 @keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
+
 .article-enter {
   opacity: 0;
   transform: translateY(20px);
@@ -87,4 +103,41 @@ fieldset {
 .article-enter-active {
   opacity: 1;
   transform: translateY(0);
+}
+
+.product-description table  {
+  margin-top: 25px;
+}
+
+.product-description table th,
+.product-description table td {
+  text-align: left;
+  vertical-align: top;
+  padding: 15px 10px;
+  font-size: 15px;
+}
+
+.product-description table thead tr {
+  background-color: #dadff1;
+}
+
+/* .product-description table tbody tr:nth-child(2n):not([rowspan]) {
+  background-color: #dadff1;
+} */
+
+@media (max-width: 640px) {
+  .responsive-table {
+    overflow-x: auto;
+    margin-top: 25px;
+  }
+
+  .product-description table {
+    display: block;
+    width: 100%;
+  }
+
+  .product-description table th,
+  .product-description table td {
+    width: 100%;
+  }
 }

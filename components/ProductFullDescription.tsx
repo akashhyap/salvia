@@ -14,6 +14,8 @@ const ProductFullDescription = ({ product }) => {
         product.productDescription?.shippingContent && 'Shipping'
     ].filter(Boolean);
 
+    const [openTab, setOpenTab] = useState(0);
+
     // @ts-ignore
     const sanitize = (content) => DOMPurify.sanitize(content);
     return (
@@ -24,10 +26,11 @@ const ProductFullDescription = ({ product }) => {
                     {/* Mobile view - Accordion */}
                     <div className="sm:hidden">
                         {tabs.map((tab, index) => (
-                            <Disclosure as="div" key={tab} className="mb-2">
+                            <Disclosure as="div" key={tab} className="mb-2" defaultOpen={index === openTab}>
                                 {({ open }) => (
                                     <>
-                                        <Disclosure.Button className={`flex justify-between w-full px-4 py-2 text-sm font-medium text-left bg-blue-300 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? 'bg-gray-900 text-white' : ''}`}>
+                                        {/* @ts-ignore */}
+                                        <Disclosure.Button onClick={() => setOpenTab(open ? null : index)} className={`flex justify-between w-full px-4 py-2 text-sm font-medium text-left bg-blue-300 rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-blue-300 focus-visible:ring-opacity-75 ${open ? 'bg-gray-900 text-white' : ''}`}>
                                             <span>{tab}</span>
                                             <ChevronDownIcon
                                                 className={`ml-3 h-5 w-5 text-gray-500 ${open ? 'transform rotate-180' : ''}`}

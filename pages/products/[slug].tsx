@@ -239,10 +239,8 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
             >
                {loading ? 'Loading...' : 'Add to Cart'} 
             </button>
-
             {/* Quantity selector */}
             <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
-
           </div>
 
           {product.__typename === "VariableProduct" && selectedVariation?.description ? (
@@ -268,16 +266,14 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
                 </div>
               )
             }
-
           </div>
-
-          {product.shortDescription && <p className="font-bold">Short Description:</p>}
+          {/* {product.shortDescription && <p className="font-bold">Short Description:</p>}
           <div
             dangerouslySetInnerHTML={{
               __html: DOMPurify.sanitize(product.shortDescription),
             }}
             className="product-description [&>p]:py-3 [&>p]:leading-8 [&>ul]:list-disc [&>ul]:pl-4 [&>ul>li]:leading-8 [&>ol]:list-decimal [&>ol]:pl-4 [&>ol>li]:leading-8"
-          />
+          /> */}
         </div>
       </div>
 
