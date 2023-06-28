@@ -6,6 +6,8 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 // @ts-ignore
 const ProductFullDescription = ({ product }) => {
     const [openAccordion, setOpenAccordion] = useState<number | null>(null);
+    const [openTab, setOpenTab] = useState(0);
+
     const tabs = [
         'Description',
         product.productDescription?.effectsContent && 'Effects',
@@ -13,8 +15,6 @@ const ProductFullDescription = ({ product }) => {
         product.productDescription?.faqContent && 'FAQ',
         product.productDescription?.shippingContent && 'Shipping'
     ].filter(Boolean);
-
-    const [openTab, setOpenTab] = useState(0);
 
     // @ts-ignore
     const sanitize = (content) => DOMPurify.sanitize(content);

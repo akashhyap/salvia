@@ -143,7 +143,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
             price: selectedVariation ? selectedVariation?.price?.toString() : product.regularPrice,
             priceCurrency: product.currency,
             availability: product.stockStatus === "IN_STOCK" ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock',
-            url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}${product.uri}`, // make sure to set your frontend URL in environment variables
+            url: `${process.env.NEXT_PUBLIC_FRONTEND_URL}${product.uri}`,
             seller: {
               name: "Salvia Extract",
             },
@@ -151,9 +151,6 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
         ]}
         // Optional product properties
         sku={product.sku}
-        // mpn="925872"
-        // reviews={reviews}
-        // aggregateRating={aggregateRating}
       />
       <div className="grid md:grid-cols-2 gap-8 max-w-7xl mx-auto mb-10 mt-10 px-6 xl:px-0">
         <div className="relative">
@@ -163,6 +160,7 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
               alt="Image product"
               layout="fill"
               className="object-contain object-center"
+              priority
             />
           </figure>
         </div>
@@ -170,12 +168,6 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
         {/* Right column */}
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">{product.name}</h1>
-          {/* Ratings */}
-          {/* <div className="mt-2.5 mb-3">
-            <div className="yotpo bottomLine"
-              data-yotpo-product-id={product.databaseId}>
-            </div>
-          </div> */}
           {/* Brand and Stock information */}
           <div className="flex items-center my-3">
             {product?.productBrand?.brand && <span className={`bg-gray-200 text-gray-900 text-xs py-1.5 px-3 ${product?.productBrand?.brand ? 'mr-2' : 'mr-0'} rounded-full`}>{product?.productBrand?.brand}</span>}
@@ -279,51 +271,10 @@ export default function Product({ product, reviews, aggregateRating, }: ProductP
 
       {/* Full description */}
       <ProductFullDescription product={product} />
-
-      {/* Review Widget */}
-      {/* <div
-        className="max-w-7xl mx-auto px-6 xl:px-0 mt-16 md:mb-20 lg:mb-28 yotpo yotpo-main-widget"
-        data-product-id={product.databaseId}
-        data-price={product.regularPrice}
-        data-currency={product.currency}
-        data-name={product.name}
-        data-url={product.slug}
-        data-image-url={product.image?.sourceUrl}
-      /> */}
-
     </>
   );
 }
 
-// Define your helper functions
-//@ts-ignore
-// function formatReviews(reviews) {
-//   //@ts-ignore
-//   return reviews.map(review => ({
-//     author: review.user.display_name,
-//     datePublished: review.created_at,
-//     reviewBody: review.content,
-//     name: review.title,
-//     reviewRating: {
-//       bestRating: '5',
-//       ratingValue: review.score.toString(),
-//       worstRating: '1',
-//     },
-//     publisher: {
-//       type: 'Organization',
-//       name: 'Salvia Extract',
-//     },
-//   }));
-// }
-
-//@ts-ignore
-// function calculateAggregateRating(reviews) {
-//   return {
-//     //@ts-ignore
-//     ratingValue: (reviews.reduce((a, b) => a + b.score, 0) / reviews.length).toString(),
-//     reviewCount: reviews.length.toString(),
-//   };
-// }
 
 export async function getStaticProps({ params }: { params: Params }) {
   const productResponse = await client.query({ query: GET_SINGLE_PRODUCT, variables: { id: params.slug } })
@@ -333,24 +284,10 @@ export async function getStaticProps({ params }: { params: Params }) {
   // @ts-ignore
   let { data: config } = await storyblokApi.get("cdn/stories/config");
 
-  // Fetch Reviews
-  // const reviewResponse = await fetch(`https://api.yotpo.com/v1/widget/${process.env.APP_KEY}/products/${product.databaseId}/reviews.json`);
-
-  // if (!reviewResponse.ok) {
-  //   throw new Error(`API request failed with status ${reviewResponse.status}`);
-  // }
-
-  // const reviewData = await reviewResponse.json()
-  // const reviews = reviewData.response.reviews;
-  // const formattedReviews = formatReviews(reviews);
-  // const aggregateRating = calculateAggregateRating(reviews);
-
   return {
     props: {
       product,
       config: config ? config.story : false,
-      // reviews: formattedReviews,
-      // aggregateRating,
     },
   };
 }

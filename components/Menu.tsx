@@ -19,7 +19,6 @@ const Menu = ({ blok }) => {
   return (
     <Link
       href={`/${blok.link.cached_url}`}
-      {...storyblokEditable(blok)}
       legacyBehavior
     >
       <a className="whitespace-nowrap flex items-center lg:h-full hover:bg-gray-200 lg:px-3 lg:py-2 text-base font-medium text-gray-900">

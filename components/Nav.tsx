@@ -90,7 +90,7 @@ export default function Nav({ blok }) {
                                 {/* @ts-ignore */}
                                 {nestedBlok.submenu.map((item) => (
                                   <li key={item.label} className="flex" onClick={() => setOpen(false)}>
-                                    <Link href={item.link.cached_url} legacyBehavior>
+                                    <Link href={`/${item.link.cached_url}`} legacyBehavior>
                                       <a className="text-gray-500">
                                         {item.label}
                                       </a>
@@ -246,7 +246,7 @@ export default function Nav({ blok }) {
                                               {/* @ts-ignore */}
                                               {nestedBlok.submenu.map((item) => (
                                                 <li key={item.label} className="flex">
-                                                  <Link href={item.link.cached_url} legacyBehavior>
+                                                  <Link href={`/${item.link.cached_url}`} legacyBehavior>
                                                     <a className="hover:text-gray-800" onClick={close}>
                                                       {item.label}
                                                     </a>

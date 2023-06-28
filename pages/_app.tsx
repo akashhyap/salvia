@@ -86,11 +86,6 @@ storyblokInit({
 
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  // useEffect(() => {
-  //   // @ts-ignore
-  //   import("preline");
-  // }, []);
-
 
   return (
     <ApolloProvider client={client}>
