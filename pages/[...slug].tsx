@@ -32,6 +32,11 @@ interface Product {
     };
 }
 
+type Path = {
+  params: {
+    slug: string[];
+  };
+};
 
 // @ts-ignore
 export default function Page({ story, products }) {
@@ -135,9 +140,7 @@ export default function Page({ story, products }) {
     );
 }
 
-
-export async function getServerSideProps({ params }: { params: Params }) {
-
+export async function getStaticProps({ params }: { params: Params }) {
     const slug = params.slug ? params.slug : ['home'];
     let sbParams = {
         version: "draft", // or 'published'
@@ -179,5 +182,31 @@ export async function getServerSideProps({ params }: { params: Params }) {
             key: data ? data.story.id : false,
             config: config ? config.story : false,
         },
+        revalidate: 300, // ISR every 5 minutes
+    };
+}
+
+export async function getStaticPaths() {
+    const storyblokApi = getStoryblokApi();
+    let { data } = await storyblokApi.get("cdn/links/" ,{
+        version: 'draft'
+    });
+
+    
+    let paths: Path[] = [];
+
+    Object.keys(data.links).forEach((linkKey) => {
+        // If the link is not the 'home' page, generate a path for it
+        if (data.links[linkKey].slug !== "home") {
+            const slug = data.links[linkKey].slug;
+            let splittedSlug = slug.split("/");
+            paths.push({ params: { slug: splittedSlug } });
+        }
+    });
+    
+
+    return {
+        paths: paths,
+        fallback: 'blocking', 
     };
 }
