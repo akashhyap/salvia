@@ -289,7 +289,7 @@ export async function getStaticProps({ params }: { params: Params }) {
       product,
       config: config ? config.story : false,
     },
-    revalidate: 3600,
+    revalidate: 1,
   };
 }
 
